@@ -189,7 +189,9 @@ const Login = () => {
                                             name="day"
                                         >
                                             {DAY.map((elem, idx) => (
-                                                <option key={idx}>
+                                                <option 
+                                                value={elem}
+                                                key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -211,7 +213,9 @@ const Login = () => {
                                             onChange={handleChange}
                                         >
                                             {MONTH.map((elem, idx) => (
-                                                <option key={idx}>
+                                                <option 
+                                                value={elem}
+                                                key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -230,7 +234,9 @@ const Login = () => {
                                             name="year"
                                         >
                                             {YEAR.map((elem, idx) => (
-                                                <option key={idx}>
+                                                <option 
+                                                value={elem}
+                                                key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
