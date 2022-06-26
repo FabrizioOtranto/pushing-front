@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import {
     Button,
@@ -17,8 +17,8 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { UserContext } from '../context/userContext';
-import axios from 'axios';
-import { BASE_URL, DAY, GENDER, MONTH, YEAR } from '../constants/constants';
+import { DAY, GENDER, MONTH, YEAR } from '../constants/constants';
+import usePost from '../customHook/usePost';
 
 const initialState = {
     user: '',
@@ -31,10 +31,8 @@ const initialState = {
 const Login = () => {
     const [info, setInfo] = useState(initialState);
     const [toggleForm, setToggleForm] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const { login, token } = useContext(UserContext);
-
-    const navigate = useNavigate();
+    const { execute, loading, error } = usePost();
+    const { token } = useContext(UserContext);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -51,46 +49,30 @@ const Login = () => {
         });
     };
 
-    const register = async () => {
-        try {
-            const { data } = await axios.post(`${BASE_URL}/register`, {
-                username: info.user,
-                password: info.pass,
-                gender: info.gender,
-                day: info.day,
-                month: info.month,
-                year: info.year,
-            });
-
-            login(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const inicioSesion = async () => {
-        try {
-            const { data } = await axios.post(`${BASE_URL}/login`, {
-                username: info.user,
-                password: info.pass,
-            });
-
-            login(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (toggleForm) {
-            //petición registro
-            register();
-            navigate('/home');
+            //peticion registro
+            execute({
+                endpoint: 'register',
+                postData: {
+                    username: info.user,
+                    password: info.pass,
+                    gender: info.gender,
+                    day: info.day,
+                    month: info.month,
+                    year: info.year,
+                },
+            });
         } else {
             //petición login
-            inicioSesion();
-            navigate('/home');
+            execute({
+                endpoint: 'login',
+                postData: {
+                    username: info.user,
+                    password: info.pass,
+                },
+            });
         }
     };
 
@@ -100,14 +82,13 @@ const Login = () => {
 
     return (
         <Flex minH="100vh" justify="center" align="center" direction="column">
+            <Heading color="black.500" mb={3}>
+                Pushing IT
+            </Heading>
             {loading ? (
-                <Text color="primary.500">Cargando...</Text>
+                <h2>Cargando...</h2>
             ) : (
                 <>
-                    <Heading color="black.500" mb={3}>
-                        Pushing IT
-                    </Heading>
-
                     <Flex
                         bg="primary.500"
                         borderRadius={5}
@@ -189,9 +170,7 @@ const Login = () => {
                                             name="day"
                                         >
                                             {DAY.map((elem, idx) => (
-                                                <option 
-                                                value={elem}
-                                                key={idx}>
+                                                <option key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -213,9 +192,7 @@ const Login = () => {
                                             onChange={handleChange}
                                         >
                                             {MONTH.map((elem, idx) => (
-                                                <option 
-                                                value={elem}
-                                                key={idx}>
+                                                <option key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -234,9 +211,7 @@ const Login = () => {
                                             name="year"
                                         >
                                             {YEAR.map((elem, idx) => (
-                                                <option 
-                                                value={elem}
-                                                key={idx}>
+                                                <option key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
