@@ -20,9 +20,9 @@ export const UserContextProvider = ({ children }) => {
     const login = (data) => {
         setToken(data.token);
         if (data.newUser) {
-            setUsername(data.newUser.user);
+            setUsername(data.newUser.username);
         } else {
-            setUsername(data.user2.user);
+            setUsername(data.user.username);
         }
     };
 

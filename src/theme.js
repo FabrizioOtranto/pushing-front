@@ -10,7 +10,7 @@ export default extendTheme({
                 height: '100%',
             },
             body: {
-                bg: '#101010',
+                bg: '#6565eb',
             },
         },
     },

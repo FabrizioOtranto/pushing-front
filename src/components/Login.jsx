@@ -8,15 +8,28 @@ import {
     FormErrorMessage,
     FormLabel,
     Heading,
+    HStack,
     Input,
+    Radio,
+    RadioGroup,
+    Select,
+    Stack,
     Text,
 } from '@chakra-ui/react';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
-import { BASE_URL } from '../constants/constants';
+import { BASE_URL, DAY, GENDER, MONTH, YEAR } from '../constants/constants';
 
+const initialState = {
+    user: '',
+    pass: '',
+    gender: '',
+    day: '',
+    month: '',
+    year: '',
+};
 const Login = () => {
-    const [info, setInfo] = useState({ user: '', pass: '' });
+    const [info, setInfo] = useState(initialState);
     const [toggleForm, setToggleForm] = useState(true);
     const [loading, setLoading] = useState(false);
     const { login, token } = useContext(UserContext);
@@ -31,11 +44,22 @@ const Login = () => {
         });
     };
 
+    const handleChangeRadio = (e) => {
+        setInfo({
+            ...info,
+            gender: e,
+        });
+    };
+
     const register = async () => {
         try {
             const { data } = await axios.post(`${BASE_URL}/register`, {
-                user: info.user,
+                username: info.user,
                 password: info.pass,
+                gender: info.gender,
+                day: info.day,
+                month: info.month,
+                year: info.year,
             });
 
             login(data);
@@ -47,7 +71,7 @@ const Login = () => {
     const inicioSesion = async () => {
         try {
             const { data } = await axios.post(`${BASE_URL}/login`, {
-                user: info.user,
+                username: info.user,
                 password: info.pass,
             });
 
@@ -80,7 +104,7 @@ const Login = () => {
                 <Text color="primary.500">Cargando...</Text>
             ) : (
                 <>
-                    <Heading color="primary.500" mb={3}>
+                    <Heading color="black.500" mb={3}>
                         Pushing IT
                     </Heading>
 
@@ -88,8 +112,10 @@ const Login = () => {
                         bg="primary.500"
                         borderRadius={5}
                         p={5}
+                        mb={10}
                         direction="column"
-                        boxShadow="8px 8px 1px 1px #88f6f6"
+                        boxShadow="5px 5px 1px 1px #88f6f6, -1px -1px 10px 1px #88f6f6"
+                        minW="35%"
                     >
                         <form onSubmit={handleSubmit}>
                             <FormControl isRequired mb={5}>
@@ -122,11 +148,104 @@ const Login = () => {
                                     onChange={handleChange}
                                 />
                             </FormControl>
+                            {toggleForm ? (
+                                <>
+                                    <FormControl
+                                        as="fieldset"
+                                        isRequired
+                                        mb={5}
+                                    >
+                                        <FormLabel color="white" as="legend">
+                                            Gender
+                                        </FormLabel>
+                                        <RadioGroup
+                                            defaultValue="Male"
+                                            onChange={handleChangeRadio}
+                                            value={info.gender}
+                                        >
+                                            <HStack spacing="24px">
+                                                {GENDER.map((elem, idx) => (
+                                                    <Radio
+                                                        key={idx}
+                                                        value={elem}
+                                                    >
+                                                        {elem}
+                                                    </Radio>
+                                                ))}
+                                            </HStack>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormControl isRequired mb={5}>
+                                        <FormLabel htmlFor="day" color="white">
+                                            Day of birth
+                                        </FormLabel>
+                                        <Select
+                                            id="day"
+                                            bg="primary.300"
+                                            color="white"
+                                            focusBorderColor="none"
+                                            onChange={handleChange}
+                                            name="day"
+                                        >
+                                            {DAY.map((elem, idx) => (
+                                                <option key={idx}>
+                                                    {elem}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl isRequired mb={5}>
+                                        <FormLabel
+                                            htmlFor="month"
+                                            color="white"
+                                        >
+                                            Month
+                                        </FormLabel>
+                                        <Select
+                                            id="month"
+                                            bg="primary.300"
+                                            color="white"
+                                            focusBorderColor="none"
+                                            name="month"
+                                            onChange={handleChange}
+                                        >
+                                            {MONTH.map((elem, idx) => (
+                                                <option key={idx}>
+                                                    {elem}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl isRequired mb={5}>
+                                        <FormLabel htmlFor="year" color="white">
+                                            Year
+                                        </FormLabel>
+                                        <Select
+                                            id="year"
+                                            bg="primary.300"
+                                            color="white"
+                                            focusBorderColor="none"
+                                            onChange={handleChange}
+                                            name="year"
+                                        >
+                                            {YEAR.map((elem, idx) => (
+                                                <option key={idx}>
+                                                    {elem}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </>
+                            ) : null}
                             <Button
                                 mt={4}
-                                color="black.500"
-                                bg="primary.100"
+                                color="white"
+                                bg="black.500"
                                 type="submit"
+                                _hover={{
+                                    bg: 'secondary.300',
+                                    color: 'black.500',
+                                }}
                             >
                                 {toggleForm ? 'Registrate' : 'Iniciar sesión'}
                             </Button>

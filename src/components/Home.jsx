@@ -12,17 +12,17 @@ const Home = () => {
     return (
         <Flex direction="column">
             <Flex justify="space-between" w="100%" p={3} align="center">
-                <Heading color="primary.500">Pushing IT</Heading>
+                <Heading color="black.500">Pushing IT</Heading>
                 <Button
-                    _hover={{ bg: 'primary.300' }}
+                    _hover={{ bg: 'secondary.500', color: 'black.500' }}
                     onClick={logout}
-                    bg="primary.500"
+                    bg="black.500"
                     color="white"
                 >
                     Logout
                 </Button>
             </Flex>
-            <Divider borderColor="primary.500" borderWidth={2} />
+            <Divider borderColor="secondary.500" borderWidth={2} />
             <Heading color="white">Welcome {userName} 😎 </Heading>
         </Flex>
     );
