@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { UserContext } from '../context/userContext';
 import { Button, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
+import Task from './Task';
 
 const Home = () => {
     const { token, logout, userName } = useContext(UserContext);
@@ -24,6 +25,7 @@ const Home = () => {
             </Flex>
             <Divider borderColor="secondary.500" borderWidth={2} />
             <Heading color="white">Welcome {userName} 😎 </Heading>
+            <Task />
         </Flex>
     );
 };
