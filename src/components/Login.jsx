@@ -124,6 +124,7 @@ const Login = () => {
                                 </FormLabel>
                                 <Input
                                     name="user"
+                                    cy-get="user"
                                     id="user"
                                     type="text"
                                     color="white"
@@ -182,7 +183,7 @@ const Login = () => {
                                         <Select
                                             id="day"
                                             bg="primary.300"
-                                            color="white"
+                                            color="black.500"
                                             focusBorderColor="none"
                                             onChange={handleChange}
                                             name="day"
@@ -204,7 +205,7 @@ const Login = () => {
                                         <Select
                                             id="month"
                                             bg="primary.300"
-                                            color="white"
+                                            color="black.500"
                                             focusBorderColor="none"
                                             name="month"
                                             onChange={handleChange}
@@ -223,7 +224,7 @@ const Login = () => {
                                         <Select
                                             id="year"
                                             bg="primary.300"
-                                            color="white"
+                                            color="black.500"
                                             focusBorderColor="none"
                                             onChange={handleChange}
                                             name="year"
