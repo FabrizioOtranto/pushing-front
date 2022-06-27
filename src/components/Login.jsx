@@ -69,15 +69,15 @@ const Login = () => {
         let formIsValid = true;
 
         if (typeof info.pass !== "undefined") {
-            if (!info.pass.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])$/)) {
+            if (!info.pass.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/)) {
                 formIsValid = false;
                 errors = "Password must have a special character and a number";
+                return formIsValid
+            }
                 if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
                     formIsValid = false;
                     errors = "Password must have between 6 and 16 characters";
                     return formIsValid
-                }
-                return formIsValid
             }
         }
         return formIsValid
