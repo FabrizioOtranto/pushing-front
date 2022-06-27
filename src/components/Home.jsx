@@ -25,7 +25,8 @@ const Home = () => {
                     onClick={logout}
                     bg="black.500"
                     color="white"
-                    id = "logout"
+                    id="logout"
+                    name="logout"
                 >
                     Logout
                 </Button>
@@ -34,38 +35,54 @@ const Home = () => {
 
             <SimpleGrid columns={[2, null, 2]} spacing='40px' m={20}>
                 <Box bg='black.500' height='100px'>
-                    <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
+                    <Text
+                        align="center"
+                        fontSize={'2em'}
+                        m={6}
+                        color={"secondary.500"}>
                         <Link href="
                         /todolist"
-                        id='todolist'>
+                            id='todolistlink'>
                             Todo List
                         </Link>
                     </Text>
                 </Box>
                 <Box bg='black.500' height='100px'>
-                <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link 
-                        href="/waits"
-                        id='waits'>
+                    <Text
+                        align="center"
+                        fontSize={'2em'}
+                        m={6}
+                        color={"secondary.500"}>
+                        <Link
+                            href="/waits"
+                            id='waitslink'>
                             Waits
                         </Link>
                     </Text>
                 </Box>
                 <Box bg='black.500' height='100px'>
-                <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link 
-                        href="/alerts"
-                        id='alerts'
+                    <Text
+                        align="center"
+                        fontSize={'2em'}
+                        m={6}
+                        color={"secondary.500"}>
+                        <Link
+                            href="/alerts"
+                            id='alertslink'
                         >
                             Alerts
                         </Link>
                     </Text>
                 </Box>
                 <Box bg='black.500' height='100px'>
-                <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link 
-                        href="/draganddrop"
-                        id='dragAndDrop'
+                    <Text
+                        align="center"
+                        fontSize={'2em'}
+                        m={6}
+                        color={"secondary.500"}>
+                        <Link
+                            href="/draganddrop"
+                            id='dragAndDroplink'
                         >
                             Drag And Drop
                         </Link>

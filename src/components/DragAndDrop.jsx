@@ -25,7 +25,8 @@ const DragAndDrop = () => {
                     onClick={logout}
                     bg="black.500"
                     color="white"
-                    id = "logout"
+                    id="logout"
+                    name="logout"
                 >
                     Logout
                 </Button>
