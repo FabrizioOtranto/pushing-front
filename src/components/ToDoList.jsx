@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../context/userContext';
-import { Button, Divider, Flex, Heading, Text, Link } from '@chakra-ui/react';
+import { Button, Divider, Flex, Heading, Link } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
 import "../App.css"
-import { SimpleGrid, Box } from '@chakra-ui/react'
 
 
-const Home = () => {
+const ToDoList = () => {
     const { token, logout, userName } = useContext(UserContext);
 
     if (!token) {
@@ -32,21 +31,9 @@ const Home = () => {
             </Flex>
             <Divider borderColor="secondary.500" borderWidth={2} />
 
-            <SimpleGrid columns={[2, null, 3]} spacing='40px' m={10}>
-                <Box bg='tomato' height='100px'>
-                    <Text align="center" fontSize={'2em'} m={6}>
-                        <Link  href="/todolist">
-                        Todo List
-                        </Link>
-                        </Text>
-                </Box>
-                <Box bg='tomato' height='100px'></Box>
-                <Box bg='tomato' height='100px'></Box>
-                <Box bg='tomato' height='100px'></Box>
-                <Box bg='tomato' height='100px'></Box>
-            </SimpleGrid>
+            
         </Flex>
     );
 };
 
-export default Home;
+export default ToDoList;
