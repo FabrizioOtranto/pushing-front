@@ -6,6 +6,7 @@ import {
     Heading,
     Flex,
     Text,
+    Center,
 } from '@chakra-ui/react';
 
 import { Navigate } from 'react-router-dom';
@@ -16,6 +17,7 @@ import Navbar from './Navbar';
 const Waits = () => {
     const [loading, setLoading] = useState(false);
     const { token } = useContext(UserContext);
+    const [mensage, setMessage] = useState(false);
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -23,8 +25,10 @@ const Waits = () => {
 
     const wait = () => {
         setLoading(true);
+        setMessage(false)
         setTimeout(() => {
             setLoading(false);
+            setMessage(true)
         }, 10000);
     };
 
@@ -51,6 +55,7 @@ const Waits = () => {
                     color="white"
                     id="logout"
                     name="wait"
+                    
                 >
                     {loading ? 'Cargando' : 'Button'}
                 </Button>
@@ -61,6 +66,14 @@ const Waits = () => {
                         color="secondary.500"
                         mt={10}
                     />
+                )}
+                {mensage && (
+                    <Text 
+                    fontSize={70}
+                    color={"secondary.500"}
+                    >
+                        Has esperado que termine el tiempo, felicitaciones!
+                    </Text>
                 )}
             </Flex>
         </>
