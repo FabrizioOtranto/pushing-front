@@ -25,6 +25,7 @@ const Waits = () => {
                     onClick={logout}
                     bg="black.500"
                     color="white"
+                    id = "logout"
                 >
                     Logout
                 </Button>

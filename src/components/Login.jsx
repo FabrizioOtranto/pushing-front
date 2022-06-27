@@ -49,30 +49,69 @@ const Login = () => {
         });
     };
 
+    var errors = {};
+    const handleUserValidation = () => {
+
+        let formIsValid = true;
+
+        if (typeof info.user !== "undefined") {
+            if (!info.user.match(/^[a-zA-Z]+$/)) {
+                formIsValid = false;
+                errors = "Username cannot have numbers or special characters";
+                return formIsValid
+            }
+        }
+        return formIsValid
+    }
+
+    const handlePasswordValidation = () => {
+
+        let formIsValid = true;
+
+        if (typeof info.pass !== "undefined") {
+            if (!info.pass.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])$/)) {
+                formIsValid = false;
+                errors = "Password must have a special character and a number";
+                if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+                    formIsValid = false;
+                    errors = "Password must have between 6 and 16 characters";
+                    return formIsValid
+                }
+                return formIsValid
+            }
+        }
+        return formIsValid
+    }
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (toggleForm) {
-            //peticion registro
-            execute({
-                endpoint: 'register',
-                postData: {
-                    username: info.user,
-                    password: info.pass,
-                    gender: info.gender,
-                    day: info.day,
-                    month: info.month,
-                    year: info.year,
-                },
-            });
+        if (handleUserValidation() && handlePasswordValidation()) {
+            if (toggleForm) {
+                //peticion registro
+                execute({
+                    endpoint: 'register',
+                    postData: {
+                        username: info.user,
+                        password: info.pass,
+                        gender: info.gender,
+                        day: info.day,
+                        month: info.month,
+                        year: info.year,
+                    },
+                });
+            } else {
+                //petición login
+                execute({
+                    endpoint: 'login',
+                    postData: {
+                        username: info.user,
+                        password: info.pass,
+                    },
+                });
+            }
         } else {
-            //petición login
-            execute({
-                endpoint: 'login',
-                postData: {
-                    username: info.user,
-                    password: info.pass,
-                },
-            });
+            document.getElementById("errorMessage").innerHTML = errors
         }
     };
 
@@ -170,9 +209,9 @@ const Login = () => {
                                             name="day"
                                         >
                                             {DAY.map((elem, idx) => (
-                                                <option 
-                                                value={elem}
-                                                key={idx}>
+                                                <option
+                                                    value={elem}
+                                                    key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -194,9 +233,9 @@ const Login = () => {
                                             onChange={handleChange}
                                         >
                                             {MONTH.map((elem, idx) => (
-                                                <option 
-                                                value={idx}
-                                                key={idx}>
+                                                <option
+                                                    value={idx}
+                                                    key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -215,9 +254,9 @@ const Login = () => {
                                             name="year"
                                         >
                                             {YEAR.map((elem, idx) => (
-                                                <option 
-                                                value={elem}
-                                                key={idx}>
+                                                <option
+                                                    value={elem}
+                                                    key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -225,6 +264,12 @@ const Login = () => {
                                     </FormControl>
                                 </>
                             ) : null}
+                            <Text
+                                id="errorMessage"
+                                color={"red"}
+                            >
+
+                            </Text>
                             <Button
                                 mt={4}
                                 color="white"
