@@ -51,3 +51,41 @@ export const MONTH = [
 ];
 
 export const YEAR = new Array(100).fill(0).map((_, idx) => idx + 1921);
+
+export const LINKS = [
+    {
+        title: 'Todo List',
+        path: '/home/todolist',
+        id: 'todolistlink',
+    },
+    {
+        title: 'Waits',
+        path: '/home/waits',
+        id: 'waitslink',
+    },
+    {
+        title: 'Alerts',
+        path: '/home/alerts',
+        id: 'alertslink',
+    },
+    {
+        title: 'Drag And Drop',
+        path: '/home/draganddrop',
+        id: 'dragAndDroplink',
+    },
+];
+
+export const ALERTS = [
+    {
+        name: 'alert',
+        title: "I'm an alert",
+    },
+    {
+        name: 'prompt',
+        title: "I'm a prompt",
+    },
+    {
+        name: 'confirmationMessage',
+        title: "I'm an confirmation message",
+    },
+];

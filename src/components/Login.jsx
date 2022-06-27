@@ -31,6 +31,9 @@ const initialState = {
 const Login = () => {
     const [info, setInfo] = useState(initialState);
     const [toggleForm, setToggleForm] = useState(true);
+    const [errors, setErrors] = useState('');
+    const [isValidForm, setIsValidForm] = useState(false);
+
     const { execute, loading, error } = usePost();
     const { token } = useContext(UserContext);
 
@@ -49,46 +52,45 @@ const Login = () => {
         });
     };
 
-    var errors = {};
     const handleUserValidation = () => {
-
-        let formIsValid = true;
-
-        if (typeof info.user !== "undefined") {
+        if (typeof info.user !== 'undefined') {
             if (!info.user.match(/^[a-zA-Z]+$/)) {
-                formIsValid = false;
-                errors = "Username cannot have numbers or special characters";
-                return formIsValid
+                setErrors('Username cannot have numbers or special characters');
+                setIsValidForm(false);
             }
         }
-        return formIsValid
-    }
+        return isValidForm(true);
+    };
 
     const handlePasswordValidation = () => {
-
-        let formIsValid = true;
-
-        if (typeof info.pass !== "undefined") {
-            if (!info.pass.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/)) {
-                formIsValid = false;
-                errors = "Password must have a special character and a number";
-                return formIsValid
+        if (typeof info.pass !== 'undefined') {
+            if (
+                !info.pass.match(
+                    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/
+                )
+            ) {
+                setErrors(
+                    'Password must have a special character and a number'
+                );
+            } else {
+                setIsValidForm(true);
             }
-                if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
-                    formIsValid = false;
-                    errors = "Password must have between 6 and 16 characters";
-                    return formIsValid
+            if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+                setErrors('Password must have between 6 and 16 characters');
+                setIsValidForm(false);
+            } else {
+                setIsValidForm(true);
             }
         }
-        return formIsValid
-    }
-
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (handleUserValidation() && handlePasswordValidation()) {
-            if (toggleForm) {
-                //peticion registro
+        if (toggleForm) {
+            //peticion registro
+            handleUserValidation();
+            handlePasswordValidation();
+            if (isValidForm) {
                 execute({
                     endpoint: 'register',
                     postData: {
@@ -100,8 +102,12 @@ const Login = () => {
                         year: info.year,
                     },
                 });
-            } else {
-                //petición login
+            }
+        } else {
+            //petición login
+            handleUserValidation();
+            handlePasswordValidation();
+            if (isValidForm) {
                 execute({
                     endpoint: 'login',
                     postData: {
@@ -110,8 +116,6 @@ const Login = () => {
                     },
                 });
             }
-        } else {
-            document.getElementById("errorMessage").innerHTML = errors
         }
     };
 
@@ -154,6 +158,7 @@ const Login = () => {
                                     onChange={handleChange}
                                 />
                             </FormControl>
+
                             <FormControl isRequired mb={5}>
                                 <FormLabel htmlFor="pass" color="white">
                                     Password
@@ -209,9 +214,7 @@ const Login = () => {
                                             name="day"
                                         >
                                             {DAY.map((elem, idx) => (
-                                                <option
-                                                    value={elem}
-                                                    key={idx}>
+                                                <option value={elem} key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -233,9 +236,7 @@ const Login = () => {
                                             onChange={handleChange}
                                         >
                                             {MONTH.map((elem, idx) => (
-                                                <option
-                                                    value={idx}
-                                                    key={idx}>
+                                                <option value={idx} key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -254,9 +255,7 @@ const Login = () => {
                                             name="year"
                                         >
                                             {YEAR.map((elem, idx) => (
-                                                <option
-                                                    value={elem}
-                                                    key={idx}>
+                                                <option value={elem} key={idx}>
                                                     {elem}
                                                 </option>
                                             ))}
@@ -264,12 +263,12 @@ const Login = () => {
                                     </FormControl>
                                 </>
                             ) : null}
-                            <Text
-                                id="errorMessage"
-                                color={"red"}
-                            >
+                            {!isValidForm && (
+                                <Text id="errorMessage" color={'red'}>
+                                    {errors}
+                                </Text>
+                            )}
 
-                            </Text>
                             <Button
                                 mt={4}
                                 color="white"

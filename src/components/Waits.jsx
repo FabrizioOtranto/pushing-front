@@ -1,66 +1,69 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../context/userContext';
-import { Button, Container, Divider, Flex, Heading, Link } from '@chakra-ui/react';
+import {
+    Button,
+    CircularProgress,
+    Heading,
+    Flex,
+    Text,
+} from '@chakra-ui/react';
+
 import { Navigate } from 'react-router-dom';
-import "../App.css"
-import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
 
-
+import '../App.css';
+import Navbar from './Navbar';
 
 const Waits = () => {
-    const { token, logout, userName } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
+    const { token } = useContext(UserContext);
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
     }
 
     const wait = () => {
+        setLoading(true);
         setTimeout(() => {
-            document.getElementById("result").setAttribute("name", "result");
-            document.getElementById("result").setAttribute("class", "result");
-            document.getElementById("result").innerHTML = "Has esperado 10 segundos"
-            document.getElementById("container").removeAttribute("class", "waiting");
-            document.getElementById("container").innerHTML = ""
-          }, 10000)
-          document.getElementById("container").innerHTML = "espera 10 segundos"
-        
+            setLoading(false);
+        }, 10000);
+    };
 
-    }
-  
     return (
-        <Flex direction="column">
-            <Flex justify="space-between" w="100%" p={3} align="center">
-                <Heading color="black.500">
-                    <Link href='home'>
-                        Pushing IT
-                    </Link>
-                </Heading>
-                <Heading color="white">Welcome {userName} 😎 </Heading>
+        <>
+            <Navbar />
+            <Heading color="secondary.500" my={3}>
+                Waits
+            </Heading>
+            <Text>
+                Una vez que cliquees el botón verás el loading durante 10
+                segundos
+            </Text>
+            <Flex
+                direction="column"
+                justify="space-between"
+                align="start"
+                mt={10}
+            >
                 <Button
                     _hover={{ bg: 'secondary.500', color: 'black.500' }}
-                    onClick={logout}
+                    onClick={wait}
                     bg="black.500"
                     color="white"
                     id="logout"
-                    name="logout"
+                    name="wait"
                 >
-                    Logout
+                    {loading ? 'Cargando' : 'Button'}
                 </Button>
+                {loading && (
+                    <CircularProgress
+                        size={40}
+                        isIndeterminate
+                        color="secondary.500"
+                        mt={10}
+                    />
+                )}
             </Flex>
-            <Divider borderColor="secondary.500" borderWidth={2} />
-            <Button
-                _hover={{ bg: 'secondary.500', color: 'black.500' }}
-                onClick={wait}
-                bg="black.500"
-                color="white"
-                id="logout"
-                name="wait">
-                button
-            </Button>
-            <Container id='container' className="waiting"></Container>
-            <Container id='result'></Container>
-        
-        </Flex>
+        </>
     );
 };
 
