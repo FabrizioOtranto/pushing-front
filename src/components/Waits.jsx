@@ -16,6 +16,7 @@ import Navbar from './Navbar';
 const Waits = () => {
     const [loading, setLoading] = useState(false);
     const { token } = useContext(UserContext);
+    const [mensage, setMessage] = useState(false);
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -23,8 +24,10 @@ const Waits = () => {
 
     const wait = () => {
         setLoading(true);
+        setMessage(false)
         setTimeout(() => {
             setLoading(false);
+            setMessage(true)
         }, 10000);
     };
 
@@ -49,8 +52,9 @@ const Waits = () => {
                     onClick={wait}
                     bg="black.500"
                     color="white"
-                    id="logout"
+                    id="wait"
                     name="wait"
+
                 >
                     {loading ? 'Cargando' : 'Button'}
                 </Button>
@@ -61,6 +65,14 @@ const Waits = () => {
                         color="secondary.500"
                         mt={10}
                     />
+                )}
+                {mensage && (
+                    <Text
+                        fontSize={70}
+                        color={"secondary.500"}
+                    >
+                        Has esperado que termine el tiempo, felicitaciones!
+                    </Text>
                 )}
             </Flex>
         </>

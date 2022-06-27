@@ -1,14 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { Button, Flex, Heading } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, Box, SimpleGrid } from '@chakra-ui/react';
 
 import Navbar from './Navbar';
 import { UserContext } from '../context/userContext';
 import { ALERTS } from '../constants/constants';
 
+
+
 const Alerts = () => {
     const { token } = useContext(UserContext);
+
+    const [result, setResult] = useState(false);
+    const [message, setMessage] = useState("");
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -19,9 +24,28 @@ const Alerts = () => {
         if (buttonName === 'alert') {
             alert('This is an alert message');
         } else if (buttonName === 'prompt') {
-            prompt('this is a prompt message');
+
+            let alertMessage = prompt('this is a prompt message')
+            if (alertMessage == null) {
+                setResult(true)
+                setMessage("Cancelled");
+            }
+            else {
+                setResult(true)
+                setMessage(alertMessage);
+            }
         } else {
-            confirm('This is a confirmation message');
+            let alertMessage = confirm('This is a confirmation message')
+            console.log(alertMessage)
+            if (!alertMessage) {
+                setResult(true)
+                setMessage("Cancelled");
+            }
+            else {
+                setResult(true)
+                setMessage("Ok");
+            }
+
         }
     };
     return (
@@ -46,6 +70,24 @@ const Alerts = () => {
                         {alert.title}
                     </Button>
                 ))}
+
+            </Flex>
+            <Flex justify="space-between" w="0%" mt={10}>
+
+                <Text
+                    fontSize={"50px"}
+                    color={"black.500"}>
+                    Result:
+                </Text>
+                <Text
+                    id={"message"}
+                    name={"message"}
+                    marginLeft={"20px"}
+                    fontSize={"50px"}
+                    color={"secondary.500"}>
+                    {!result ? "" : message}
+                </Text>
+
             </Flex>
         </>
     );
