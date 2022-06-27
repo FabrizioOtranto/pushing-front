@@ -17,9 +17,9 @@ const Home = () => {
             <Flex justify="space-between" w="100%" p={3} align="center">
                 <Heading color="black.500">
                     <Link href='home'>
-                    Pushing IT
+                        Pushing IT
                     </Link>
-                    </Heading>
+                </Heading>
                 <Heading color="white">Welcome {userName} 😎 </Heading>
                 <Button
                     _hover={{ bg: 'secondary.500', color: 'black.500' }}
@@ -32,18 +32,35 @@ const Home = () => {
             </Flex>
             <Divider borderColor="secondary.500" borderWidth={2} />
 
-            <SimpleGrid columns={[2, null, 3]} spacing='40px' m={10}>
-                <Box bg='tomato' height='100px'>
-                    <Text align="center" fontSize={'2em'} m={6}>
-                        <Link  href="/todolist">
-                        Todo List
+            <SimpleGrid columns={[2, null, 2]} spacing='40px' m={20}>
+                <Box bg='black' height='100px'>
+                    <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
+                        <Link href="/todolist">
+                            Todo List
                         </Link>
-                        </Text>
+                    </Text>
                 </Box>
-                <Box bg='tomato' height='100px'></Box>
-                <Box bg='tomato' height='100px'></Box>
-                <Box bg='tomato' height='100px'></Box>
-                <Box bg='tomato' height='100px'></Box>
+                <Box bg='black' height='100px'>
+                <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
+                        <Link href="/waits">
+                            Waits
+                        </Link>
+                    </Text>
+                </Box>
+                <Box bg='black' height='100px'>
+                <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
+                        <Link href="/alerts">
+                            Alerts
+                        </Link>
+                    </Text>
+                </Box>
+                <Box bg='black' height='100px'>
+                <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
+                        <Link href="/draganddrop">
+                            Drag And Drop
+                        </Link>
+                    </Text>
+                </Box>
             </SimpleGrid>
         </Flex>
     );

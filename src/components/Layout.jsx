@@ -5,6 +5,9 @@ import { Container } from '@chakra-ui/react';
 import Login from './Login';
 import Home from './Home';
 import ToDoList from "./ToDoList"
+import Waits from './Waits';
+import Alerts from './Alerts';
+import DragAndDrop from './DragAndDrop';
 
 const Layout = () => {
     return (
@@ -13,6 +16,9 @@ const Layout = () => {
                 <Route exact path="/home" element={<Home />} />
                 <Route exact path="/" element={<Login />} />
                 <Route exact path="/todolist" element={<ToDoList />} />
+                <Route exact path="/waits" element={<Waits />} />
+                <Route exact path="/alerts" element={<Alerts />} />
+                <Route exact path="/draganddrop" element={<DragAndDrop />} />
             </Routes>
         </Container>
     );
