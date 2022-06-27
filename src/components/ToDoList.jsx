@@ -25,6 +25,7 @@ const ToDoList = () => {
                     onClick={logout}
                     bg="black.500"
                     color="white"
+                    id = "logout"
                 >
                     Logout
                 </Button>

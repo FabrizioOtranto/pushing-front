@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { UserContext } from '../context/userContext';
 import { Button, Divider, Flex, Heading, Text, Link } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
-import "../App.css"
 import { SimpleGrid, Box } from '@chakra-ui/react'
 
 
@@ -26,6 +25,7 @@ const Home = () => {
                     onClick={logout}
                     bg="black.500"
                     color="white"
+                    id = "logout"
                 >
                     Logout
                 </Button>
@@ -33,30 +33,40 @@ const Home = () => {
             <Divider borderColor="secondary.500" borderWidth={2} />
 
             <SimpleGrid columns={[2, null, 2]} spacing='40px' m={20}>
-                <Box bg='black' height='100px'>
+                <Box bg='black.500' height='100px'>
                     <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link href="/todolist">
+                        <Link href="
+                        /todolist"
+                        id='todolist'>
                             Todo List
                         </Link>
                     </Text>
                 </Box>
-                <Box bg='black' height='100px'>
+                <Box bg='black.500' height='100px'>
                 <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link href="/waits">
+                        <Link 
+                        href="/waits"
+                        id='waits'>
                             Waits
                         </Link>
                     </Text>
                 </Box>
-                <Box bg='black' height='100px'>
+                <Box bg='black.500' height='100px'>
                 <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link href="/alerts">
+                        <Link 
+                        href="/alerts"
+                        id='alerts'
+                        >
                             Alerts
                         </Link>
                     </Text>
                 </Box>
-                <Box bg='black' height='100px'>
+                <Box bg='black.500' height='100px'>
                 <Text align="center" fontSize={'2em'} m={6} color={"secondary.500"}>
-                        <Link href="/draganddrop">
+                        <Link 
+                        href="/draganddrop"
+                        id='dragAndDrop'
+                        >
                             Drag And Drop
                         </Link>
                     </Text>
