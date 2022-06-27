@@ -49,6 +49,7 @@ const Alerts = () => {
                     bg="black.500"
                     color="white"
                     id="logout"
+                    name="logout"
                 >
                     Logout
                 </Button>
@@ -61,6 +62,7 @@ const Alerts = () => {
                         _hover={{ bg: 'black.500', color: 'secondary.500' }}
                         fontSize={'2em'}
                         id="alert"
+                        name="alert"
                         height="150px"
                         color={"secondary.500"}
                         bg="black.500"
@@ -73,6 +75,7 @@ const Alerts = () => {
                         _hover={{ bg: 'black.500', color: 'secondary.500' }}
                         fontSize={'2em'}
                         id="prompt"
+                        name="prompt"
                         height="150px"
                         color={"secondary.500"}
                         bg="black.500"
@@ -85,6 +88,7 @@ const Alerts = () => {
                         _hover={{ bg: 'black.500', color: 'secondary.500' }}
                         fontSize={'2em'}
                         id="confirmationMessage"
+                        name="confirmationMessage"
                         height="150px"
                         color={"secondary.500"}
                         bg="black.500"
@@ -103,6 +107,8 @@ const Alerts = () => {
             </Text>
                 <Text
                     id="result"
+                    name="result"
+                    cy-get="result"
                     fontSize={"3em"}
                     marginLeft={'30px'}
                     color={"secondary.500"}
