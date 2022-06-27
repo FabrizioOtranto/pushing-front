@@ -31,8 +31,6 @@ const initialState = {
 const Login = () => {
     const [info, setInfo] = useState(initialState);
     const [toggleForm, setToggleForm] = useState(true);
-    const [errors, setErrors] = useState('');
-    const [isValidForm, setIsValidForm] = useState(false);
 
     const { execute, loading, error } = usePost();
     const { token } = useContext(UserContext);
@@ -52,68 +50,68 @@ const Login = () => {
         });
     };
 
-    /* const handleUserValidation = () => {
+    var errors = {};
+    const handleUserValidation = () => {
+        let formIsValid = true;
+
         if (typeof info.user !== 'undefined') {
             if (!info.user.match(/^[a-zA-Z]+$/)) {
-                setErrors('Username cannot have numbers or special characters');
-                setIsValidForm(false);
+                formIsValid = false;
+                errors = 'Username cannot have numbers or special characters';
+                return formIsValid;
             }
         }
-        return isValidForm(true);
-    }; */
+        return formIsValid;
+    };
 
-    /* const handlePasswordValidation = () => {
+    const handlePasswordValidation = () => {
+        let formIsValid = true;
+
         if (typeof info.pass !== 'undefined') {
             if (
                 !info.pass.match(
                     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/
                 )
             ) {
-                setErrors(
-                    'Password must have a special character and a number'
-                );
-            } else {
-                setIsValidForm(true);
+                formIsValid = false;
+                errors = 'Password must have a special character and a number';
+                return formIsValid;
             }
             if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
-                setErrors('Password must have between 6 and 16 characters');
-                setIsValidForm(false);
-            } else {
-                setIsValidForm(true);
+                formIsValid = false;
+                errors = 'Password must have between 6 and 16 characters';
+                return formIsValid;
             }
         }
-    }; */
+        return formIsValid;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (toggleForm) {
-            //peticion registro
-            /* handleUserValidation();
-            handlePasswordValidation(); */
-
-            execute({
-                endpoint: 'register',
-                postData: {
-                    username: info.user,
-                    password: info.pass,
-                    gender: info.gender,
-                    day: info.day,
-                    month: info.month,
-                    year: info.year,
-                },
-            });
+        if (handleUserValidation() && handlePasswordValidation()) {
+            if (toggleForm) {
+                execute({
+                    endpoint: 'register',
+                    postData: {
+                        username: info.user,
+                        password: info.pass,
+                        gender: info.gender,
+                        day: info.day,
+                        month: info.month,
+                        year: info.year,
+                    },
+                });
+            } else {
+                execute({
+                    endpoint: 'login',
+                    postData: {
+                        username: info.user,
+                        password: info.pass,
+                    },
+                });
+            }
         } else {
-            //petición login
-            /* handleUserValidation();
-            handlePasswordValidation(); */
-
-            execute({
-                endpoint: 'login',
-                postData: {
-                    username: info.user,
-                    password: info.pass,
-                },
-            });
+            document.getElementById('errorMessage').innerHTML = errors;
         }
     };
 
@@ -261,11 +259,7 @@ const Login = () => {
                                     </FormControl>
                                 </>
                             ) : null}
-                            {!isValidForm && (
-                                <Text id="errorMessage" color={'red'}>
-                                    {errors}
-                                </Text>
-                            )}
+                            <Text id="errorMessage" color={'red'}></Text>
 
                             <Button
                                 mt={4}
