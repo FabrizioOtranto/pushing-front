@@ -52,7 +52,7 @@ const Login = () => {
         });
     };
 
-    const handleUserValidation = () => {
+    /* const handleUserValidation = () => {
         if (typeof info.user !== 'undefined') {
             if (!info.user.match(/^[a-zA-Z]+$/)) {
                 setErrors('Username cannot have numbers or special characters');
@@ -60,9 +60,9 @@ const Login = () => {
             }
         }
         return isValidForm(true);
-    };
+    }; */
 
-    const handlePasswordValidation = () => {
+    /* const handlePasswordValidation = () => {
         if (typeof info.pass !== 'undefined') {
             if (
                 !info.pass.match(
@@ -82,40 +82,38 @@ const Login = () => {
                 setIsValidForm(true);
             }
         }
-    };
+    }; */
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (toggleForm) {
             //peticion registro
-            handleUserValidation();
-            handlePasswordValidation();
-            if (isValidForm) {
-                execute({
-                    endpoint: 'register',
-                    postData: {
-                        username: info.user,
-                        password: info.pass,
-                        gender: info.gender,
-                        day: info.day,
-                        month: info.month,
-                        year: info.year,
-                    },
-                });
-            }
+            /* handleUserValidation();
+            handlePasswordValidation(); */
+
+            execute({
+                endpoint: 'register',
+                postData: {
+                    username: info.user,
+                    password: info.pass,
+                    gender: info.gender,
+                    day: info.day,
+                    month: info.month,
+                    year: info.year,
+                },
+            });
         } else {
             //petición login
-            handleUserValidation();
-            handlePasswordValidation();
-            if (isValidForm) {
-                execute({
-                    endpoint: 'login',
-                    postData: {
-                        username: info.user,
-                        password: info.pass,
-                    },
-                });
-            }
+            /* handleUserValidation();
+            handlePasswordValidation(); */
+
+            execute({
+                endpoint: 'login',
+                postData: {
+                    username: info.user,
+                    password: info.pass,
+                },
+            });
         }
     };
 
