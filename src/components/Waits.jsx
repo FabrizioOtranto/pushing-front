@@ -6,7 +6,6 @@ import {
     Heading,
     Flex,
     Text,
-    Center,
 } from '@chakra-ui/react';
 
 import { Navigate } from 'react-router-dom';
@@ -53,9 +52,9 @@ const Waits = () => {
                     onClick={wait}
                     bg="black.500"
                     color="white"
-                    id="logout"
+                    id="wait"
                     name="wait"
-                    
+
                 >
                     {loading ? 'Cargando' : 'Button'}
                 </Button>
@@ -68,9 +67,9 @@ const Waits = () => {
                     />
                 )}
                 {mensage && (
-                    <Text 
-                    fontSize={70}
-                    color={"secondary.500"}
+                    <Text
+                        fontSize={70}
+                        color={"secondary.500"}
                     >
                         Has esperado que termine el tiempo, felicitaciones!
                     </Text>
