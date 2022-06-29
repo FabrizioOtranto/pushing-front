@@ -70,6 +70,8 @@ const Waits = () => {
                     <Text
                         fontSize={70}
                         color={"secondary.500"}
+                        id="message"
+                        name="message"
                     >
                         Has esperado que termine el tiempo, felicitaciones!
                     </Text>
