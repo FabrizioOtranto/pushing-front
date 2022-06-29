@@ -37,10 +37,12 @@ const ToDoList = () => {
             ...arrayTask,
             {
                 name: text,
-                id: Math.floor(Math.random() * 100),
+                id: Math.floor(Math.random() * 10000),
                 completed: false,
             },
         ]);
+        setText("");
+        
     };
 
     const handleCompleted = (id) => {
