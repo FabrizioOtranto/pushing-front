@@ -37,15 +37,20 @@ const Waits = () => {
             <Heading color="secondary.500" my={3}>
                 Waits
             </Heading>
-            <Text>
+            <Text
+                            align="center"
+                            justifyContent={"center"}
+                            fontSize="30px"
+                            fontWeight={"bolder"}>
                 Una vez que cliquees el botón verás el loading durante 10
                 segundos
             </Text>
             <Flex
                 direction="column"
                 justify="space-between"
-                align="start"
                 mt={10}
+                align="center" 
+                justifyContent={"center"}
             >
                 <Button
                     _hover={{ bg: 'secondary.500', color: 'black.500' }}
@@ -72,8 +77,8 @@ const Waits = () => {
                         color={"secondary.500"}
                         id="message"
                         name="message"
-                    >
-                        Has esperado que termine el tiempo, felicitaciones!
+                        fontWeight={"bolder"}>
+                        Has esperado que termine el tiempo, FELICITACIONES!
                     </Text>
                 )}
             </Flex>
