@@ -54,7 +54,7 @@ const Alerts = () => {
             <Heading my={3} color="secondary.500">
                 Alerts
             </Heading>
-            <Flex justify="space-between" w="80%" mt={10}>
+            <Flex justify="space-between" w="100%" mt={10}  >
                 {ALERTS.map((alert) => (
                     <Button
                         _hover={{ bg: 'black.500', color: 'secondary.500' }}

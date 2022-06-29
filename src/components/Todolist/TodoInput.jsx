@@ -1,13 +1,14 @@
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 const TodoInput = ({ handlechange, text, handleSubmit }) => {
     return (
         <form onSubmit={handleSubmit}>
-            <FormControl isRequired mb={5}>
+            <FormControl isRequired mb={5} marginLeft={"15%"} w='70%'>
                 <FormLabel htmlFor="user" color="white">
                     Task
                 </FormLabel>
+                <Flex  w="100%">
                 <Input
                     name="user"
                     cy-get="user"
@@ -19,10 +20,12 @@ const TodoInput = ({ handlechange, text, handleSubmit }) => {
                     onChange={handlechange}
                     value={text}
                 />
-                <Button type="submit" mt={4}>
+                <Button type="submit">
                     Send
                 </Button>
+                </Flex>
             </FormControl>
+
         </form>
     );
 };
