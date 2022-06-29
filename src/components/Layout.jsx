@@ -4,11 +4,10 @@ import { Route, Routes } from 'react-router-dom';
 import { Container } from '@chakra-ui/react';
 import Login from './Login';
 import Home from './Home';
-import ToDoList from './ToDoList';
 import Waits from './Waits';
 import Alerts from './Alerts';
 import DragAndDrop from './DragAndDrop';
-import Navbar from './Navbar';
+import ToDoList from './Todolist/ToDoList';
 
 const Layout = () => {
     return (
