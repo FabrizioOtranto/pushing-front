@@ -30,6 +30,7 @@ const TodoTask = ({
                                     ? 'line-through'
                                     : 'none',
                             }}
+                            id={elem.id}
                         >
                             {elem.name}
                         </Text>
@@ -52,6 +53,7 @@ const TodoTask = ({
                             }}
                             color="secondary.500"
                             bg="gray"
+                            id="all"
                         >
                             All
                         </Button>
@@ -63,6 +65,7 @@ const TodoTask = ({
                             }}
                             color="secondary.500"
                             bg="gray"
+                            id="completed"
                         >
                             Completed
                         </Button>
@@ -74,6 +77,7 @@ const TodoTask = ({
                             }}
                             color="secondary.500"
                             bg="gray"
+                            id="active"
                         >
                             Active
                         </Button>

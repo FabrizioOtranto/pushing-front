@@ -5,13 +5,6 @@ import '../../App.css';
 import {
     Heading,
     Flex,
-    Box,
-    Input,
-    List,
-    ListItem,
-    Button,
-    FormControl,
-    Checkbox,
 } from '@chakra-ui/react';
 import { UserContext } from '../../context/userContext';
 import Navbar from '../Navbar';

@@ -73,6 +73,16 @@ export const LINKS = [
         path: '/home/draganddrop',
         id: 'dragAndDroplink',
     },
+    {
+        title: 'Online Shop',
+        path: '/home/onlineshop',
+        id: 'onlineshoplink',
+    },
+    {
+        title: 'In construction',
+        path: '/home/construction',
+        id: 'construction',
+    },
 ];
 
 export const ALERTS = [
@@ -89,3 +99,41 @@ export const ALERTS = [
         title: "I'm an confirmation message",
     },
 ];
+export const PRODUCTS = [
+    {
+        name: 'Black T-Shirt',
+        id: 'blacktshirt',
+    },
+    {
+        name: 'White pants',
+        id: 'whitepants',
+    },
+    {
+        name: 'Red cup',
+        id: 'redcup',
+    },
+    {
+        name: 'Black jacket',
+        id: 'blackJacket',
+    },
+    {
+        name: 'Pink sweater',
+        id: 'pinksweater',
+    },
+    {
+        name: 'White shoes',
+        id: 'whiteshoes',
+    },
+    {
+        name: 'Black socks',
+        id: 'construction',
+    },
+    {
+        name: 'Beige pants',
+        id: 'beigepants',
+    },
+
+];
+
+
+
