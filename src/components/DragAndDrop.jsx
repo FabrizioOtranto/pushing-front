@@ -1,124 +1,150 @@
-import { Heading } from '@chakra-ui/react';
-import React, { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import '../App.css';
-import { UserContext } from '../context/userContext';
-import Navbar from './Navbar';
+import React, { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {v1 as uuid} from "uuid"
 
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-import { Box, Text, ListItem, List, Flex } from '@chakra-ui/react';
-import { useState } from "react";
-
-const initialTasks = [
-    {
-        id: "1",
-        text: "Prender el horno",
-    },
-    {
-        id: "2",
-        text: "Agregar salsa de tomate y queso",
-    },
-    {
-        id: "3",
-        text: "Meter las pizzas en el horno",
-    },
-    {
-        id: "4",
-        text: "Hacer la masa",
-    },
-    {
-        id: "5",
-        text: "Estirar la masa",
-    },
+const itemsFromBackend = [
+  { id: uuid(), content: "First task" },
+  { id: uuid(), content: "Second task" },
+  { id: uuid(), content: "Third task" },
+  { id: uuid(), content: "Fourth task" },
+  { id: uuid(), content: "Fifth task" }
 ];
 
-const reorder = (list, startIndex, endIndex) => {
-    const result = [...list];
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
+const columnsFromBackend = {
+  [uuid()]: {
+    name: "Requested",
+    items: itemsFromBackend
+  },
+  [uuid()]: {
+    name: "To do",
+    items: []
+  },
+  [uuid()]: {
+    name: "In Progress",
+    items: []
+  },
+  [uuid()]: {
+    name: "Done",
+    items: []
+  }
 };
 
-const DragAndDrop = () => {
-    const { token } = useContext(UserContext);
-    const [tasks, setTasks] = useState(initialTasks);
+const onDragEnd = (result, columns, setColumns) => {
+  if (!result.destination) return;
+  const { source, destination } = result;
 
-    if (!token) {
-        return <Navigate to="/" replace={true} />;
-    }
-
-    const sort = (result) => {
-        const { source, destination } = result;
-        if (!destination) {
-            return;
-        }
-        if (
-            source.index === destination.index &&
-            source.droppableId === destination.droppableId
-        ) {
-            return;
-        }
-
-        setTasks((prevTasks) =>
-            reorder(prevTasks, source.index, destination.index)
-        );
-    }
-
-    return (
-        <>
-            <Navbar />
-            <Heading my={3} color="secondary.500">
-                Drag And Drop
-            </Heading>
-            <Flex align="center" justifyContent={"center"}>
-                <DragDropContext
-                    onDragEnd={sort}
-                >
-                    <Box className="container">
-                        <Text
-                            align="center"
-                            justifyContent={"center"}
-                            fontSize="30px"
-                            fontWeight={"bolder"}>
-                            Paso a paso para disfrutar de una buena pizza
-                        </Text>
-                        <Droppable droppableId="tasks">
-                            {(droppableProvided) => (
-                                <List
-                                    {...droppableProvided.droppableProps}
-                                    ref={droppableProvided.innerRef}
-                                    marginTop={"3%"}
-                                    fontSize={"3rem"}
-                                >
-                                    {tasks.map((task, index) => (
-                                        <Draggable key={task.id} draggableId={task.id} index={index}>
-                                            {(draggableProvided) => (
-                                                <ListItem
-                                                    {...draggableProvided.draggableProps}
-                                                    ref={draggableProvided.innerRef}
-                                                    {...draggableProvided.dragHandleProps}
-                                                    color={"secondary.500"}
-                                                    bg={"black.500"}
-                                                    align="center"
-                                                    margin={"0.5%"}
-                                                    justifyContent={"center"}
-                                                >
-                                                    {task.text}
-                                                </ListItem>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {droppableProvided.placeholder}
-                                </List>
-                            )}
-                        </Droppable>
-                    </Box>
-                </DragDropContext>
-            </Flex>
-        </>
-    );
+  if (source.droppableId !== destination.droppableId) {
+    const sourceColumn = columns[source.droppableId];
+    const destColumn = columns[destination.droppableId];
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+    const [removed] = sourceItems.splice(source.index, 1);
+    destItems.splice(destination.index, 0, removed);
+    setColumns({
+      ...columns,
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems
+      },
+      [destination.droppableId]: {
+        ...destColumn,
+        items: destItems
+      }
+    });
+  } else {
+    const column = columns[source.droppableId];
+    const copiedItems = [...column.items];
+    const [removed] = copiedItems.splice(source.index, 1);
+    copiedItems.splice(destination.index, 0, removed);
+    setColumns({
+      ...columns,
+      [source.droppableId]: {
+        ...column,
+        items: copiedItems
+      }
+    });
+  }
 };
+
+function DragAndDrop() {
+  const [columns, setColumns] = useState(columnsFromBackend);
+  return (
+    <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+      <DragDropContext
+        onDragEnd={result => onDragEnd(result, columns, setColumns)}
+      >
+        {Object.entries(columns).map(([columnId, column], index) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+              }}
+              key={columnId}
+            >
+              <h2>{column.name}</h2>
+              <div style={{ margin: 8 }}>
+                <Droppable droppableId={columnId} key={columnId}>
+                  {(provided, snapshot) => {
+                    return (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          background: snapshot.isDraggingOver
+                            ? "lightblue"
+                            : "lightgrey",
+                          padding: 4,
+                          width: 250,
+                          minHeight: 500
+                        }}
+                      >
+                        {column.items.map((item, index) => {
+                          return (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                              id={index}
+                            >
+                              {(provided, snapshot) => {
+                                return (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={{
+                                      userSelect: "none",
+                                      padding: 16,
+                                      margin: "0 0 8px 0",
+                                      minHeight: "50px",
+                                      backgroundColor: snapshot.isDragging
+                                        ? "#263B4A"
+                                        : "#456C86",
+                                      color: "white",
+                                      ...provided.draggableProps.style
+                                    }}
+                                  >
+                                    {item.content}
+                                  </div>
+                                );
+                              }}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </div>
+                    );
+                  }}
+                </Droppable>
+              </div>
+            </div>
+          );
+        })}
+      </DragDropContext>
+    </div>
+  );
+}
 
 export default DragAndDrop;

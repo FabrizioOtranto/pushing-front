@@ -8,6 +8,8 @@ import Waits from './Waits';
 import Alerts from './Alerts';
 import DragAndDrop from './DragAndDrop';
 import ToDoList from './Todolist/ToDoList';
+import OnlineShop from './OnlineShop/OnlineShop';
+import SuccessBuy from './OnlineShop/SuccessBuy';
 
 const Layout = () => {
     return (
@@ -18,11 +20,9 @@ const Layout = () => {
                 <Route exact path="/home/todolist" element={<ToDoList />} />
                 <Route exact path="/home/waits" element={<Waits />} />
                 <Route exact path="/home/alerts" element={<Alerts />} />
-                <Route
-                    exact
-                    path="/home/draganddrop"
-                    element={<DragAndDrop />}
-                />
+                <Route exact path="/home/draganddrop"element={<DragAndDrop />} />
+                <Route exact path="/home/onlineshop"element={<OnlineShop />} />
+                <Route exact path="/home/onlineshop/successBuy"element={<SuccessBuy />} />
             </Routes>
         </Container>
     );
