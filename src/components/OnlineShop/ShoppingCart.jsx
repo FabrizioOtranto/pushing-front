@@ -13,7 +13,7 @@ import Products from './Products';
 
 
 const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
-    handleShowBuyForm, handleGoToProducts, totalPrice, showTotalPrice, handleShowTotalPrice }) => {
+    handleShowCheckout, handleGoToProducts, totalPrice, showTotalPrice, handleShowTotalPrice }) => {
     return (
         <>
             {showShoppingcart ? (
@@ -118,7 +118,7 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
 
                                 <Box spacing="40px" m={15} justifyContent={"center"}>
                                     <Button
-                                        onClick={handleShowBuyForm}
+                                        onClick={handleShowCheckout}
                                         bg={"secondary.500"}
                                     >Go to Checkout
                                     </Button>

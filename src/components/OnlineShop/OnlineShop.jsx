@@ -10,7 +10,7 @@ import { UserContext } from '../../context/userContext';
 import Navbar from '../Navbar';
 import ShoppingCart from "./ShoppingCart"
 import Products from "./Products"
-import BuyForm from './BuyForm';
+import Checkout from './Checkout';
 import SuccessBuy from './SuccessBuy';
 
 const formInitialState = {
@@ -28,7 +28,7 @@ const OnlineShop = () => {
     const [cardNumber, setCardNumber] = useState('')
     const [showShoppingcart, setShowShoppingCart] = useState(false)
     const [showProductsList, setShwoProductsList] = useState(true)
-    const [showBuyForm, setShowBuyForm] = useState(false)
+    const [showCheckout, setShowCheckout] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [totalPrice, setTotalPrice] = useState("")
     const [showTotalPrice, setShowTotalPrice] = useState(false)
@@ -69,17 +69,17 @@ const OnlineShop = () => {
     const handleGoToProducts = () => {
         setShowShoppingCart(false)
         setShwoProductsList(true)
-        setShowBuyForm(false)
+        setShowCheckout(false)
         setShowTotalPrice(false)
         onClose()
     }
-    const handleShowBuyForm = () => {
+    const handleShowCheckout = () => {
         setShowShoppingCart(false)
-        setShowBuyForm(true)
+        setShowCheckout(true)
     }
     const handleCancelPurchase = () => {
         setShowShoppingCart(true)
-        setShowBuyForm(false)
+        setShowCheckout(false)
     }
 
     const handleShowTotalPrice = () => {
@@ -163,7 +163,7 @@ const OnlineShop = () => {
     const handleFinishProcess = () => {
         setShowShoppingCart(false)
         setShwoProductsList(true)
-        setShowBuyForm(false)
+        setShowCheckout(false)
         onClose()
         setShopingCartProduct([])
     }
@@ -186,7 +186,7 @@ const OnlineShop = () => {
                     shopingCartProduct={shopingCartProduct}
                     handleDelete={handleDelete}
                     showShoppingcart={showShoppingcart}
-                    handleShowBuyForm={handleShowBuyForm}
+                    handleShowCheckout={handleShowCheckout}
                     handleGoToProducts={handleGoToProducts}
                     totalPrice={totalPrice}
                     showTotalPrice={showTotalPrice}
@@ -194,7 +194,7 @@ const OnlineShop = () => {
 
                 >
                 </ShoppingCart>
-                <BuyForm
+                <Checkout
                     isOpen={isOpen}
                     onClose={onClose}
                     handleSubmit={handleSubmit}
@@ -202,12 +202,12 @@ const OnlineShop = () => {
                     firstName={firstName}
                     lastName={lastName}
                     cardNumber={cardNumber}
-                    showBuyForm={showBuyForm}
+                    showCheckout={showCheckout}
                     handleCancelPurchase={handleCancelPurchase}
                     handleGoToProducts={handleGoToProducts}
                     errorMessage={errorMessage}
                 >
-                </BuyForm>
+                </Checkout>
                 <SuccessBuy
                     formInfo={formInfo}
                     isOpen={isOpen}
