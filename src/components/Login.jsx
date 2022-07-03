@@ -31,6 +31,7 @@ const initialState = {
 const Login = () => {
     const [info, setInfo] = useState(initialState);
     const [toggleForm, setToggleForm] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('')
 
     const { execute, loading, error } = usePost();
     const { token } = useContext(UserContext);
@@ -57,7 +58,7 @@ const Login = () => {
         if (typeof info.user !== 'undefined') {
             if (!info.user.match(/^[a-zA-Z]+$/)) {
                 formIsValid = false;
-                errors = 'Username cannot have numbers or special characters';
+                setErrorMessage('Username cannot have numbers or special characters');
                 return formIsValid;
             }
         }
@@ -74,12 +75,12 @@ const Login = () => {
                 )
             ) {
                 formIsValid = false;
-                errors = 'Password must have a special character and a number';
+                setErrorMessage('Password must have a special character and a number');
                 return formIsValid;
             }
             if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
                 formIsValid = false;
-                errors = 'Password must have between 6 and 16 characters';
+                setErrorMessage('Password must have between 6 and 16 characters');
                 return formIsValid;
             }
         }
@@ -110,8 +111,6 @@ const Login = () => {
                     },
                 });
             }
-        } else {
-            document.getElementById('errorMessage').innerHTML = errors;
         }
     };
 
@@ -259,7 +258,9 @@ const Login = () => {
                                     </FormControl>
                                 </>
                             ) : null}
-                            <Text id="errorMessage" color={'red'}></Text>
+                            {errorMessage ?(
+                            <Text id="errorMessage" color={'red'}> {errorMessage}</Text>
+                            ): null}
 
                             <Button
                                 mt={4}

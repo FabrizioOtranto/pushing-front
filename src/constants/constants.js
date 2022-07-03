@@ -103,34 +103,42 @@ export const PRODUCTS = [
     {
         name: 'Black T-Shirt',
         id: 'blacktshirt',
+        price: 15
     },
     {
         name: 'White pants',
         id: 'whitepants',
+        price: 20
     },
     {
         name: 'Red cup',
         id: 'redcup',
+        price: 10
     },
     {
         name: 'Black jacket',
         id: 'blackJacket',
+        price: 25
     },
     {
         name: 'Pink sweater',
         id: 'pinksweater',
+        price: 18
     },
     {
         name: 'White shoes',
         id: 'whiteshoes',
+        price: 30
     },
     {
         name: 'Black socks',
-        id: 'construction',
+        id: 'blacksocks',
+        price: 10
     },
     {
         name: 'Beige pants',
         id: 'beigepants',
+        price: 19
     },
 
 ];

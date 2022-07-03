@@ -12,7 +12,7 @@ import {
 import React from 'react';
 
 
-const SuccessBuy = ({ isOpen, onClose, formInfo, shopingCartProduct, handleFinishProcess }) => {
+const SuccessBuy = ({ isOpen, onClose, formInfo, shopingCartProduct, handleFinishProcess, totalPrice }) => {
     return (
         <>
             {formInfo.length ? (
@@ -30,6 +30,9 @@ const SuccessBuy = ({ isOpen, onClose, formInfo, shopingCartProduct, handleFinis
                                 <Text key={shopCartProduct.id}>{shopCartProduct.name}</Text>
                             ))}
                             <Text>The credit card used was {formInfo[0].cardNumber}</Text>
+                            <Text>You have spent ${totalPrice} </Text>
+
+                            
                             
                         </ModalBody>
                         <ModalFooter>

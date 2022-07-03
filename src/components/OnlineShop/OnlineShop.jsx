@@ -30,6 +30,8 @@ const OnlineShop = () => {
     const [showProductsList, setShwoProductsList] = useState(true)
     const [showBuyForm, setShowBuyForm] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+    const [totalPrice, setTotalPrice] = useState("")
+    const [showTotalPrice, setShowTotalPrice] = useState(false)
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -38,19 +40,22 @@ const OnlineShop = () => {
     const handleClick = (e) => {
         e.preventDefault();
         var shopingCartArray = []
+
         shopingCartProduct.map(elem => {
             shopingCartArray.push(elem.name)
         })
+
         if (!shopingCartArray.includes(e.target.value)) {
+            var priceParsed = parseInt(e.target.name)
             setShopingCartProduct([
                 ...shopingCartProduct,
                 {
                     name: e.target.value,
+                    price: priceParsed,
                     id: e.target.id,
                 },
             ]);
             alert(`${e.target.value} has been added to the shopping cart`)
-
         }
         else {
             alert(`${e.target.value} is already in the shoping cart. You cannot add the same product twice`)
@@ -65,6 +70,7 @@ const OnlineShop = () => {
         setShowShoppingCart(false)
         setShwoProductsList(true)
         setShowBuyForm(false)
+        setShowTotalPrice(false)
         onClose()
     }
     const handleShowBuyForm = () => {
@@ -74,6 +80,15 @@ const OnlineShop = () => {
     const handleCancelPurchase = () => {
         setShowShoppingCart(true)
         setShowBuyForm(false)
+    }
+
+    const handleShowTotalPrice = () => {
+        var fullPrice = 0
+        shopingCartProduct.map(shopCartProduct => {
+            fullPrice = fullPrice + shopCartProduct.price
+        })
+        setTotalPrice(fullPrice)
+        setShowTotalPrice(true)
     }
 
     const handleDelete = (id) => {
@@ -134,15 +149,15 @@ const OnlineShop = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (handleFirstNameValidation() && handleLastNameValidation() && handleCardNumberValidation()) {
-        setformInfo([
-            {
-                firstName: firstName,
-                lastName: lastName,
-                cardNumber: cardNumber
-            },
-        ]);
-        onOpen();
-    }
+            setformInfo([
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    cardNumber: cardNumber
+                },
+            ]);
+            onOpen();
+        }
     }
 
     const handleFinishProcess = () => {
@@ -173,6 +188,9 @@ const OnlineShop = () => {
                     showShoppingcart={showShoppingcart}
                     handleShowBuyForm={handleShowBuyForm}
                     handleGoToProducts={handleGoToProducts}
+                    totalPrice={totalPrice}
+                    showTotalPrice={showTotalPrice}
+                    handleShowTotalPrice={handleShowTotalPrice}
 
                 >
                 </ShoppingCart>
@@ -196,6 +214,7 @@ const OnlineShop = () => {
                     onClose={onClose}
                     shopingCartProduct={shopingCartProduct}
                     handleFinishProcess={handleFinishProcess}
+                    totalPrice={totalPrice}
                 ></SuccessBuy>
             </Flex>
         </>
