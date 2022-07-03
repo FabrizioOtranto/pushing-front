@@ -10,17 +10,17 @@ import {
 
 import React from 'react';
 
-const BuyForm = ({ handleSubmit, handleChange, firstName, lastName, cardNumber, showBuyForm, handleCancelPurchase, handleGoToProducts, errorMessage }) => {
+const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber, showCheckout, handleCancelPurchase, handleGoToProducts, errorMessage }) => {
     return (
         <>
-            {showBuyForm ? (
+            {showCheckout ? (
                 <>
                     <Flex justifyContent={"space-between"}>
                         <Heading
                             color="secondary.500"
                             marginBottom={"3%"}
                         >
-                            Purhchase Form
+                            Checkout
                         </Heading>
                         <Button
                             onClick={handleGoToProducts}
@@ -123,4 +123,4 @@ const BuyForm = ({ handleSubmit, handleChange, firstName, lastName, cardNumber, 
         </>
     );
 };
-export default BuyForm;
+export default Checkout;

@@ -13,7 +13,7 @@ import Products from './Products';
 
 
 const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
-    handleShowBuyForm, handleGoToProducts, totalPrice, showTotalPrice, handleShowTotalPrice }) => {
+    handleShowCheckout, handleGoToProducts, totalPrice, showTotalPrice, handleShowTotalPrice }) => {
     return (
         <>
             {showShoppingcart ? (
@@ -33,22 +33,36 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                             Go to products
                         </Button>
                     </Flex>
-                    {shopingCartProduct.map((shopCartProduct) => (
-                        <Flex
-                            align="center"
+                    <List
+                        w="100%"
+                        p={4}
+                        align="center"
+                    >
+                        <SimpleGrid
                             bg={"white"}
                             w="100%"
-                            key={shopCartProduct.id}
+                            direction="column"
                         >
-                            <List
-                                w="100%"
-                                p={4}
-                                align="center"
+                            <SimpleGrid
+                                columns={[4, null, 4]} spacing="40px" m={15}
+                                bg={"white"}
+                                w="98%"
+                                direction="column"
                             >
-                                <ListItem>
-                                    <Flex
-                                        align="center"
-                                        justify="space-between"
+
+                                <Text><b>Quantity</b></Text>
+                                <Text><b>Product</b></Text>
+                                <Text><b>Price</b></Text>
+                            </SimpleGrid>
+                            {shopingCartProduct.map((shopCartProduct) => (
+                                <ListItem
+                                    key={shopCartProduct.id}>
+                                    <SimpleGrid
+                                        columns={[4, null, 4]} spacing="40px" m={15}
+                                        bg={"white"}
+                                        w="98%"
+                                        direction="column"
+                                        key={shopCartProduct.id}
                                     >
                                         <Text>1</Text>
                                         <Text
@@ -57,7 +71,7 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                                         </Text>
                                         <Text
                                         >
-                                            {shopCartProduct.price}
+                                            ${shopCartProduct.price}
                                         </Text>
 
                                         <Button
@@ -66,51 +80,49 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                                         >
                                             Remove
                                         </Button>
-                                    </Flex>
+                                    </SimpleGrid>
                                 </ListItem>
-                            </List>
-                        </Flex>
-                    ))}
+
+
+                            ))}
+                        </SimpleGrid>
+                    </List>
+
                     {shopingCartProduct.length ? (
 
                         <>
                             <Flex
-                                align={"center"} justifyContent={"right"}>
+                                align={"center"} justifyContent={"right"} w="98%">
                                 {showTotalPrice ? (
-                                    <Flex m={"2em"} direction={'column'}>
-                                    <Text
-                                        fontSize={"2em"}
-                                    >
-                                        Total
-                                    </Text>
-                                        <Text
-                                            fontSize={"2em"}
+                                    
+                                        <Flex m={"1em"} direction={'column'}>
+                                            <Text
+                                                fontSize={"2em"}
                                             >
-                                            {totalPrice}
-                                        </Text>
+                                                <b>Total ${totalPrice}</b>
+                                            </Text>
                                         </Flex>
-
-                                ) : <Button
-                                    m={"2em"}
-                                    onClick={handleShowTotalPrice}
-                                >
-                                    Show total price
-                                </Button>
+                                        ) : <Button
+                                            onClick={handleShowTotalPrice}
+                                            m={"1em"}
+                                        >
+                                            Show total price
+                                        </Button>
+                                    
                                 }
                             </Flex>
                             <Flex
                                 justifyContent={"center"}
-                                m={"2"}
                                 align={"center"}
                             >
 
-                                <SimpleGrid columns={[2, null, 2]} spacing="40px" m={15} justifyContent={"center"}>
+                                <Box spacing="40px" m={15} justifyContent={"center"}>
                                     <Button
-                                        onClick={handleShowBuyForm}
+                                        onClick={handleShowCheckout}
                                         bg={"secondary.500"}
-                                    >Buy
+                                    >Go to Checkout
                                     </Button>
-                                </SimpleGrid>
+                                </Box>
                             </Flex></>
 
                     ) : null
