@@ -5,11 +5,14 @@ import {
     FormControl,
     Text,
     SimpleGrid,
-    Heading
+    Heading,
+    Image
 } from '@chakra-ui/react';
 import React from 'react';
 
 import { PRODUCTS } from '../../constants/constants';
+
+
 
 const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => {
     return (
@@ -25,6 +28,11 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => 
                                     <Box height="100%" key={product.id}
                                         align="center"
                                         justifyContent={"center"}>
+
+                                        <Image 
+                                        src={product.image} 
+                                        alt='Dan Abramov' 
+                                        boxSize='300px'/>
                                         <Text
                                             fontSize={'2em'}
                                             m={1}
@@ -33,13 +41,13 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => 
                                             {product.name}
                                         </Text>
                                         <Text
-                                        fontSize={'1.5em'}
-                                        m={1}
+                                            fontSize={'1.5em'}
+                                            m={1}
                                         >
-                                        Price: {product.price}
+                                            Price: {product.price}
                                         </Text>
                                         <Button
-                                        _hover={{ bg: 'secondary.500', color: 'black.500' }}
+                                            _hover={{ bg: 'secondary.500', color: 'black.500' }}
                                             value={product.name}
                                             onClick={handleClick}
                                             id={product.id}
