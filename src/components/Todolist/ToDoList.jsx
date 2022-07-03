@@ -15,6 +15,11 @@ const ToDoList = () => {
     const { token } = useContext(UserContext);
     const [text, setText] = useState('');
     const [arrayTask, setArrayTask] = useState([]);
+    const [completedArrayTasks, setCompletedArrayTasks] = useState([]);
+    const [activeArrayTasks, setActiveArrayTasks] = useState([]);
+    const [showActiveTasks, setShowActiveTasks] = useState(false)
+    const [showCompletedTasks, setShowCompletedTasks] = useState(false)
+    const [showAllTasks, setShowAllTasks] = useState(true)
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -26,39 +31,69 @@ const ToDoList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        var id = Math.floor(Math.random() * 10000)
         setArrayTask([
             ...arrayTask,
             {
                 name: text,
-                id: Math.floor(Math.random() * 10000),
+                id: id,
+                completed: false,
+            },
+        ]);
+        setActiveArrayTasks([
+            ...activeArrayTasks,
+            {
+                name: text,
+                id: id,
                 completed: false,
             },
         ]);
         setText("");
-        
+
     };
 
     const handleCompleted = (id) => {
         const newArray = arrayTask.map((task) =>
             task.id === id ? { ...task, completed: !task.completed } : task
         );
-
-        //console.log(newArray);
-
         setArrayTask(newArray);
+        setCompletedArrayTasks(newArray.filter((task) => task.completed === true))
+        setActiveArrayTasks(newArray.filter((task) => task.completed === false))
     };
 
     const handleDelete = (id) => {
-        setArrayTask(arrayTask.filter((task) => task.id !== id));
+        const newArray = arrayTask.filter((task) => task.id !== id)
+        setArrayTask(newArray);
+        setCompletedArrayTasks(newArray.filter((task) => task.completed === true))
+        setActiveArrayTasks(newArray.filter((task) => task.completed === false))
+
     };
 
-    const showCompleted = () => {
-        setArrayTask((prev) => prev.filter((task) => task.completed === true));
+    const handleShowCompleted = () => {
+        setCompletedArrayTasks(arrayTask.filter((task) => task.completed === true))
+        setShowActiveTasks(false)
+        setShowCompletedTasks(true)
+        setShowAllTasks(false)
     };
 
-    const showActive = () => {
-        setArrayTask((prev) => prev.filter((task) => task.completed === false));
+    const handleShowActive = () => {
+        setActiveArrayTasks(arrayTask.filter((task) => task.completed === false))
+        setShowActiveTasks(true)
+        setShowCompletedTasks(false)
+        setShowAllTasks(false)
     };
+
+    const handleShowAll = () => {
+        setShowActiveTasks(false)
+        setShowCompletedTasks(false)
+        setShowAllTasks(true)
+    };
+
+    const handleRemoveAll = () =>{
+        setActiveArrayTasks([])
+        setCompletedArrayTasks([])
+        setArrayTask([])
+    }
 
     return (
         <>
@@ -74,10 +109,17 @@ const ToDoList = () => {
                 />
                 <TodoTask
                     arrayTask={arrayTask}
+                    completedArrayTasks={completedArrayTasks}
+                    activeArrayTasks={activeArrayTasks}
                     handleCompleted={handleCompleted}
                     handleDelete={handleDelete}
-                    showCompleted={showCompleted}
-                    showActive={showActive}
+                    handleShowCompleted={handleShowCompleted}
+                    handleShowActive={handleShowActive}
+                    handleShowAll={handleShowAll}
+                    showActiveTasks={showActiveTasks}
+                    showAllTasks = {showAllTasks}
+                    showCompletedTasks = {showCompletedTasks}
+                    handleRemoveAll= {handleRemoveAll}
                 />
             </Flex>
         </>
