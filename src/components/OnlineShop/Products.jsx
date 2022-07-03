@@ -27,16 +27,23 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => 
                                         justifyContent={"center"}>
                                         <Text
                                             fontSize={'2em'}
-                                            m={4}
+                                            m={1}
                                             color={'Black.500'}
                                         >
                                             {product.name}
+                                        </Text>
+                                        <Text
+                                        fontSize={'1.5em'}
+                                        m={1}
+                                        >
+                                        Price: {product.price}
                                         </Text>
                                         <Button
                                         _hover={{ bg: 'secondary.500', color: 'black.500' }}
                                             value={product.name}
                                             onClick={handleClick}
                                             id={product.id}
+                                            name={product.price}
                                         >
                                             Add to cart</Button>
                                     </Box>
