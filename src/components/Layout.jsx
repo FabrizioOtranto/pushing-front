@@ -6,10 +6,10 @@ import Login from './Login';
 import Home from './Home';
 import Waits from './Waits';
 import Alerts from './Alerts';
-import DragAndDrop from './DragAndDrop';
+import FormUtils from './FormUtils/FormUtils';
 import ToDoList from './Todolist/ToDoList';
 import OnlineShop from './OnlineShop/OnlineShop';
-import SuccessBuy from './OnlineShop/SuccessBuy';
+import FileUpload from './FileUpload';
 
 const Layout = () => {
     return (
@@ -20,9 +20,9 @@ const Layout = () => {
                 <Route exact path="/home/todolist" element={<ToDoList />} />
                 <Route exact path="/home/waits" element={<Waits />} />
                 <Route exact path="/home/alerts" element={<Alerts />} />
-                <Route exact path="/home/draganddrop"element={<DragAndDrop />} />
+                <Route exact path="/home/formutils"element={<FormUtils />} />
                 <Route exact path="/home/onlineshop"element={<OnlineShop />} />
-                <Route exact path="/home/onlineshop/successBuy"element={<SuccessBuy />} />
+                <Route exact path="/home/fileupload"element={<FileUpload />} />
             </Routes>
         </Container>
     );

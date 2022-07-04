@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../context/userContext';
 import {
-    Button,
     CircularProgress,
     Heading,
     Flex,
     Text,
+    Input,
+    Button
 } from '@chakra-ui/react';
 
 import { Navigate } from 'react-router-dom';
@@ -13,37 +14,37 @@ import { Navigate } from 'react-router-dom';
 import '../App.css';
 import Navbar from './Navbar';
 
-const Waits = () => {
-    const [loading, setLoading] = useState(false);
+const FileUpload = () => {
     const { token } = useContext(UserContext);
-    const [message, setMessage] = useState(false);
-
+    const [mensage, setMessage] = useState('');
+    const [fileName, setFileName] = useState('');
+    const [showMessage, setShowMessage] = useState(false)
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
     }
 
-    const wait = () => {
-        setLoading(true);
-        setMessage(false)
-        setTimeout(() => {
-            setLoading(false);
-            setMessage(true)
-        }, 10000);
+    const handleFileName = (e) => {
+        setFileName(e.target.files[0].name)
     };
+
+    const handleMessage = () => {
+        setMessage(fileName)
+        setShowMessage(true)
+    }
 
     return (
         <>
             <Navbar />
             <Heading color="secondary.500" my={3}>
-                Waits
+                File Upload
             </Heading>
             <Text
                 align="center"
                 justifyContent={"center"}
                 fontSize="30px"
                 fontWeight={"bolder"}>
-                Once you click the button, you will see a loading mask during 10 seconds
+                Select the file you would like to upload
             </Text>
             <Flex
                 direction="column"
@@ -52,39 +53,40 @@ const Waits = () => {
                 align="center"
                 justifyContent={"center"}
             >
-                <Button
+                <Input
                     _hover={{ bg: 'secondary.500', color: 'black.500' }}
-                    onClick={wait}
+                    onChange={handleFileName}
                     bg="black.500"
                     color="white"
-                    id="wait"
-                    name="wait"
-
+                    id="fileUpload"
+                    name="fileUpload"
+                    type={"file"}
+                />
+                <Button
+                    _hover={{ bg: 'secondary.500', color: 'black.500' }}
+                    onClick={handleMessage}
+                    bg="black.500"
+                    color="white"
+                    id="fileUploadButton"
+                    name="fileUploadButton"
+                    m={'1em'}
                 >
-                    {loading ? 'Cargando' : 'Button'}
+                    Show file name
                 </Button>
-                {loading && (
-                    <CircularProgress
-                        size={40}
-                        isIndeterminate
-                        color="secondary.500"
-                        mt={10}
-                    />
-                )}
-                {message && (
+
+                {showMessage ? (
                     <Text
                         fontSize={70}
                         color={"secondary.500"}
                         id="message"
                         name="message"
-                        fontWeight={"bolder"}
-                    >
-                        You have waited for ten seconds, CONGRATULATIONS!
+                        fontWeight={"bolder"}>
+                        {mensage}
                     </Text>
-                )}
+                ) : null}
             </Flex>
         </>
     );
 };
 
-export default Waits;
+export default FileUpload;
