@@ -72,8 +72,7 @@ const Alerts = () => {
                 ))}
 
             </Flex>
-            <Flex justify="space-between" w="0%" mt={10}>
-
+            <Flex w="100%" mt={10}>
                 <Text
                     fontSize={"50px"}
                     color={"black.500"}>
@@ -87,7 +86,6 @@ const Alerts = () => {
                     color={"secondary.500"}>
                     {!result ? "" : message}
                 </Text>
-
             </Flex>
         </>
     );

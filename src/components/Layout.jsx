@@ -16,7 +16,7 @@ const Layout = () => {
         <Container maxWidth="container.xl">
             <Routes>
                 <Route exact path="/home" element={<Home />} />
-                <Route exact path="/" element={<Login />} />
+                <Route exact path="/" element={<Login /> } />
                 <Route exact path="/home/todolist" element={<ToDoList />} />
                 <Route exact path="/home/waits" element={<Waits />} />
                 <Route exact path="/home/alerts" element={<Alerts />} />
