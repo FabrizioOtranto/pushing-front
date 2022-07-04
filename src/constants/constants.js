@@ -104,54 +104,54 @@ export const PRODUCTS = [
         name: 'Black T-Shirt',
         id: 'blacktshirt',
         price: 15,
-        image: "https://i.ibb.co/jwZM6J5/Back-TShirt.png"
+        image: "/BackTShirt.png"
     },
     {
         name: 'White Pants',
         id: 'whitepants',
         price: 20,
-        image: "https://i.ibb.co/h7WMdWz/white-Pants.png"
+        image: "/whitePants.png"
 
     },
     {
         name: 'Red Cap',
         id: 'redcup',
         price: 10,
-        image: "https://i.ibb.co/wYzXGqG/redCup.png"
+        image: "/redCap.png"
 
     },
     {
         name: 'Black Jacket',
         id: 'blackJacket',
         price: 25,
-        image: "https://i.ibb.co/4SRPmZH/black-Jacket.png"
+        image: "/blackJacket.png"
     },
     {
         name: 'Pink Sweater',
         id: 'pinksweater',
         price: 18,
-        image: "https://i.ibb.co/MDDPMXn/pink-Sweater.png"
+        image: "/pinkSweater.png"
 
     },
     {
         name: 'White Shoes',
         id: 'whiteshoes',
         price: 30,
-        image: "https://i.ibb.co/fYCQq5j/white-Shoes.png"
+        image: "/whiteShoes.png"
 
     },
     {
         name: 'Black Socks',
         id: 'blacksocks',
         price: 10,
-        image: "https://i.ibb.co/r0F9Kwy/black-Socks.png"
+        image: "/blackSocks.png"
 
     },
     {
         name: 'Beige Shorts',
         id: 'beigepants',
         price: 19,
-        image: "https://i.ibb.co/hss2dqk/Beige-Shorts.png"
+        image: "/BeigeShorts.png"
 
     },
 
