@@ -54,7 +54,7 @@ export const YEAR = new Array(100).fill(0).map((_, idx) => idx + 1921);
 
 export const LINKS = [
     {
-        title: 'Todo List',
+        title: 'To Do List',
         path: '/home/todolist',
         id: 'todolistlink',
     },
@@ -69,9 +69,9 @@ export const LINKS = [
         id: 'alertslink',
     },
     {
-        title: 'Drag And Drop',
-        path: '/home/draganddrop',
-        id: 'dragAndDroplink',
+        title: 'Form Utils',
+        path: '/home/formutils',
+        id: 'formutilslink',
     },
     {
         title: 'Online Shop',
@@ -79,9 +79,9 @@ export const LINKS = [
         id: 'onlineshoplink',
     },
     {
-        title: 'In construction',
-        path: '/home/construction',
-        id: 'construction',
+        title: 'File Upload',
+        path: '/home/fileupload',
+        id: 'fileuploadlink',
     },
 ];
 
