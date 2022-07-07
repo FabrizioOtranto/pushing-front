@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const { logout, userName } = useContext(UserContext);
+    let randonNumber = Math.floor(Math.random() *10)
+    let usernameID = `user_${userName}_${randonNumber}`
 
     return (
         <Flex direction="column">
@@ -12,7 +14,12 @@ const Navbar = () => {
                 <Heading color="black.500">
                     <Link to="/home">Pushing IT</Link>
                 </Heading>
-                <Heading color="white">Welcome {userName} 😎 </Heading>
+                <Heading 
+                color="white"
+                id={usernameID}
+                >
+                    Welcome {userName} 😎 
+                </Heading>
                 <Button
                     _hover={{ bg: 'secondary.500', color: 'black.500' }}
                     onClick={logout}

@@ -43,7 +43,7 @@ const Waits = () => {
                 justifyContent={"center"}
                 fontSize="30px"
                 fontWeight={"bolder"}>
-                Once you click the button, you will see a loading mask during 10 seconds
+                Once you doble click the button, you will see a loading mask during 10 seconds
             </Text>
             <Flex
                 direction="column"
@@ -54,7 +54,7 @@ const Waits = () => {
             >
                 <Button
                     _hover={{ bg: 'secondary.500', color: 'black.500' }}
-                    onClick={wait}
+                    onDoubleClick={wait}
                     bg="black.500"
                     color="white"
                     id="wait"
