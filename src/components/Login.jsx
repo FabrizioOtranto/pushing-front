@@ -15,6 +15,7 @@ import {
     Select,
     Stack,
     Text,
+    Tooltip
 } from '@chakra-ui/react';
 import { UserContext } from '../context/userContext';
 import { DAY, GENDER, MONTH, YEAR } from '../constants/constants';
@@ -278,16 +279,19 @@ const Login = () => {
                                 {toggleForm
                                     ? 'Si ya estás registrado '
                                     : 'Aún no tenés cuenta? '}
+                                    <Tooltip label="Hey, doble click on me" aria-label='A tooltip'>
                                 <Text
                                     as="span"
                                     color="white"
                                     cursor="pointer"
-                                    onClick={() => setToggleForm(!toggleForm)}
+                                    onDoubleClick={() => setToggleForm(!toggleForm) }
+                                    id="registertoggle"
                                 >
                                     {toggleForm
                                         ? 'Iniciá sesión'
                                         : 'Registrate'}
                                 </Text>
+                                </Tooltip>
                             </Text>
                         </form>
                     </Flex>
