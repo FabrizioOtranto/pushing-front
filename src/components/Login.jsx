@@ -166,6 +166,7 @@ const Login = () => {
                                     type="password"
                                     color="white"
                                     bg="primary.300"
+                                    className='password'
                                     focusBorderColor="none"
                                     onChange={handleChange}
                                 />
