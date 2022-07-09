@@ -57,9 +57,9 @@ const Login = () => {
         let formIsValid = true;
 
         if (typeof info.user !== 'undefined') {
-            if (!info.user.match(/^[a-zA-Z]+$/)) {
+            if (!info.user.match(/^[a-zA-Z0-9]+$/)) {
                 formIsValid = false;
-                setErrorMessage('Username cannot have numbers or special characters');
+                setErrorMessage('Username cannot have special characters');
                 return formIsValid;
             }
         }
