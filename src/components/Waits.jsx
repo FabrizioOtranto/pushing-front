@@ -12,7 +12,7 @@ import { Navigate } from 'react-router-dom';
 
 import '../App.css';
 import Navbar from './Navbar';
-
+import { Helmet } from "react-helmet";
 const Waits = () => {
     const [loading, setLoading] = useState(false);
     const { token } = useContext(UserContext);
@@ -34,6 +34,9 @@ const Waits = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Waits</title>
+            </Helmet>
             <Navbar />
             <Heading color="secondary.500" my={3}>
                 Waits

@@ -11,7 +11,7 @@ import { useState, useContext } from "react";
 import 'react-datepicker/dist/react-datepicker.css'
 import Sliders from './Sliders';
 import DataPicker from './DataPicker';
-
+import { Helmet } from "react-helmet";
 const FormUtils = () => {
   const { token } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
@@ -41,6 +41,9 @@ const FormUtils = () => {
   }
   return (
     <>
+      <Helmet>
+        <title>Form Utils</title>
+      </Helmet>
       <Navbar />
       <Heading my={3} color="secondary.500">
         Form Utils

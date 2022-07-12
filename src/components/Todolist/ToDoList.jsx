@@ -10,6 +10,7 @@ import { UserContext } from '../../context/userContext';
 import Navbar from '../Navbar';
 import TodoInput from './TodoInput';
 import TodoTask from './TodoTask';
+import { Helmet } from "react-helmet";
 
 const ToDoList = () => {
     const { token } = useContext(UserContext);
@@ -89,7 +90,7 @@ const ToDoList = () => {
         setShowAllTasks(true)
     };
 
-    const handleRemoveAll = () =>{
+    const handleRemoveAll = () => {
         setActiveArrayTasks([])
         setCompletedArrayTasks([])
         setArrayTask([])
@@ -97,6 +98,9 @@ const ToDoList = () => {
 
     return (
         <>
+            <Helmet>
+                <title>TodoList</title>
+            </Helmet>
             <Navbar />
             <Heading my={3} color="secondary.500">
                 Todo List
@@ -117,9 +121,9 @@ const ToDoList = () => {
                     handleShowActive={handleShowActive}
                     handleShowAll={handleShowAll}
                     showActiveTasks={showActiveTasks}
-                    showAllTasks = {showAllTasks}
-                    showCompletedTasks = {showCompletedTasks}
-                    handleRemoveAll= {handleRemoveAll}
+                    showAllTasks={showAllTasks}
+                    showCompletedTasks={showCompletedTasks}
+                    handleRemoveAll={handleRemoveAll}
                 />
             </Flex>
         </>

@@ -9,8 +9,7 @@ import {
     Box
 } from '@chakra-ui/react';
 import React from 'react';
-import Products from './Products';
-
+import { Helmet } from "react-helmet";
 
 const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
     handleShowCheckout, handleGoToProducts, totalPrice, showTotalPrice, handleShowTotalPrice }) => {
@@ -18,6 +17,9 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
         <>
             {showShoppingcart ? (
                 <>
+                    <Helmet>
+                        <title>Shoping Cart</title>
+                    </Helmet>
                     <Flex justifyContent={"space-between"}>
                         <Heading
                             color="secondary.500"
@@ -94,21 +96,21 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                             <Flex
                                 align={"center"} justifyContent={"right"} w="98%">
                                 {showTotalPrice ? (
-                                    
-                                        <Flex m={"1em"} direction={'column'}>
-                                            <Text
-                                                fontSize={"2em"}
-                                            >
-                                                <b>Total ${totalPrice}</b>
-                                            </Text>
-                                        </Flex>
-                                        ) : <Button
-                                            onClick={handleShowTotalPrice}
-                                            m={"1em"}
+
+                                    <Flex m={"1em"} direction={'column'}>
+                                        <Text
+                                            fontSize={"2em"}
                                         >
-                                            Show total price
-                                        </Button>
-                                    
+                                            <b>Total ${totalPrice}</b>
+                                        </Text>
+                                    </Flex>
+                                ) : <Button
+                                    onClick={handleShowTotalPrice}
+                                    m={"1em"}
+                                >
+                                    Show total price
+                                </Button>
+
                                 }
                             </Flex>
                             <Flex

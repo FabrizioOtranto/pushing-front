@@ -11,17 +11,22 @@ import {
 import React from 'react';
 
 import { PRODUCTS } from '../../constants/constants';
-
+import { Helmet } from "react-helmet";
 
 
 const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => {
     return (
         <>
+
             {showProductsList ? (
-                <><Heading
-                    color="secondary.500">
-                    Products
-                </Heading><FormControl>
+                <>
+                    <Helmet>
+                        <title>Products</title>
+                    </Helmet>
+                    <Heading
+                        color="secondary.500">
+                        Products
+                    </Heading><FormControl>
                         <Flex justify="center" direction="column">
                             <SimpleGrid columns={[4, null, 4]} spacing="40px" m={15}>
                                 {PRODUCTS.map((product) => (
@@ -29,10 +34,10 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => 
                                         align="center"
                                         justifyContent={"center"}>
 
-                                        <Image 
-                                        src={product.image} 
-                                        alt='Dan Abramov' 
-                                        boxSize='300px'/>
+                                        <Image
+                                            src={product.image}
+                                            alt='Dan Abramov'
+                                            boxSize='300px' />
                                         <Text
                                             fontSize={'2em'}
                                             m={1}

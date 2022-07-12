@@ -6,6 +6,7 @@ import { Button, Flex, Heading, Text, Box, SimpleGrid } from '@chakra-ui/react';
 import Navbar from './Navbar';
 import { UserContext } from '../context/userContext';
 import { ALERTS } from '../constants/constants';
+import { Helmet } from "react-helmet";
 
 
 
@@ -50,6 +51,9 @@ const Alerts = () => {
     };
     return (
         <>
+            <Helmet>
+                <title>Alerts</title>
+            </Helmet>
             <Navbar />
             <Heading my={3} color="secondary.500">
                 Alerts
