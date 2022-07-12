@@ -13,7 +13,7 @@ import { Navigate } from 'react-router-dom';
 
 import '../App.css';
 import Navbar from './Navbar';
-
+import { Helmet } from "react-helmet";
 const FileUpload = () => {
     const { token } = useContext(UserContext);
     const [mensage, setMessage] = useState('');
@@ -35,6 +35,9 @@ const FileUpload = () => {
 
     return (
         <>
+            <Helmet>
+                <title>File Upload</title>
+            </Helmet>
             <Navbar />
             <Heading color="secondary.500" my={3}>
                 File Upload

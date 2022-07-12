@@ -9,12 +9,16 @@ import {
 } from '@chakra-ui/react';
 
 import React from 'react';
-
+import { Helmet } from "react-helmet";
 const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber, showCheckout, handleCancelPurchase, handleGoToProducts, errorMessage }) => {
     return (
         <>
+
             {showCheckout ? (
                 <>
+                    <Helmet>
+                        <title>Checkout</title>
+                    </Helmet>
                     <Flex justifyContent={"space-between"}>
                         <Heading
                             color="secondary.500"

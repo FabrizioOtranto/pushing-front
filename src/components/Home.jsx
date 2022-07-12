@@ -6,6 +6,7 @@ import { Text, SimpleGrid, Box } from '@chakra-ui/react';
 import Navbar from './Navbar';
 import { UserContext } from '../context/userContext';
 import { LINKS } from '../constants/constants';
+import { Helmet } from "react-helmet";
 
 const Home = () => {
     const { token } = useContext(UserContext);
@@ -15,6 +16,9 @@ const Home = () => {
     }
     return (
         <>
+            <Helmet>
+                <title>Home</title>
+            </Helmet>
             <Navbar />
             <SimpleGrid columns={[2, null, 2]} spacing="40px" m={20}>
                 {LINKS.map((link) => (
