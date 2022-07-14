@@ -11,13 +11,16 @@ import { useState, useContext } from "react";
 import 'react-datepicker/dist/react-datepicker.css'
 import Sliders from './Sliders';
 import DataPicker from './DataPicker';
+import HiddenSection from './HiddenSection';
 import { Helmet } from "react-helmet";
+
 const FormUtils = () => {
   const { token } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [sliderValue, setSliderValue] = useState(50)
   const [showDataPicker, setShowDataPicker] = useState(false)
   const [showSliders, setShowSliders] = useState(false)
+  const [showHiddenSection, setShowHiddenSection] = useState(false)
 
   const labelStyles = {
     mt: '2',
@@ -33,11 +36,19 @@ const FormUtils = () => {
   const handleShowdataPicker = () => {
     setShowDataPicker(true)
     setShowSliders(false)
+    setShowHiddenSection(false)
   }
 
   const handleShowSlider = () => {
     setShowSliders(true)
     setShowDataPicker(false)
+    setShowHiddenSection(false)
+  }
+
+  const handleShowHiddenText = () => {
+    setShowSliders(false)
+    setShowDataPicker(false)
+    setShowHiddenSection(true)
   }
   return (
     <>
@@ -73,6 +84,18 @@ const FormUtils = () => {
             Sliders
           </Text>
         </Box>
+        <Box bg="black.500" height="80px">
+          <Text
+            align="center"
+            fontSize={'1.5em'}
+            m={6}
+            color={'secondary.500'}
+            id={'showHiddenInput'}
+            onClick={handleShowHiddenText}
+          >
+            Hidden Text
+          </Text>
+        </Box>
       </SimpleGrid>
       <DataPicker
         startDate={startDate}
@@ -85,6 +108,9 @@ const FormUtils = () => {
         showSliders={showSliders}
         setSliderValue={setSliderValue}
       ></Sliders>
+      <HiddenSection
+        showHiddenSection={showHiddenSection}
+      ></HiddenSection>
     </>
   );
 };
