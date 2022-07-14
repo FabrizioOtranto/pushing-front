@@ -11,7 +11,7 @@ import { useState, useContext } from "react";
 import 'react-datepicker/dist/react-datepicker.css'
 import Sliders from './Sliders';
 import DataPicker from './DataPicker';
-import HiddenText from './HiddenText';
+import HiddenSection from './HiddenSection';
 import { Helmet } from "react-helmet";
 
 const FormUtils = () => {
@@ -20,7 +20,7 @@ const FormUtils = () => {
   const [sliderValue, setSliderValue] = useState(50)
   const [showDataPicker, setShowDataPicker] = useState(false)
   const [showSliders, setShowSliders] = useState(false)
-  const [showHiddenText, setShowHiddenText] = useState(false)
+  const [showHiddenSection, setShowHiddenSection] = useState(false)
 
   const labelStyles = {
     mt: '2',
@@ -36,19 +36,19 @@ const FormUtils = () => {
   const handleShowdataPicker = () => {
     setShowDataPicker(true)
     setShowSliders(false)
-    setShowHiddenText(false)
+    setShowHiddenSection(false)
   }
 
   const handleShowSlider = () => {
     setShowSliders(true)
     setShowDataPicker(false)
-    setShowHiddenText(false)
+    setShowHiddenSection(false)
   }
 
   const handleShowHiddenText = () => {
     setShowSliders(false)
     setShowDataPicker(false)
-    setShowHiddenText(true)
+    setShowHiddenSection(true)
   }
   return (
     <>
@@ -108,9 +108,9 @@ const FormUtils = () => {
         showSliders={showSliders}
         setSliderValue={setSliderValue}
       ></Sliders>
-      <HiddenText
-        showHiddenText={showHiddenText}
-      ></HiddenText>
+      <HiddenSection
+        showHiddenSection={showHiddenSection}
+      ></HiddenSection>
     </>
   );
 };
