@@ -163,6 +163,19 @@ const Login = () => {
                                         value={info.user}
                                         focusBorderColor="none"
                                         onChange={handleChange} />
+                                        <Input
+                                        name="user"
+                                        cy-get="user"
+                                        id="user-hidden"
+                                        type="text"
+                                        style={{
+                                            display: 'none'
+                                        }}
+                                        color="white"
+                                        bg="primary.300"
+                                        value={info.user}
+                                        focusBorderColor="none"
+                                        onChange={handleChange} />
                                 </FormControl>
 
                                 <FormControl isRequired mb={5}>
