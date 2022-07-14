@@ -1,0 +1,13 @@
+{
+    "routes": [
+        { "src": "/home", "dest": "/home/todolist", "status": 200 },
+        { "src": "/home/todolist", "dest": "/home", "status": 200 },
+        { "src": "/home/waits", "dest": "/home", "status": 200 },
+        { "src": "/home/alerts", "dest": "/home", "status": 200 },
+        { "src": "/home/onlineshop", "dest": "/home", "status": 200 },
+        { "src": "/home/fileupload", "dest": "/home", "status": 200 },
+        { "src": "/home/formutils", "dest": "/home", "status": 200 }
+
+]
+    
+  }
