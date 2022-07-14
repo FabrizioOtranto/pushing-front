@@ -12,7 +12,7 @@ const Navbar = () => {
         <Flex direction="column">
             <Flex justify="space-between" w="100%" p={3} align="center">
                 <Heading color="black.500">
-                    <Link to="/home">Pushing IT</Link>
+                    <Link to="/">Pushing IT</Link>
                 </Heading>
                 <Heading 
                 color="white"
