@@ -7,26 +7,26 @@ import { useNavigate } from 'react-router-dom';
 const usePost = () => {
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState('');
     const { login } = useContext(UserContext);
     const navigate = useNavigate();
 
     const execute = async ({ endpoint, postData }) => {
-        setLoading(true);
-        return axios
-            .post(`${BASE_URL}/${endpoint}`, { ...postData })
-            .then((response) => {
-                setData(response.data);
-                login(response.data);
-            })
-            .catch((error) => {
-                setError(true);
-                console.log('Error: ', error);
-            })
-            .finally(() => {
-                setLoading(false);
-                navigate('/home');
+        try {
+            setLoading(true);
+            const { data } = await axios.post(`${BASE_URL}/${endpoint}`, {
+                ...postData,
             });
+            setData(data);
+            login(data);
+            setLoading(false);
+            navigate('/home');
+        } catch (error) {
+            setError(error.response.data);
+            setLoading(false);
+            //console.log('Error: ', error.response.data);
+            //await alert('Error: ', error.response.data);
+        }
     };
 
     return {
