@@ -16,6 +16,7 @@ import {
     Stack,
     Text,
     Tooltip,
+    Image
 } from '@chakra-ui/react';
 import { UserContext } from '../context/userContext';
 import { DAY, GENDER, MONTH, YEAR } from '../constants/constants';
@@ -141,9 +142,11 @@ const Login = () => {
                 align="center"
                 direction="column"
             >
-                <Heading color="black.500" mb={3}>
-                    Pushing IT
-                </Heading>
+                <Image
+                    src={"logo.png"}
+                    alt='pushingIT'
+                    boxSize='25%' 
+                    m={"0.5em"}/>
                 {loading ? (
                     <h2>Cargando...</h2>
                 ) : (
