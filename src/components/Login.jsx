@@ -16,13 +16,11 @@ import {
     Stack,
     Text,
     Tooltip,
-    Image,
-    Box
 } from '@chakra-ui/react';
 import { UserContext } from '../context/userContext';
 import { DAY, GENDER, MONTH, YEAR } from '../constants/constants';
 import usePost from '../customHook/usePost';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 const initialState = {
     user: '',
@@ -35,7 +33,7 @@ const initialState = {
 const Login = () => {
     const [info, setInfo] = useState(initialState);
     const [toggleForm, setToggleForm] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('');
 
     const { execute, loading, error } = usePost();
     const { token } = useContext(UserContext);
@@ -55,7 +53,6 @@ const Login = () => {
         });
     };
 
-    var errors = {};
     const handleUserValidation = () => {
         let formIsValid = true;
 
@@ -79,12 +76,16 @@ const Login = () => {
                 )
             ) {
                 formIsValid = false;
-                setErrorMessage('Password must have a special character and a number');
+                setErrorMessage(
+                    'Password must have a special character and a number'
+                );
                 return formIsValid;
             }
             if (!info.pass.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
                 formIsValid = false;
-                setErrorMessage('Password must have between 6 and 16 characters');
+                setErrorMessage(
+                    'Password must have between 6 and 16 characters'
+                );
                 return formIsValid;
             }
         }
@@ -93,6 +94,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (handleUserValidation() && handlePasswordValidation()) {
             if (toggleForm) {
                 execute({
@@ -124,23 +126,24 @@ const Login = () => {
 
     return (
         <>
-            {toggleForm ?
+            {toggleForm ? (
                 <Helmet>
                     <title>Register</title>
                 </Helmet>
-                :
+            ) : (
                 <Helmet>
                     <title>Log in</title>
                 </Helmet>
-            }
-            <Flex minH="100vh" justify="center" align="center" direction="column">
-
-                <Image
-                    src="logo.png"
-                    alt='Pushing It'
-                    width={'30%'} 
-                    m="0.5em"
-                    />
+            )}
+            <Flex
+                minH="100vh"
+                justify="center"
+                align="center"
+                direction="column"
+            >
+                <Heading color="black.500" mb={3}>
+                    Pushing IT
+                </Heading>
                 {loading ? (
                     <h2>Cargando...</h2>
                 ) : (
@@ -168,9 +171,10 @@ const Login = () => {
                                         bg="primary.300"
                                         value={info.user}
                                         focusBorderColor="none"
-                                        onChange={handleChange} />
+                                        onChange={handleChange}
+                                    />
                                 </FormControl>
-
+                                {error && <Text color="red">{error}</Text>}
                                 <FormControl isRequired mb={5}>
                                     <FormLabel htmlFor="pass" color="white">
                                         Password
@@ -182,9 +186,10 @@ const Login = () => {
                                         type="password"
                                         color="white"
                                         bg="primary.300"
-                                        className='password'
+                                        className="password"
                                         focusBorderColor="none"
-                                        onChange={handleChange} />
+                                        onChange={handleChange}
+                                    />
                                 </FormControl>
                                 {toggleForm ? (
                                     <>
@@ -193,7 +198,10 @@ const Login = () => {
                                             isRequired
                                             mb={5}
                                         >
-                                            <FormLabel color="white" as="legend">
+                                            <FormLabel
+                                                color="white"
+                                                as="legend"
+                                            >
                                                 Gender
                                             </FormLabel>
                                             <RadioGroup
@@ -214,7 +222,10 @@ const Login = () => {
                                             </RadioGroup>
                                         </FormControl>
                                         <FormControl isRequired mb={5}>
-                                            <FormLabel htmlFor="day" color="white">
+                                            <FormLabel
+                                                htmlFor="day"
+                                                color="white"
+                                            >
                                                 Day of birth
                                             </FormLabel>
                                             <Select
@@ -226,7 +237,10 @@ const Login = () => {
                                                 name="day"
                                             >
                                                 {DAY.map((elem, idx) => (
-                                                    <option value={elem} key={idx}>
+                                                    <option
+                                                        value={elem}
+                                                        key={idx}
+                                                    >
                                                         {elem}
                                                     </option>
                                                 ))}
@@ -248,14 +262,20 @@ const Login = () => {
                                                 onChange={handleChange}
                                             >
                                                 {MONTH.map((elem, idx) => (
-                                                    <option value={idx} key={idx}>
+                                                    <option
+                                                        value={idx}
+                                                        key={idx}
+                                                    >
                                                         {elem}
                                                     </option>
                                                 ))}
                                             </Select>
                                         </FormControl>
                                         <FormControl isRequired mb={5}>
-                                            <FormLabel htmlFor="year" color="white">
+                                            <FormLabel
+                                                htmlFor="year"
+                                                color="white"
+                                            >
                                                 Year
                                             </FormLabel>
                                             <Select
@@ -267,7 +287,10 @@ const Login = () => {
                                                 name="year"
                                             >
                                                 {YEAR.map((elem, idx) => (
-                                                    <option value={elem} key={idx}>
+                                                    <option
+                                                        value={elem}
+                                                        key={idx}
+                                                    >
                                                         {elem}
                                                     </option>
                                                 ))}
@@ -276,7 +299,10 @@ const Login = () => {
                                     </>
                                 ) : null}
                                 {errorMessage ? (
-                                    <Text id="errorMessage" color={'red'}> {errorMessage}</Text>
+                                    <Text id="errorMessage" color={'red'}>
+                                        {' '}
+                                        {errorMessage}
+                                    </Text>
                                 ) : null}
 
                                 <Button
@@ -295,12 +321,17 @@ const Login = () => {
                                     {toggleForm
                                         ? 'Si ya estás registrado '
                                         : 'Aún no tenés cuenta? '}
-                                    <Tooltip label="Hey, doble click on me" aria-label='A tooltip'>
+                                    <Tooltip
+                                        label="Hey, doble click on me"
+                                        aria-label="A tooltip"
+                                    >
                                         <Text
                                             as="span"
                                             color="white"
                                             cursor="pointer"
-                                            onDoubleClick={() => setToggleForm(!toggleForm)}
+                                            onDoubleClick={() =>
+                                                setToggleForm(!toggleForm)
+                                            }
                                             id="registertoggle"
                                         >
                                             {toggleForm
@@ -313,7 +344,8 @@ const Login = () => {
                         </Flex>
                     </>
                 )}
-            </Flex></>
+            </Flex>
+        </>
     );
 };
 
