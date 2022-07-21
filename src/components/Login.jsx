@@ -313,6 +313,7 @@ const Login = () => {
                                     color="white"
                                     bg="black.500"
                                     type="submit"
+                                    id="submitForm"
                                     _hover={{
                                         bg: 'secondary.300',
                                         color: 'black.500',
