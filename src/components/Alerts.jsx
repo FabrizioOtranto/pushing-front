@@ -55,7 +55,7 @@ const Alerts = () => {
                 <title>Alerts</title>
             </Helmet>
             <Navbar />
-            <Heading my={3} color="secondary.500">
+            <Heading my={3} color="secondary.500" id="title">
                 Alerts
             </Heading>
             <Flex justify="space-between" w="100%" mt={10}  >

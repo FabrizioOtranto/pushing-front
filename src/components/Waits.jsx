@@ -16,7 +16,11 @@ import { Helmet } from "react-helmet";
 const Waits = () => {
     const [loading, setLoading] = useState(false);
     const { token } = useContext(UserContext);
-    const [message, setMessage] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [color, setColor] = useState(false)
+    const [colorMessage, setColorMessage] = useState(false)
+    const [message, setMessage] = useState("")
+  
 
 
     if (!token) {
@@ -25,11 +29,20 @@ const Waits = () => {
 
     const wait = () => {
         setLoading(true);
-        setMessage(false)
+        setShowMessage(false)
+        setColorMessage(false)
         setTimeout(() => {
             setLoading(false);
-            setMessage(true)
+            setShowMessage(true)
+            setColorMessage(true)
+            setColor(false)
+            setMessage("You have waited for ten seconds, CONGRATULATIONS")
         }, 10000);
+        setTimeout(() => {
+            setColor(true)
+            setColorMessage(false)
+            setMessage("You are a man of patience and have waited fifteen seconds")
+        }, 15000);
     };
 
     return (
@@ -75,16 +88,32 @@ const Waits = () => {
                         mt={10}
                     />
                 )}
-                {message && (
+                {showMessage && (
                     <Text
                         fontSize={70}
-                        color={"secondary.500"}
+                        
                         id="message"
                         name="message"
                         fontWeight={"bolder"}
+                        style={{
+                            color: color
+                                ? '#33ffff'
+                                : 'black',
+                        }}
                     >
-                        You have waited for ten seconds, CONGRATULATIONS!
+                        {message}
                     </Text>
+                )}
+                 {colorMessage && (
+                <Text
+                 fontSize={35}
+                 color= "secondary.500"
+                 id="colorChangeMessage"
+                 name="colorChangeMessage"
+                 fontWeight={"bolder"}
+             >
+                 Wait 5 more seconds
+                </Text>
                 )}
             </Flex>
         </>

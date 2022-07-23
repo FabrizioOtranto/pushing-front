@@ -23,6 +23,7 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                         <Heading
                             color="secondary.500"
                             marginBottom={"3%"}
+                            id="title"
                         >
                             Checkout
                         </Heading>

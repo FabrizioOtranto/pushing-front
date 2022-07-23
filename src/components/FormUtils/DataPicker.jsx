@@ -15,7 +15,7 @@ const DataPicker = ({ startDate, showDataPicker, setStartDate }) => {
         <>
             {showDataPicker ? (
             <>
-            <Heading color="secondary.500" my={3}>
+            <Heading color="secondary.500" my={3} id="title">
                     Data Picker
                 </Heading>
                 <DatePicker id="datePicker" selected={startDate} onChange={(date) => setStartDate(date)} /></>

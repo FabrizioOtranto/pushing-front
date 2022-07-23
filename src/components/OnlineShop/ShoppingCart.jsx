@@ -24,6 +24,7 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                         <Heading
                             color="secondary.500"
                             marginBottom={"3%"}
+                            id="title"
                         >
                             Shopping Cart
                         </Heading>
