@@ -26,7 +26,7 @@ const Sliders = ({ sliderValue, labelStyles, showSliders, setSliderValue }) => {
     <>
       {showSliders ? (
         <>
-          <Heading color="secondary.500" my={3}>
+          <Heading color="secondary.500" my={3} id="title">
             Slider
           </Heading><Box pt={6} pb={2}>
             <Slider aria-label='slider-ex-6' onChange={(val) => setSliderValue(val)}>

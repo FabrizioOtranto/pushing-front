@@ -31,7 +31,7 @@ const HiddenSection = ({ showHiddenSection }) => {
     <>
       {showHiddenSection ? (
         <>
-          <Heading color="secondary.500" my={3}>
+          <Heading color="secondary.500" my={3} id="title">
             Hidden Text
           </Heading>
           <form type='submit'>

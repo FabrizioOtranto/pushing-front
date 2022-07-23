@@ -24,7 +24,7 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => 
                         <title>Products</title>
                     </Helmet>
                     <Heading
-                        color="secondary.500">
+                        color="secondary.500" id="title">
                         Products
                     </Heading><FormControl>
                         <Flex justify="center" direction="column">

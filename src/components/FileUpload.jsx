@@ -39,7 +39,7 @@ const FileUpload = () => {
                 <title>File Upload</title>
             </Helmet>
             <Navbar />
-            <Heading color="secondary.500" my={3}>
+            <Heading color="secondary.500" my={3} id="title">
                 File Upload
             </Heading>
             <Text

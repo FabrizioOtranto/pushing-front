@@ -59,7 +59,7 @@ const FormUtils = () => {
       <Heading my={3} color="secondary.500">
         Form Utils
       </Heading>
-      <SimpleGrid columns={[2, null, 2]} spacing="40px" m={20}>
+      <SimpleGrid columns={[2, null, 2]} spacing="40px" m={20} id="title">
         <Box bg="black.500" height="80px" >
           <Text
             align="center"
