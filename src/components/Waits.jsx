@@ -38,14 +38,15 @@ const Waits = () => {
                 <title>Waits</title>
             </Helmet>
             <Navbar />
-            <Heading color="secondary.500" my={3}>
+            <Heading color="secondary.500" my={3} id="title">
                 Waits
             </Heading>
             <Text
                 align="center"
                 justifyContent={"center"}
                 fontSize="30px"
-                fontWeight={"bolder"}>
+                fontWeight={"bolder"}
+                id="description">
                 Once you doble click the button, you will see a loading mask during 10 seconds
             </Text>
             <Flex
