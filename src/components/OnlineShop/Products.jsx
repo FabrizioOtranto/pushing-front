@@ -6,7 +6,14 @@ import {
     Text,
     SimpleGrid,
     Heading,
-    Image
+    Image,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
 } from '@chakra-ui/react';
 import React from 'react';
 
@@ -14,7 +21,7 @@ import { PRODUCTS } from '../../constants/constants';
 import { Helmet } from "react-helmet";
 
 
-const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => {
+const Products = ({ handleClick, showProductsList, handleShowShoppingcart, showProductAddedModal, productAddedMessage, isOpen, onClose }) => {
     return (
         <>
 
@@ -76,6 +83,26 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart }) => 
                     </FormControl></>
             ) : null
             }
+            {showProductAddedModal ? (
+                                <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+                                <ModalOverlay />
+                                <ModalContent>
+                                    <ModalHeader
+                                        m={"1"}
+                                    >Message alert</ModalHeader>
+                                    <ModalCloseButton />
+                                    <ModalBody>
+                                        <Text>{productAddedMessage}</Text>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                    <Button bg={"secondary.500"} mr={3} onClick={onClose}>
+                                            Close
+                                        </Button>
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
+            ): 
+            null}
         </>
     );
 };
