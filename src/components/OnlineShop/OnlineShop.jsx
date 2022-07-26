@@ -176,7 +176,7 @@ const OnlineShop = () => {
             setTimeout(() => {
                 setShowSuccessBuyInformation(true)
                 setShowCircularBar(false)
-            }, 1000);
+            }, 10000);
         }
     }
 
