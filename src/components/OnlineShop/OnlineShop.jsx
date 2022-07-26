@@ -34,6 +34,9 @@ const OnlineShop = () => {
     const [showTotalPrice, setShowTotalPrice] = useState(false)
     const [showProductAddedModal, setShowProductAddedModal] = useState(false)
     const [productAddedMessage, setProductAddedMessage] = useState("")
+    const [showSuccessBuyInformation, setShowSuccessBuyInformation] = useState(false)
+    const [showCircularBar, setShowCircularBar] = useState(false)
+    const [showSuccessBuyModal, setShowSuccessBuyModal] = useState(false)
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -82,6 +85,11 @@ const OnlineShop = () => {
     const handleShowCheckout = () => {
         setShowShoppingCart(false)
         setShowCheckout(true)
+        var fullPrice = 0
+        shopingCartProduct.map(shopCartProduct => {
+            fullPrice = fullPrice + shopCartProduct.price
+        })
+        setTotalPrice(fullPrice)
     }
     const handleCancelPurchase = () => {
         setShowShoppingCart(true)
@@ -163,6 +171,12 @@ const OnlineShop = () => {
                 },
             ]);
             onOpen();
+            setShowSuccessBuyModal(true)
+            setShowCircularBar(true)
+            setTimeout(() => {
+                setShowSuccessBuyInformation(true)
+                setShowCircularBar(false)
+            }, 1000);
         }
     }
 
@@ -172,7 +186,11 @@ const OnlineShop = () => {
         setShowCheckout(false)
         onClose()
         setShopingCartProduct([])
+        setShowCircularBar(false)
+        setShowSuccessBuyInformation(false)
+        setShowSuccessBuyModal(false)
     }
+
 
     return (
         <>
@@ -225,6 +243,9 @@ const OnlineShop = () => {
                     shopingCartProduct={shopingCartProduct}
                     handleFinishProcess={handleFinishProcess}
                     totalPrice={totalPrice}
+                    showSuccessBuyInformation={showSuccessBuyInformation}
+                    showCircularBar={showCircularBar}
+                    showSuccessBuyModal={showSuccessBuyModal}
                 ></SuccessBuy>
             </Flex>
         </>
