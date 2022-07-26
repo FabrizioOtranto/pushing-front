@@ -8,14 +8,18 @@ import {
     ModalCloseButton,
     Button,
     Text,
+    CircularProgress,
+    Flex
 } from '@chakra-ui/react';
 import React from 'react';
 
 
-const SuccessBuy = ({ isOpen, onClose, formInfo, shopingCartProduct, handleFinishProcess, totalPrice }) => {
+const SuccessBuy = ({ isOpen, onClose, formInfo, showSuccessBuyModal, shopingCartProduct, handleFinishProcess, totalPrice, showSuccessBuyInformation, showCircularBar}) => {
+
     return (
+
         <>
-            {formInfo.length ? (
+            {showSuccessBuyModal ? (
                 <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
                     <ModalOverlay />
                     <ModalContent>
@@ -23,23 +27,41 @@ const SuccessBuy = ({ isOpen, onClose, formInfo, shopingCartProduct, handleFinis
                             m={"1"}
                         >Purchase has been completed successfully</ModalHeader>
                         <ModalCloseButton />
-                        <ModalBody>
-                            <Text>{formInfo[0].firstName} {formInfo[0].lastName} has succesfully purchased the following items</Text>
-
-                            {shopingCartProduct.map((shopCartProduct) => (
-                                <Text key={shopCartProduct.id}>{shopCartProduct.name}</Text>
-                            ))}
-                            <Text>The credit card used was {formInfo[0].cardNumber}</Text>
-                            <Text>You have spent ${totalPrice} </Text>
-
-                            
-                            
-                        </ModalBody>
+                        <Flex
+                            alignContent={"center"}
+                            justifyContent={"center"}>
+                            {showCircularBar ? (
+                                <CircularProgress
+                                    size={40}
+                                    isIndeterminate
+                                    color="secondary.500"
+                                    mt={10}
+                                />
+                            ) : null}
+                            {showSuccessBuyInformation ? (
+                                <ModalBody
+                                    alignContent={"center"}
+                                    justifyContent={"center"}
+                                >
+                                    <Text>{formInfo[0].firstName} {formInfo[0].lastName} has succesfully purchased the following items</Text>
+                                    {shopingCartProduct.map((shopCartProduct) => (
+                                        <Text key={shopCartProduct.id}>{shopCartProduct.name}</Text>
+                                    ))}
+                                    <Text>The credit card used was {formInfo[0].cardNumber}</Text>
+                                    <Text>You have spent ${totalPrice} </Text>
+                                </ModalBody>
+                            ) : null
+                            }
+                        </Flex>
                         <ModalFooter>
-                        <Button bg={"secondary.500"} mr={3} onClick={handleFinishProcess}>
-                                Thank you
-                            </Button>
+                            {showSuccessBuyInformation ? (
+                                <Button bg={"secondary.500"} mr={3} onClick={handleFinishProcess}>
+                                    Thank you
+                                </Button>
+                            ) : null
+                            }
                         </ModalFooter>
+
                     </ModalContent>
                 </Modal>
             ) : null

@@ -32,6 +32,11 @@ const OnlineShop = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [totalPrice, setTotalPrice] = useState("")
     const [showTotalPrice, setShowTotalPrice] = useState(false)
+    const [showProductAddedModal, setShowProductAddedModal] = useState(false)
+    const [productAddedMessage, setProductAddedMessage] = useState("")
+    const [showSuccessBuyInformation, setShowSuccessBuyInformation] = useState(false)
+    const [showCircularBar, setShowCircularBar] = useState(false)
+    const [showSuccessBuyModal, setShowSuccessBuyModal] = useState(false)
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -55,10 +60,14 @@ const OnlineShop = () => {
                     id: e.target.id,
                 },
             ]);
-            alert(`${e.target.value} has been added to the shopping cart`)
+            setProductAddedMessage(`${e.target.value} has been added to the shopping cart`)
+            setShowProductAddedModal(true)
+            onOpen()
         }
         else {
-            alert(`${e.target.value} is already in the shoping cart. You cannot add the same product twice`)
+            setProductAddedMessage(`${e.target.value} is already in the shoping cart. You cannot add the same product twice`)
+            setShowProductAddedModal(true)
+            onOpen()
         }
     }
     const handleShowShoppingcart = () => {
@@ -76,6 +85,11 @@ const OnlineShop = () => {
     const handleShowCheckout = () => {
         setShowShoppingCart(false)
         setShowCheckout(true)
+        var fullPrice = 0
+        shopingCartProduct.map(shopCartProduct => {
+            fullPrice = fullPrice + shopCartProduct.price
+        })
+        setTotalPrice(fullPrice)
     }
     const handleCancelPurchase = () => {
         setShowShoppingCart(true)
@@ -157,6 +171,12 @@ const OnlineShop = () => {
                 },
             ]);
             onOpen();
+            setShowSuccessBuyModal(true)
+            setShowCircularBar(true)
+            setTimeout(() => {
+                setShowSuccessBuyInformation(true)
+                setShowCircularBar(false)
+            }, 1000);
         }
     }
 
@@ -166,7 +186,11 @@ const OnlineShop = () => {
         setShowCheckout(false)
         onClose()
         setShopingCartProduct([])
+        setShowCircularBar(false)
+        setShowSuccessBuyInformation(false)
+        setShowSuccessBuyModal(false)
     }
+
 
     return (
         <>
@@ -179,6 +203,10 @@ const OnlineShop = () => {
                     handleClick={handleClick}
                     showProductsList={showProductsList}
                     handleShowShoppingcart={handleShowShoppingcart}
+                    productAddedMessage={productAddedMessage}
+                    showProductAddedModal={showProductAddedModal}
+                    isOpen={isOpen}
+                    onClose={onClose}
                 >
 
                 </Products>
@@ -215,6 +243,9 @@ const OnlineShop = () => {
                     shopingCartProduct={shopingCartProduct}
                     handleFinishProcess={handleFinishProcess}
                     totalPrice={totalPrice}
+                    showSuccessBuyInformation={showSuccessBuyInformation}
+                    showCircularBar={showCircularBar}
+                    showSuccessBuyModal={showSuccessBuyModal}
                 ></SuccessBuy>
             </Flex>
         </>
