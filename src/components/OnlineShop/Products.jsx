@@ -76,6 +76,7 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart, showP
                                 <Button
                                     bg={"secondary.500"}
                                     onClick={handleShowShoppingcart}
+                                    id='goShoppingCart'
                                 >Go to shopping cart
                                 </Button>
                             </Flex>
@@ -95,7 +96,7 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart, showP
                                         <Text>{productAddedMessage}</Text>
                                     </ModalBody>
                                     <ModalFooter>
-                                    <Button bg={"secondary.500"} mr={3} onClick={onClose}>
+                                    <Button bg={"secondary.500"} mr={3} onClick={onClose} id="closeModal">
                                             Close
                                         </Button>
                                     </ModalFooter>
