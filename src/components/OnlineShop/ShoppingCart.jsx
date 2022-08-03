@@ -102,7 +102,13 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                                         <Text
                                             fontSize={"2em"}
                                         >
-                                            <b>Total ${totalPrice}</b>
+                                            <b>Total $</b>
+                                        </Text>
+                                        <Text
+                                            fontSize={"2em"}
+                                            id={'price'}
+                                        >
+                                            <b>{totalPrice}</b>
                                         </Text>
                                     </Flex>
                                 ) : <Button
