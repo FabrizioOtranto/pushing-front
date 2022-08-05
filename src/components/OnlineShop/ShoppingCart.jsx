@@ -69,10 +69,14 @@ const ShoppingCart = ({ shopingCartProduct, handleDelete, showShoppingcart,
                                     >
                                         <Text>1</Text>
                                         <Text
+                                            id='productName'
+                                            name={shopCartProduct.name}
                                         >
                                             {shopCartProduct.name}
                                         </Text>
                                         <Text
+                                            id="productPrice"
+                                            name={shopCartProduct.price}
                                         >
                                             ${shopCartProduct.price}
                                         </Text>
