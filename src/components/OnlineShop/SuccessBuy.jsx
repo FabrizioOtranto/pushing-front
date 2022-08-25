@@ -14,7 +14,7 @@ import {
 import React from 'react';
 
 
-const SuccessBuy = ({ isOpen, onClose, formInfo, showSuccessBuyModal, shopingCartProduct, handleFinishProcess, totalPrice, showSuccessBuyInformation, showCircularBar}) => {
+const SuccessBuy = ({ isOpen, onClose, formInfo, showSuccessBuyModal, shopingCartProduct, handleFinishProcess, totalPrice, showSuccessBuyInformation, showCircularBar }) => {
 
     return (
 
@@ -45,10 +45,24 @@ const SuccessBuy = ({ isOpen, onClose, formInfo, showSuccessBuyModal, shopingCar
                                 >
                                     <Text>{formInfo[0].firstName} {formInfo[0].lastName} has succesfully purchased the following items</Text>
                                     {shopingCartProduct.map((shopCartProduct) => (
-                                        <Text key={shopCartProduct.id}>{shopCartProduct.name}</Text>
+                                        <Text
+                                            key={shopCartProduct.id}
+                                            id={shopCartProduct.name}
+                                        >
+                                            {shopCartProduct.name}</Text>
                                     ))}
-                                    <Text>The credit card used was {formInfo[0].cardNumber}</Text>
-                                    <Text>You have spent ${totalPrice} </Text>
+                                    <Text
+                                    >The credit card used was
+                                    </Text>
+                                    <Text
+                                        id="creditCard">
+                                        {formInfo[0].cardNumber}
+                                    </Text>
+                                    <Text
+                                    id='totalPrice'
+                                    >
+                                        You have spent ${totalPrice} 
+                                        </Text>
                                 </ModalBody>
                             ) : null
                             }
