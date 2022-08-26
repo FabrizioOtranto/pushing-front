@@ -43,7 +43,9 @@ const SuccessBuy = ({ isOpen, onClose, formInfo, showSuccessBuyModal, shopingCar
                                     alignContent={"center"}
                                     justifyContent={"center"}
                                 >
-                                    <Text>{formInfo[0].firstName} {formInfo[0].lastName} has succesfully purchased the following items</Text>
+                                    <Text
+                                    id="name"
+                                    >{formInfo[0].firstName} {formInfo[0].lastName} has succesfully purchased the following items</Text>
                                     {shopingCartProduct.map((shopCartProduct) => (
                                         <Text
                                             key={shopCartProduct.id}
