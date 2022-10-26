@@ -43,7 +43,7 @@ export const MONTH = [
     'May',
     'June',
     'July',
-    'Agugust',
+    'August',
     'September',
     'October',
     'November',
