@@ -177,7 +177,7 @@ const Login = () => {
                                         onChange={handleChange}
                                     />
                                 </FormControl>
-                                {error && <Text color="red">{error}</Text>}
+                                {error && <Text color="red" id='messageError'>{error}</Text>}
                                 <FormControl isRequired mb={5}>
                                     <FormLabel htmlFor="pass" color="white">
                                         Password
