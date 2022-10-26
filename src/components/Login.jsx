@@ -303,7 +303,6 @@ const Login = () => {
                                 ) : null}
                                 {errorMessage ? (
                                     <Text id="errorMessage" color={'red'}>
-                                        {' '}
                                         {errorMessage}
                                     </Text>
                                 ) : null}
