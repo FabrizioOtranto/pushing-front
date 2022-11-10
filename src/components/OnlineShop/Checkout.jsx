@@ -94,7 +94,9 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                                 <Text
                                     color={"red"}
                                     align="center"
-                                    justifyContent={'center'}>
+                                    justifyContent={'center'}
+                                    id="errorMessage"
+                                    >
                                     {errorMessage}
                                 </Text>
 
