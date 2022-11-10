@@ -49,12 +49,15 @@ const Products = ({ handleClick, showProductsList, handleShowShoppingcart, showP
                                             fontSize={'2em'}
                                             m={1}
                                             color={'Black.500'}
+                                            id='name'
+
                                         >
                                             {product.name}
                                         </Text>
                                         <Text
                                             fontSize={'1.5em'}
                                             m={1}
+                                            id='price'
                                         >
                                             Price: {product.price}
                                         </Text>
