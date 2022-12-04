@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://pushing-it-backend.herokuapp.com/api';
+export const BASE_URL = 'https://pushing-it.onrender.com/api';
 
 //
 export const GENDER = ['Male', 'Female', 'Other'];
