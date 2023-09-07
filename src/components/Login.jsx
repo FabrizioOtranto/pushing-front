@@ -111,15 +111,14 @@ const Login = () => {
                     },
                 });
             } else {
-                setTimeout(() => {
-                    execute({
-                        endpoint: 'login',
-                        postData: {
-                            username: info.user,
-                            password: info.pass,
-                        },
-                    });
-                }, 20000);
+                execute({
+                    endpoint: 'login',
+                    postData: {
+                        username: info.user,
+                        password: info.pass,
+                    },
+                });
+
             }
         }
     };
