@@ -97,6 +97,7 @@ const Login = () => {
         e.preventDefault();
 
         if (handleUserValidation() && handlePasswordValidation()) {
+
             if (toggleForm) {
                 execute({
                     endpoint: 'register',
@@ -110,13 +111,15 @@ const Login = () => {
                     },
                 });
             } else {
-                execute({
-                    endpoint: 'login',
-                    postData: {
-                        username: info.user,
-                        password: info.pass,
-                    },
-                });
+                setTimeout(() => {
+                    execute({
+                        endpoint: 'login',
+                        postData: {
+                            username: info.user,
+                            password: info.pass,
+                        },
+                    });
+                }, 20000);
             }
         }
     };
@@ -145,8 +148,8 @@ const Login = () => {
                 <Image
                     src={"logo.png"}
                     alt='pushingIT'
-                    boxSize='25%' 
-                    m={"0.5em"}/>
+                    boxSize='25%'
+                    m={"0.5em"} />
                 {loading ? (
                     <h2>Cargando...</h2>
                 ) : (
