@@ -54,6 +54,7 @@ const Products = ({
   const { token } = useContext(UserContext);
 
   const [preLoading, setPreLoading] = useState(true);
+  const [isButtonDisabled, setDisabledButton] = useState(true);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState(
     PRODUCTS.slice(0, PRODUCTS_PER_PAGE)
@@ -95,6 +96,7 @@ const Products = ({
   const deletingDisclosure = useDisclosure();
 
   const saveEdit = async (product) => {
+    setDisabledButton(true)
     editingDisclosure.onClose();
 
     try {
@@ -328,28 +330,26 @@ const Products = ({
               <FormControl isRequired>
                 <FormLabel>Product price</FormLabel>
 
-                <NumberInput
-                  onChange={(valueString) => {
-                    if (!valueString.includes(".")) return;
-                    if (!valueString.match(/^\d+(\.\d+)?$/)) return;
-
-                    const price = Number(valueString);
-
-                    setEditingProduct({
-                      ...editingProduct,
-                      price: !isNaN(price) ? price : 0,
-                      priceStr: valueString,
-                    });
+                <Input
+                  onChange={(e) => {
+                    const amount = e.target.value;
+                    if (!(amount > 0)) {
+                      setDisabledButton(true);
+                      return;
+                    }
+                    if (amount.split('.')[0].length <= 3 && amount.split('.')[1].length <= 2) {
+                      if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
+                        setDisabledButton(false);
+                        setEditingProduct({
+                          ...editingProduct,
+                          price: Number(amount),
+                        });
+                      }
+                    } else {
+                      setDisabledButton(true);
+                    }
                   }}
-                  value={editingProduct.priceStr ?? editingProduct.price}
-                  min={0}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
+                />
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Product image url</FormLabel>
@@ -370,6 +370,7 @@ const Products = ({
                 mr={3}
                 onClick={() => saveEdit(editingProduct)}
                 id="saveEdit"
+                disabled={isButtonDisabled}
               >
                 Save
               </Button>
