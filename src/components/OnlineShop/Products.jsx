@@ -138,7 +138,9 @@ const Products = ({
                             _hover={{ bg: "secondary.500", color: "black.500" }}
                             name={product.name}
                             //onClick={handleClick}
-                            id={product._id}
+                            id={`edit-${product.id}`}
+                            data-cy={`edit-${product.id}`}
+
                             value={product.price}
                             aria-label="Edit"
                             icon={<IconEdit />}
@@ -149,7 +151,8 @@ const Products = ({
                             _hover={{ bg: "secondary.500", color: "black.500" }}
                             name={product.name}
                             //onClick={handleClick}
-                            id={product._id}
+                            id={`delete-${product.id}`}
+                            data-cy={`delete-${product.id}`}
                             value={product.price}
                             aria-label="Add to cart"
                             icon={<IconTrash />}
@@ -166,6 +169,8 @@ const Products = ({
                                 product._id
                               );
                             }}
+                            id={`add-to-cart-${product.id}`}
+                            data-cy={`add-to-cart-${product.id}`}
                             aria-label="Add to cart"
                             icon={<IconShoppingCartPlus />}
                           />
@@ -180,6 +185,7 @@ const Products = ({
                   bg={"secondary.500"}
                   onClick={handleShowShoppingcart}
                   id="goShoppingCart"
+                  data-cy="goShoppingCart"
                   icon
                 >
                   Go to shopping cart

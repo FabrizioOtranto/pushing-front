@@ -102,7 +102,7 @@ const ToDoList = () => {
                 <title>TodoList</title>
             </Helmet>
             <Navbar />
-            <Heading my={3} color="secondary.500" id="title">
+            <Heading my={3} color="secondary.500" id="title" data-cy='title'>
                 Todo List
             </Heading>
             <Flex justify="center" direction="column" m="20">

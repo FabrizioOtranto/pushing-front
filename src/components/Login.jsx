@@ -169,7 +169,7 @@ const Login = () => {
                                     </FormLabel>
                                     <Input
                                         name="user"
-                                        cy-get="user"
+                                        data-cy="user"
                                         id="user"
                                         type="text"
                                         color="white"
@@ -179,7 +179,7 @@ const Login = () => {
                                         onChange={handleChange}
                                     />
                                 </FormControl>
-                                {error && <Text color="red" id='messageError'>{error}</Text>}
+                                {error && <Text color="red" id='messageError' data-cy='messageError'>{error}</Text>}
                                 <FormControl isRequired mb={5}>
                                     <FormLabel htmlFor="pass" color="white">
                                         Password
@@ -188,6 +188,7 @@ const Login = () => {
                                         name="pass"
                                         value={info.pass}
                                         id="pass"
+                                        data-cy="pass"
                                         type="password"
                                         color="white"
                                         bg="primary.300"
@@ -219,6 +220,7 @@ const Login = () => {
                                                         <Radio
                                                             key={idx}
                                                             value={elem}
+                                                            data-cy={elem}
                                                         >
                                                             {elem}
                                                         </Radio>
@@ -240,6 +242,7 @@ const Login = () => {
                                                 focusBorderColor="none"
                                                 onChange={handleChange}
                                                 name="day"
+                                                data-cy="day"
                                             >
                                                 {DAY.map((elem, idx) => (
                                                     <option
@@ -260,6 +263,7 @@ const Login = () => {
                                             </FormLabel>
                                             <Select
                                                 id="month"
+                                                data-cy="month"
                                                 bg="primary.300"
                                                 color="black.500"
                                                 focusBorderColor="none"
@@ -285,6 +289,7 @@ const Login = () => {
                                             </FormLabel>
                                             <Select
                                                 id="year"
+                                                data-cy="year"
                                                 bg="primary.300"
                                                 color="black.500"
                                                 focusBorderColor="none"
@@ -304,7 +309,7 @@ const Login = () => {
                                     </>
                                 ) : null}
                                 {errorMessage ? (
-                                    <Text id="errorMessage" color={'red'}>
+                                    <Text id="errorMessage" color={'red'} data-cy='errorMessage'>
                                         {errorMessage}
                                     </Text>
                                 ) : null}
@@ -315,6 +320,7 @@ const Login = () => {
                                     bg="black.500"
                                     type="submit"
                                     id="submitForm"
+                                    data-cy="submitForm"
                                     _hover={{
                                         bg: 'secondary.300',
                                         color: 'black.500',
@@ -338,6 +344,7 @@ const Login = () => {
                                                 setToggleForm(!toggleForm)
                                             }
                                             id="registertoggle"
+                                            data-cy="registertoggle"
                                         >
                                             {toggleForm
                                                 ? 'Iniciá sesión'

@@ -27,6 +27,7 @@ const Navbar = () => {
                     color="white"
                     id="logout"
                     name="logout"
+                    data-cy="logout"
                 >
                     Logout
                 </Button>

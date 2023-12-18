@@ -37,7 +37,7 @@ const HiddenSection = ({ showHiddenSection }) => {
           <form type='submit'>
             <Text
               name="text"
-              cy-get="text"
+              data-cy="text"
               id="text"
               type="text"
               style={{
@@ -52,7 +52,7 @@ const HiddenSection = ({ showHiddenSection }) => {
 
             <Input
               name="input"
-              cy-get="input"
+              data-cy="input"
               id="input"
               type="text"
               style={{

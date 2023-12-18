@@ -34,6 +34,7 @@ const ShoppingCart = ({
             </Heading>
             <Button
               onClick={handleGoToProducts}
+              data-cy ='goProducts'
               _hover={{ bg: "secondary.500", color: "black.500" }}
             >
               Go to products
@@ -115,7 +116,7 @@ const ShoppingCart = ({
               </Flex>
               <Flex justifyContent={"center"} align={"center"}>
                 <Box spacing="40px" m={15} justifyContent={"center"}>
-                  <Button onClick={handleShowCheckout} bg={"secondary.500"}>
+                  <Button onClick={handleShowCheckout} bg={"secondary.500"} data-cy='goCheckout' id='goCheckout'>
                     Go to Checkout
                   </Button>
                 </Box>

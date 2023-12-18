@@ -20,7 +20,7 @@ const Waits = () => {
     const [color, setColor] = useState(false)
     const [colorMessage, setColorMessage] = useState(false)
     const [message, setMessage] = useState("")
-  
+
 
 
     if (!token) {
@@ -59,7 +59,8 @@ const Waits = () => {
                 justifyContent={"center"}
                 fontSize="30px"
                 fontWeight={"bolder"}
-                id="description">
+                id="description"
+                data-cy="description">
                 Once you doble click the button, you will see a loading mask during 10 seconds
             </Text>
             <Flex
@@ -76,6 +77,7 @@ const Waits = () => {
                     color="white"
                     id="wait"
                     name="wait"
+                    data-cy="wait"
 
                 >
                     {loading ? 'Cargando' : 'Button'}
@@ -91,8 +93,9 @@ const Waits = () => {
                 {showMessage && (
                     <Text
                         fontSize={70}
-                        
+
                         id="message"
+                        data-cy="message"
                         name="message"
                         fontWeight={"bolder"}
                         style={{
@@ -104,16 +107,17 @@ const Waits = () => {
                         {message}
                     </Text>
                 )}
-                 {colorMessage && (
-                <Text
-                 fontSize={35}
-                 color= "secondary.500"
-                 id="colorChangeMessage"
-                 name="colorChangeMessage"
-                 fontWeight={"bolder"}
-             >
-                 Wait 5 more seconds
-                </Text>
+                {colorMessage && (
+                    <Text
+                        fontSize={35}
+                        color="secondary.500"
+                        id="colorChangeMessage"
+                        data-cy="colorChangeMessage"
+                        name="colorChangeMessage"
+                        fontWeight={"bolder"}
+                    >
+                        Wait 5 more seconds
+                    </Text>
                 )}
             </Flex>
         </>

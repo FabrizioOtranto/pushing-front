@@ -29,6 +29,7 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                         </Heading>
                         <Button
                             onClick={handleGoToProducts}
+                            data-cy ='goProducts'
                             _hover={{ bg: 'secondary.500', color: 'black.500' }}
                         >
                             Go to products
@@ -51,7 +52,7 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                                     </FormLabel>
                                     <Input
                                         name="firstName"
-                                        cy-get="firstName"
+                                        data-cy="firstName"
                                         id="FirstName"
                                         type="text"
                                         color="white"
@@ -68,6 +69,7 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                                         name="lastName"
                                         value={lastName}
                                         id="lastName"
+                                        data-cy="lastName"
                                         type="text"
                                         color="white"
                                         bg="primary.300"
@@ -82,6 +84,7 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                                         name="cardNumber"
                                         value={cardNumber}
                                         id="cardNumber"
+                                        data-cy="cardNumber"
                                         type="number"
                                         color="white"
                                         bg="primary.300"
@@ -96,7 +99,8 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                                     align="center"
                                     justifyContent={'center'}
                                     id="errorMessage"
-                                    >
+                                    data-cy="errorMessage"
+                                >
                                     {errorMessage}
                                 </Text>
 
@@ -107,12 +111,14 @@ const Checkout = ({ handleSubmit, handleChange, firstName, lastName, cardNumber,
                                     <Button
                                         type="submit"
                                         _hover={{ bg: 'green', color: 'black.500' }}
+                                        data-cy ='purchase'
                                     >
                                         Purchase
                                     </Button>
                                     <Button
                                         onClick={handleCancelPurchase}
                                         _hover={{ bg: 'red', color: 'black.500' }}
+                                        data-cy ='cancel'
                                         m={"2"}
                                     >
                                         Cancel

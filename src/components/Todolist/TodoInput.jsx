@@ -11,7 +11,7 @@ const TodoInput = ({ handlechange, text, handleSubmit }) => {
                 <Flex  w="100%">
                 <Input
                     name="task"
-                    cy-get="task"
+                    data-cy="task"
                     id="task"
                     type="text"
                     color="white"
@@ -20,7 +20,7 @@ const TodoInput = ({ handlechange, text, handleSubmit }) => {
                     onChange={handlechange}
                     value={text}
                 />
-                <Button type="submit" id="sendTask">
+                <Button type="submit" id="sendTask" data-cy="sendTask">
                     Send
                 </Button>
                 </Flex>
