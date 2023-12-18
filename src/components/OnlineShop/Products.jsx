@@ -18,6 +18,14 @@ import {
   Tooltip,
   Skeleton,
   HStack,
+  useDisclosure,
+  Input,
+  FormLabel,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -39,6 +47,9 @@ const Products = ({
   productAddedMessage,
   isOpen,
   onClose,
+  setProductAddedMessage,
+  setShowProductAddedModal,
+  onOpen,
 }) => {
   const { token } = useContext(UserContext);
 
@@ -50,7 +61,7 @@ const Products = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
 
-  useEffect(() => {
+  const getProducts = () => {
     fetch(
       `${BASE_URL}/products?page=${currentPage}&limit=${PRODUCTS_PER_PAGE}`,
       {
@@ -75,7 +86,75 @@ const Products = ({
       .catch((res) => {
         console.log(res);
       });
-  }, [currentPage, setProducts, setMaxPages, setLoading]);
+  };
+
+  const [editingProduct, setEditingProduct] = useState(undefined);
+  const editingDisclosure = useDisclosure();
+
+  const [deletingProduct, setDeletingProduct] = useState(undefined);
+  const deletingDisclosure = useDisclosure();
+
+  const saveEdit = async (product) => {
+    editingDisclosure.onClose();
+
+    try {
+      const res = await fetch(`${BASE_URL}/product/${product._id}`, {
+        method: "put",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: product.name,
+          price: product.price,
+          img: product.img,
+        }),
+      });
+
+      console.log(res, await res.json());
+
+      if (res.status === 202) {
+        getProducts();
+
+        setProductAddedMessage(`${product.name} has been edited`);
+        setShowProductAddedModal(true);
+        onOpen();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    setEditingProduct(undefined);
+  };
+
+  const deleteProd = async (product) => {
+    editingDisclosure.onClose();
+
+    try {
+      const res = await fetch(`${BASE_URL}/product/${product._id}`, {
+        method: "delete",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(res, await res.json());
+
+      if (res.status === 202) {
+        getProducts();
+
+        setProductAddedMessage(`${product.name} has been deleted`);
+        setShowProductAddedModal(true);
+        onOpen();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    setDeletingProduct(undefined);
+  };
+
+  useEffect(getProducts, [currentPage, setProducts, setMaxPages, setLoading]);
 
   return (
     <>
@@ -94,6 +173,7 @@ const Products = ({
                   key={index}
                   _hover={{ bg: "secondary.500", color: "black.500" }}
                   onClick={() => {
+                    setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
                     setLoading(true);
                     setCurrentPage(index + 1);
                   }}
@@ -108,7 +188,7 @@ const Products = ({
             <Flex justify="center" direction="column">
               <SimpleGrid columns={[4, null, 4]} spacing="40px" m={15}>
                 {products.map((product) => (
-                  <Skeleton isLoaded={!loading} key={product._id}>
+                  <Skeleton isLoaded={!loading} key={product.id}>
                     <Box height="100%" align="center" justifyContent={"center"}>
                       <Image
                         src={product.img}
@@ -137,10 +217,12 @@ const Products = ({
                           <IconButton
                             _hover={{ bg: "secondary.500", color: "black.500" }}
                             name={product.name}
-                            //onClick={handleClick}
+                            onClick={() => {
+                              setEditingProduct(product);
+                              editingDisclosure.onOpen();
+                            }}
                             id={`edit-${product.id}`}
                             data-cy={`edit-${product.id}`}
-
                             value={product.price}
                             aria-label="Edit"
                             icon={<IconEdit />}
@@ -150,7 +232,10 @@ const Products = ({
                           <IconButton
                             _hover={{ bg: "secondary.500", color: "black.500" }}
                             name={product.name}
-                            //onClick={handleClick}
+                            onClick={() => {
+                              setDeletingProduct(product);
+                              deletingDisclosure.onOpen();
+                            }}
                             id={`delete-${product.id}`}
                             data-cy={`delete-${product.id}`}
                             value={product.price}
@@ -217,6 +302,125 @@ const Products = ({
           </ModalContent>
         </Modal>
       ) : null}
+      {editingProduct && (
+        <Modal
+          isOpen={editingDisclosure.isOpen}
+          onClose={editingDisclosure.onClose}
+          closeOnOverlayClick={false}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader m={"1"}>Editing Product</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl isRequired>
+                <FormLabel>Product name</FormLabel>
+                <Input
+                  value={editingProduct.name}
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      name: e.target.value,
+                    })
+                  }
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Product price</FormLabel>
+
+                <NumberInput
+                  onChange={(valueString) => {
+                    if (!valueString.includes(".")) return;
+                    if (!valueString.match(/^\d+(\.\d+)?$/)) return;
+
+                    const price = Number(valueString);
+
+                    setEditingProduct({
+                      ...editingProduct,
+                      price: !isNaN(price) ? price : 0,
+                      priceStr: valueString,
+                    });
+                  }}
+                  value={editingProduct.priceStr ?? editingProduct.price}
+                  min={0}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Product image url</FormLabel>
+                <Input
+                  value={editingProduct.img}
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      img: e.target.value,
+                    })
+                  }
+                />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                bg={"secondary.500"}
+                mr={3}
+                onClick={() => saveEdit(editingProduct)}
+                id="saveEdit"
+              >
+                Save
+              </Button>
+              <Button
+                bg={"secondary.500"}
+                mr={3}
+                onClick={editingDisclosure.onClose}
+                id="cancelEdit"
+              >
+                Cancel
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
+      {deletingProduct && (
+        <Modal
+          isOpen={deletingDisclosure.isOpen}
+          onClose={deletingDisclosure.onClose}
+          closeOnOverlayClick={false}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader m={"1"}>Deleting Product</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text fontWeight="bold" mb="1rem">
+                Are you sure you want to delete {deletingProduct.name}?
+              </Text>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                bg={"red.500"}
+                mr={3}
+                onClick={() => deleteProd(deletingProduct)}
+                id="saveEdit"
+              >
+                Delete
+              </Button>
+              <Button
+                bg={"secondary.500"}
+                mr={3}
+                onClick={deletingDisclosure.onClose}
+                id="cancelEdit"
+              >
+                Cancel
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };

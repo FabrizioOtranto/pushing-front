@@ -9,6 +9,8 @@ import Products from "./Products";
 import Checkout from "./Checkout";
 import SuccessBuy from "./SuccessBuy";
 
+import { BASE_URL } from "../../constants/constants";
+
 const formInitialState = {
   firstName: "",
   lastName: "",
@@ -34,6 +36,8 @@ const OnlineShop = () => {
     useState(false);
   const [showCircularBar, setShowCircularBar] = useState(false);
   const [showSuccessBuyModal, setShowSuccessBuyModal] = useState(false);
+
+  const [loadingTotalPrice, setLoadingTotalPrice] = useState(false);
 
   if (!token) {
     return <Navigate to="/" replace={true} />;
@@ -65,7 +69,7 @@ const OnlineShop = () => {
     }
 
     setProductAddedMessage(
-      `1 of ${e.target.name} has been added to the shopping cart`
+      `${product.name} has been added to the shopping cart`
     );
     setShowProductAddedModal(true);
     onOpen();
@@ -97,12 +101,33 @@ const OnlineShop = () => {
     setShowCheckout(false);
   };
 
-  const handleShowTotalPrice = () => {
-    var fullPrice = 0;
-    shopingCartProduct.map((shopCartProduct) => {
-      fullPrice = fullPrice + shopCartProduct.price;
-    });
-    setTotalPrice(fullPrice);
+  const handleShowTotalPrice = async () => {
+    setLoadingTotalPrice(true);
+
+    let price = 0;
+
+    try {
+      const res = await fetch(`${BASE_URL}/calculate-total-price`, {
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          shopingCartProduct.map((p) => {
+            return { price: p.price, quantity: p.amount };
+          })
+        ),
+      });
+
+      price = (await res.json())["totalPrice"].toFixed(2);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setLoadingTotalPrice(false);
+
+    setTotalPrice(price);
     setShowTotalPrice(true);
   };
 
@@ -210,6 +235,9 @@ const OnlineShop = () => {
           handleShowShoppingcart={handleShowShoppingcart}
           productAddedMessage={productAddedMessage}
           showProductAddedModal={showProductAddedModal}
+          setShowProductAddedModal={setShowProductAddedModal}
+          setProductAddedMessage={setProductAddedMessage}
+          onOpen={onOpen}
           isOpen={isOpen}
           onClose={onClose}
         ></Products>
@@ -222,6 +250,7 @@ const OnlineShop = () => {
           totalPrice={totalPrice}
           showTotalPrice={showTotalPrice}
           handleShowTotalPrice={handleShowTotalPrice}
+          loadingTotalPrice={loadingTotalPrice}
         ></ShoppingCart>
         <Checkout
           isOpen={isOpen}
