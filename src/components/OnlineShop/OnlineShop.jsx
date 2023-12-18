@@ -65,7 +65,7 @@ const OnlineShop = () => {
     }
 
     setProductAddedMessage(
-      `${e.target.name} has been added to the shopping cart`
+      `${product.name} has been added to the shopping cart`
     );
     setShowProductAddedModal(true);
     onOpen();
