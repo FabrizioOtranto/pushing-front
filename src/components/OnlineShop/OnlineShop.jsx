@@ -212,6 +212,7 @@ const OnlineShop = () => {
           showProductAddedModal={showProductAddedModal}
           setShowProductAddedModal={setShowProductAddedModal}
           setProductAddedMessage={setProductAddedMessage}
+          onOpen={onOpen}
           isOpen={isOpen}
           onClose={onClose}
         ></Products>

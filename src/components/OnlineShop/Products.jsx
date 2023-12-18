@@ -49,6 +49,7 @@ const Products = ({
   onClose,
   setProductAddedMessage,
   setShowProductAddedModal,
+  onOpen,
 }) => {
   const { token } = useContext(UserContext);
 
