@@ -65,7 +65,7 @@ const OnlineShop = () => {
     }
 
     setProductAddedMessage(
-      `1 of ${e.target.name} has been added to the shopping cart`
+      `${e.target.name} has been added to the shopping cart`
     );
     setShowProductAddedModal(true);
     onOpen();
@@ -210,6 +210,8 @@ const OnlineShop = () => {
           handleShowShoppingcart={handleShowShoppingcart}
           productAddedMessage={productAddedMessage}
           showProductAddedModal={showProductAddedModal}
+          setShowProductAddedModal={setShowProductAddedModal}
+          setProductAddedMessage={setProductAddedMessage}
           isOpen={isOpen}
           onClose={onClose}
         ></Products>
