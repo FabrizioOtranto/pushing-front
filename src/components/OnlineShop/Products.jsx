@@ -102,12 +102,13 @@ const Products = ({
         method: "put",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: {
+        body: JSON.stringify({
           name: product.name,
           price: product.price,
           img: product.img,
-        },
+        }),
       });
 
       console.log(res, await res.json());
