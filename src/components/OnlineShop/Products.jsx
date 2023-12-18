@@ -172,6 +172,7 @@ const Products = ({
                   key={index}
                   _hover={{ bg: "secondary.500", color: "black.500" }}
                   onClick={() => {
+                    setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
                     setLoading(true);
                     setCurrentPage(index + 1);
                   }}
