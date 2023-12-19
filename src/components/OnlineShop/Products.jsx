@@ -120,8 +120,6 @@ const Products = ({
         }),
       });
 
-      console.log(res, await res.json());
-
       if (res.status === 202) {
         getProducts();
 
@@ -146,8 +144,6 @@ const Products = ({
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(res, await res.json());
 
       if (res.status === 202) {
         getProducts();
