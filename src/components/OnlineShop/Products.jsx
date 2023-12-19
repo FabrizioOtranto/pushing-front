@@ -37,7 +37,12 @@ import {
 import { Helmet } from "react-helmet";
 import { UserContext } from "../../context/userContext";
 
-import { IconShoppingCartPlus, IconEdit, IconTrash } from "@tabler/icons-react";
+import {
+  IconShoppingCartPlus,
+  IconEdit,
+  IconTrash,
+  IconRefresh,
+} from "@tabler/icons-react";
 
 const Products = ({
   handleClick,
@@ -63,6 +68,8 @@ const Products = ({
   const [maxPages, setMaxPages] = useState(1);
 
   const getProducts = () => {
+    setLoading(true);
+
     fetch(
       `${BASE_URL}/products?page=${currentPage}&limit=${PRODUCTS_PER_PAGE}`,
       {
@@ -96,7 +103,7 @@ const Products = ({
   const deletingDisclosure = useDisclosure();
 
   const saveEdit = async (product) => {
-    setDisabledButton(true)
+    setDisabledButton(true);
     editingDisclosure.onClose();
 
     try {
@@ -108,12 +115,10 @@ const Products = ({
         },
         body: JSON.stringify({
           name: product.name,
-          price: product.price,
+          price: Number(product.price),
           img: product.img,
         }),
       });
-
-      console.log(res, await res.json());
 
       if (res.status === 202) {
         getProducts();
@@ -140,8 +145,6 @@ const Products = ({
         },
       });
 
-      console.log(res, await res.json());
-
       if (res.status === 202) {
         getProducts();
 
@@ -156,6 +159,40 @@ const Products = ({
     setDeletingProduct(undefined);
   };
 
+  const searchProducts = async (searchType, searchValue) => {
+    if (searchValue.length === 0) return getProducts();
+
+    if (searchValue.length <= 2) return;
+
+    setLoading(true);
+
+    let url = BASE_URL + "/products";
+
+    try {
+      if (searchType === "name") {
+        url += `?name=${searchValue}`;
+      } else if (searchType === "id") {
+      }
+
+      const res = await fetch(url, {
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = (await res.json())["products"];
+
+      if (res.status === 200) {
+        setProducts(data["docs"]);
+      }
+    } catch (e) {
+      console.log(searchType, e);
+    }
+
+    setLoading(false);
+  };
+
   useEffect(getProducts, [currentPage, setProducts, setMaxPages, setLoading]);
 
   return (
@@ -165,18 +202,39 @@ const Products = ({
           <Helmet>
             <title>Products</title>
           </Helmet>
-          <Heading color="secondary.500" id="title">
-            Products
-          </Heading>
+          <HStack spacing="2" mt="4" justify="space-between">
+            <Heading color="secondary.500" id="title">
+              Products
+            </Heading>
+            <Input
+              w={"15vw"}
+              bg="white"
+              placeholder="Search products"
+              onChange={(e) => searchProducts("name", e.target.value)}
+              id={`search-bar`}
+              data-cy={`search-bar`}
+            />
+          </HStack>
+
           <Skeleton isLoaded={!preLoading}>
             <HStack spacing="2" mt="4" justify="center">
+              <Tooltip label="Refresh products">
+                <IconButton
+                  _hover={{ bg: "secondary.500", color: "black.500" }}
+                  onClick={(e) => {
+                    setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
+                    setCurrentPage(1);
+                  }}
+                  aria-label="Refresh products"
+                  icon={<IconRefresh />}
+                />
+              </Tooltip>
               {[...Array(maxPages)].map((_, index) => (
                 <Button
                   key={index}
                   _hover={{ bg: "secondary.500", color: "black.500" }}
                   onClick={() => {
                     setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
-                    setLoading(true);
                     setCurrentPage(index + 1);
                   }}
                   bg={currentPage === index + 1 ? "secondary.500" : undefined}
@@ -220,6 +278,11 @@ const Products = ({
                             _hover={{ bg: "secondary.500", color: "black.500" }}
                             name={product.name}
                             onClick={() => {
+                              setDisabledButton(
+                                !product.name.length ||
+                                  product.price <= 0 ||
+                                  !product.img.length
+                              );
                               setEditingProduct(product);
                               editingDisclosure.onOpen();
                             }}
@@ -273,7 +336,6 @@ const Products = ({
                   onClick={handleShowShoppingcart}
                   id="goShoppingCart"
                   data-cy="goShoppingCart"
-                  icon
                 >
                   Go to shopping cart
                 </Button>
@@ -319,12 +381,13 @@ const Products = ({
                 <FormLabel>Product name</FormLabel>
                 <Input
                   value={editingProduct.name}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setDisabledButton(!e.target.value.length);
                     setEditingProduct({
                       ...editingProduct,
                       name: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -332,50 +395,48 @@ const Products = ({
 
                 <Input
                   onChange={(e) => {
-                    const amount = e.target.value;
-                    if (!(amount > 0)) {
+                    let amount = e.target.value;
+
+                    if (amount.length === 0) {
                       setDisabledButton(true);
+                      setEditingProduct({
+                        ...editingProduct,
+                        price: "",
+                      });
                       return;
                     }
-                    if (amount.split('.').length == 2) {
-                      if (amount.split('.')[0].length <= 3 && amount.split('.')[1].length <= 2) {
-                        if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
-                          setDisabledButton(false);
-                          setEditingProduct({
-                            ...editingProduct,
-                            price: Number(amount),
-                          });
-                        }
-                      } else {
-                        setDisabledButton(true);
-                      }
-                    } else {
-                      if (amount.split('.')[0].length <= 3) {
-                        if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
-                          setDisabledButton(false);
-                          setEditingProduct({
-                            ...editingProduct,
-                            price: Number(amount),
-                          });
-                        }
-                      } else {
-                        setDisabledButton(true);
-                      }
+
+                    if (!amount.match(/^[+]?\d+(\.\d*0?)?$/)) {
+                      return;
                     }
-                  }
-                  }
+
+                    const index = amount.indexOf(".");
+
+                    if (index > 0 && amount.length > index + 3) {
+                      amount = amount.substring(0, index + 3);
+                    }
+
+                    if (isButtonDisabled) setDisabledButton(false);
+
+                    setEditingProduct({
+                      ...editingProduct,
+                      price: amount,
+                    });
+                  }}
+                  value={editingProduct.price}
                 />
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Product image url</FormLabel>
                 <Input
                   value={editingProduct.img}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setDisabledButton(!e.target.value.length);
                     setEditingProduct({
                       ...editingProduct,
                       img: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
               </FormControl>
             </ModalBody>

@@ -53,8 +53,6 @@ const OnlineShop = () => {
       amount: 1,
     };
 
-    console.log(product);
-
     const index = shopingCartProduct.findIndex(
       (prod) => prod.id === product.id
     );
@@ -186,7 +184,7 @@ const OnlineShop = () => {
     return formIsValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -204,10 +202,31 @@ const OnlineShop = () => {
       onOpen();
       setShowSuccessBuyModal(true);
       setShowCircularBar(true);
-      setTimeout(() => {
-        setShowSuccessBuyInformation(true);
-        setShowCircularBar(false);
-      }, 10000);
+
+      try {
+        const res = await fetch(`${BASE_URL}/purchase`, {
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            cardNumber,
+            products: shopingCartProduct.map((p) => {
+              return { price: p.price, quantity: p.amount };
+            }),
+          }),
+        });
+
+        if (res.status === 200) {
+          setShowSuccessBuyInformation(true);
+          setShowCircularBar(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
