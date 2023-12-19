@@ -215,7 +215,7 @@ const OnlineShop = () => {
             lastName,
             cardNumber,
             products: shopingCartProduct.map((p) => {
-              return { price: p.price, quantity: p.amount };
+              return { product: p.name, price: p.price, quantity: p.amount };
             }),
           }),
         });
