@@ -337,18 +337,33 @@ const Products = ({
                       setDisabledButton(true);
                       return;
                     }
-                    if (amount.split('.')[0].length <= 3 && amount.split('.')[1].length <= 2) {
-                      if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
-                        setDisabledButton(false);
-                        setEditingProduct({
-                          ...editingProduct,
-                          price: Number(amount),
-                        });
+                    if (amount.split('.').length == 2) {
+                      if (amount.split('.')[0].length <= 3 && amount.split('.')[1].length <= 2) {
+                        if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
+                          setDisabledButton(false);
+                          setEditingProduct({
+                            ...editingProduct,
+                            price: Number(amount),
+                          });
+                        }
+                      } else {
+                        setDisabledButton(true);
                       }
                     } else {
-                      setDisabledButton(true);
+                      if (amount.split('.')[0].length <= 3) {
+                        if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
+                          setDisabledButton(false);
+                          setEditingProduct({
+                            ...editingProduct,
+                            price: Number(amount),
+                          });
+                        }
+                      } else {
+                        setDisabledButton(true);
+                      }
                     }
-                  }}
+                  }
+                  }
                 />
               </FormControl>
               <FormControl isRequired>
