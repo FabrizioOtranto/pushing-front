@@ -53,8 +53,6 @@ const OnlineShop = () => {
       amount: 1,
     };
 
-    console.log(product);
-
     const index = shopingCartProduct.findIndex(
       (prod) => prod.id === product.id
     );
