@@ -211,9 +211,9 @@ const OnlineShop = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            firstName,
-            lastName,
-            cardNumber,
+            firstName: firstName,
+            lastName: lastName,
+            cardNumber: cardNumber,
             products: shopingCartProduct.map((p) => {
               return { product: p.name, price: p.price, quantity: p.amount };
             }),
