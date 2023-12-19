@@ -37,7 +37,12 @@ import {
 import { Helmet } from "react-helmet";
 import { UserContext } from "../../context/userContext";
 
-import { IconShoppingCartPlus, IconEdit, IconTrash } from "@tabler/icons-react";
+import {
+  IconShoppingCartPlus,
+  IconEdit,
+  IconTrash,
+  IconRefresh,
+} from "@tabler/icons-react";
 
 const Products = ({
   handleClick,
@@ -63,6 +68,8 @@ const Products = ({
   const [maxPages, setMaxPages] = useState(1);
 
   const getProducts = () => {
+    setLoading(true);
+
     fetch(
       `${BASE_URL}/products?page=${currentPage}&limit=${PRODUCTS_PER_PAGE}`,
       {
@@ -156,6 +163,40 @@ const Products = ({
     setDeletingProduct(undefined);
   };
 
+  const searchProducts = async (searchType, searchValue) => {
+    if (searchValue.length === 0) return getProducts();
+
+    if (searchValue.length <= 2) return;
+
+    setLoading(true);
+
+    let url = BASE_URL + "/products";
+
+    try {
+      if (searchType === "name") {
+        url += `?name=${searchValue}`;
+      } else if (searchType === "id") {
+      }
+
+      const res = await fetch(url, {
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = (await res.json())["products"];
+
+      if (res.status === 200) {
+        setProducts(data["docs"]);
+      }
+    } catch (e) {
+      console.log(searchType, e);
+    }
+
+    setLoading(false);
+  };
+
   useEffect(getProducts, [currentPage, setProducts, setMaxPages, setLoading]);
 
   return (
@@ -165,18 +206,39 @@ const Products = ({
           <Helmet>
             <title>Products</title>
           </Helmet>
-          <Heading color="secondary.500" id="title">
-            Products
-          </Heading>
+          <HStack spacing="2" mt="4" justify="space-between">
+            <Heading color="secondary.500" id="title">
+              Products
+            </Heading>
+            <Input
+              w={"15vw"}
+              bg="white"
+              placeholder="Search products"
+              onChange={(e) => searchProducts("name", e.target.value)}
+              id={`search-bar`}
+              data-cy={`search-bar`}
+            />
+          </HStack>
+
           <Skeleton isLoaded={!preLoading}>
             <HStack spacing="2" mt="4" justify="center">
+              <Tooltip label="Refresh products">
+                <IconButton
+                  _hover={{ bg: "secondary.500", color: "black.500" }}
+                  onClick={(e) => {
+                    setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
+                    setCurrentPage(1);
+                  }}
+                  aria-label="Refresh products"
+                  icon={<IconRefresh />}
+                />
+              </Tooltip>
               {[...Array(maxPages)].map((_, index) => (
                 <Button
                   key={index}
                   _hover={{ bg: "secondary.500", color: "black.500" }}
                   onClick={() => {
                     setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
-                    setLoading(true);
                     setCurrentPage(index + 1);
                   }}
                   bg={currentPage === index + 1 ? "secondary.500" : undefined}
