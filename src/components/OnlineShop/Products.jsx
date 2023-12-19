@@ -21,11 +21,6 @@ import {
   useDisclosure,
   Input,
   FormLabel,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -37,12 +32,7 @@ import {
 import { Helmet } from "react-helmet";
 import { UserContext } from "../../context/userContext";
 
-import {
-  IconShoppingCartPlus,
-  IconEdit,
-  IconTrash,
-  IconRefresh,
-} from "@tabler/icons-react";
+import { IconShoppingCartPlus, IconEdit, IconTrash } from "@tabler/icons-react";
 
 const Products = ({
   handleClick,
@@ -218,17 +208,6 @@ const Products = ({
 
           <Skeleton isLoaded={!preLoading}>
             <HStack spacing="2" mt="4" justify="center">
-              <Tooltip label="Refresh products">
-                <IconButton
-                  _hover={{ bg: "secondary.500", color: "black.500" }}
-                  onClick={(e) => {
-                    setProducts(PRODUCTS.slice(0, PRODUCTS_PER_PAGE));
-                    setCurrentPage(1);
-                  }}
-                  aria-label="Refresh products"
-                  icon={<IconRefresh />}
-                />
-              </Tooltip>
               {[...Array(maxPages)].map((_, index) => (
                 <Button
                   key={index}
