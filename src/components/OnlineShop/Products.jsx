@@ -278,7 +278,6 @@ const Products = ({
                   onClick={handleShowShoppingcart}
                   id="goShoppingCart"
                   data-cy="goShoppingCart"
-                  icon
                 >
                   Go to shopping cart
                 </Button>
