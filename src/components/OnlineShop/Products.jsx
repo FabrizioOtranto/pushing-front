@@ -259,8 +259,8 @@ const Products = ({
                             onClick={() => {
                               setDisabledButton(
                                 !product.name.length ||
-                                  product.price <= 0 ||
-                                  !product.img.length
+                                product.price <= 0 ||
+                                !product.img.length
                               );
                               setEditingProduct(product);
                               editingDisclosure.onOpen();
@@ -359,6 +359,8 @@ const Products = ({
               <FormControl isRequired>
                 <FormLabel>Product name</FormLabel>
                 <Input
+                  id="productName"
+                  data-cy="productName"
                   value={editingProduct.name}
                   onChange={(e) => {
                     setDisabledButton(!e.target.value.length);
@@ -373,6 +375,8 @@ const Products = ({
                 <FormLabel>Product price</FormLabel>
 
                 <Input
+                  id="productPrice"
+                  data-cy="productPrice"
                   onChange={(e) => {
                     let amount = e.target.value;
 
@@ -408,6 +412,8 @@ const Products = ({
               <FormControl isRequired>
                 <FormLabel>Product image url</FormLabel>
                 <Input
+                  id="productCard"
+                  data-cy="productCard"
                   value={editingProduct.img}
                   onChange={(e) => {
                     setDisabledButton(!e.target.value.length);
@@ -425,6 +431,7 @@ const Products = ({
                 mr={3}
                 onClick={() => saveEdit(editingProduct)}
                 id="saveEdit"
+                data-cy="saveEdit"
                 disabled={isButtonDisabled}
               >
                 Save
@@ -434,6 +441,7 @@ const Products = ({
                 mr={3}
                 onClick={editingDisclosure.onClose}
                 id="cancelEdit"
+                data-cy="cancelEdit"
               >
                 Cancel
               </Button>
