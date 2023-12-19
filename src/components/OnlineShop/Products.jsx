@@ -96,7 +96,7 @@ const Products = ({
   const deletingDisclosure = useDisclosure();
 
   const saveEdit = async (product) => {
-    setDisabledButton(true)
+    setDisabledButton(true);
     editingDisclosure.onClose();
 
     try {
@@ -108,7 +108,7 @@ const Products = ({
         },
         body: JSON.stringify({
           name: product.name,
-          price: product.price,
+          price: Number(product.price),
           img: product.img,
         }),
       });
@@ -220,6 +220,11 @@ const Products = ({
                             _hover={{ bg: "secondary.500", color: "black.500" }}
                             name={product.name}
                             onClick={() => {
+                              setDisabledButton(
+                                !product.name.length ||
+                                  product.price <= 0 ||
+                                  !product.img.length
+                              );
                               setEditingProduct(product);
                               editingDisclosure.onOpen();
                             }}
@@ -319,12 +324,13 @@ const Products = ({
                 <FormLabel>Product name</FormLabel>
                 <Input
                   value={editingProduct.name}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setDisabledButton(!e.target.value.length);
                     setEditingProduct({
                       ...editingProduct,
                       name: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -332,50 +338,48 @@ const Products = ({
 
                 <Input
                   onChange={(e) => {
-                    const amount = e.target.value;
-                    if (!(amount > 0)) {
+                    let amount = e.target.value;
+
+                    if (amount.length === 0) {
                       setDisabledButton(true);
+                      setEditingProduct({
+                        ...editingProduct,
+                        price: "",
+                      });
                       return;
                     }
-                    if (amount.split('.').length == 2) {
-                      if (amount.split('.')[0].length <= 3 && amount.split('.')[1].length <= 2) {
-                        if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
-                          setDisabledButton(false);
-                          setEditingProduct({
-                            ...editingProduct,
-                            price: Number(amount),
-                          });
-                        }
-                      } else {
-                        setDisabledButton(true);
-                      }
-                    } else {
-                      if (amount.split('.')[0].length <= 3) {
-                        if (!amount || amount.match(/([0-9]*[\.|\,]{0,1}[0-9]{0,2})/s)) {
-                          setDisabledButton(false);
-                          setEditingProduct({
-                            ...editingProduct,
-                            price: Number(amount),
-                          });
-                        }
-                      } else {
-                        setDisabledButton(true);
-                      }
+
+                    if (!amount.match(/^[+]?\d+(\.\d*0?)?$/)) {
+                      return;
                     }
-                  }
-                  }
+
+                    const index = amount.indexOf(".");
+
+                    if (index > 0 && amount.length > index + 3) {
+                      amount = amount.substring(0, index + 3);
+                    }
+
+                    if (isButtonDisabled) setDisabledButton(false);
+
+                    setEditingProduct({
+                      ...editingProduct,
+                      price: amount,
+                    });
+                  }}
+                  value={editingProduct.price}
                 />
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Product image url</FormLabel>
                 <Input
                   value={editingProduct.img}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setDisabledButton(!e.target.value.length);
                     setEditingProduct({
                       ...editingProduct,
                       img: e.target.value,
-                    })
-                  }
+                    });
+                  }}
                 />
               </FormControl>
             </ModalBody>
