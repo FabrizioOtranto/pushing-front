@@ -239,6 +239,7 @@ const OnlineShop = () => {
     setShowCircularBar(false);
     setShowSuccessBuyInformation(false);
     setShowSuccessBuyModal(false);
+    setLoadingTotalPrice(false)
   };
 
   return (

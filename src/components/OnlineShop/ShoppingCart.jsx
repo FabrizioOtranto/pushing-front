@@ -8,10 +8,8 @@ import {
   List,
   Box,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
-
-import { BASE_URL } from "../../constants/constants";
 
 const ShoppingCart = ({
   shopingCartProduct,
@@ -46,7 +44,7 @@ const ShoppingCart = ({
           <List w="100%" p={4} align="center">
             <SimpleGrid bg={"white"} w="100%" direction="column">
               <SimpleGrid
-                columns={[4, null, 4]}
+                columns={[5, null, 5]}
                 spacing="40px"
                 m={15}
                 bg={"white"}
@@ -62,11 +60,14 @@ const ShoppingCart = ({
                 <Text>
                   <b>Price</b>
                 </Text>
+                <Text>
+                  <b>Total Price</b>
+                </Text>
               </SimpleGrid>
               {shopingCartProduct.map((shopCartProduct) => (
                 <ListItem key={shopCartProduct.id}>
                   <SimpleGrid
-                    columns={[4, null, 4]}
+                    columns={[5, null, 5]}
                     spacing="40px"
                     m={15}
                     bg={"white"}
@@ -79,6 +80,12 @@ const ShoppingCart = ({
                     </Text>
                     <Text id="productName" name={shopCartProduct.name}>
                       {shopCartProduct.name}
+                    </Text>
+                    <Text
+                      id="productPrice"
+                      name={shopCartProduct.price * shopCartProduct.amount}
+                    >
+                      $ {shopCartProduct.price}
                     </Text>
                     <Text
                       id="productPrice"

@@ -33,7 +33,9 @@ const SuccessBuy = ({
             <ModalHeader m={"1"}>
               Purchase has been completed successfully
             </ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton
+              onClick={handleFinishProcess}
+            />
             <Flex alignContent={"center"} justifyContent={"center"}>
               {showCircularBar ? (
                 <CircularProgress
@@ -45,24 +47,24 @@ const SuccessBuy = ({
               ) : null}
               {showSuccessBuyInformation ? (
                 <ModalBody alignContent={"center"} justifyContent={"center"}>
-                  <Text id="name" mb="1rem">
+                  <Text id="name" data-cy="name" mb="1rem">
                     {formInfo[0].firstName} {formInfo[0].lastName} has
                     succesfully purchased the following items:
                   </Text>
                   {shopingCartProduct.map((shopCartProduct) => (
                     <Text key={shopCartProduct.id} id={shopCartProduct.name}>
-                      {shopCartProduct.amount}x {shopCartProduct.name}
+                      {shopCartProduct.amount} x {shopCartProduct.name}
                     </Text>
                   ))}
                   <Text mt="1rem">
                     The credit card used was:{" "}
-                    <span id="creditCard" style={{ fontWeight: "bold" }}>
+                    <span id="creditCard" data-cy="creditCard" style={{ fontWeight: "bold" }}>
                       {formInfo[0].cardNumber}
                     </span>
                   </Text>
                   <Text></Text>
-                  <Text id="totalPrice" mt="1rem">
-                    You have spent ${totalPrice}
+                  <Text id="totalPrice" data-cy="totalPrice" mt="1rem">
+                    Monney spent ${totalPrice}
                   </Text>
                 </ModalBody>
               ) : null}
@@ -70,6 +72,7 @@ const SuccessBuy = ({
             <ModalFooter>
               {showSuccessBuyInformation ? (
                 <Button
+                  data-cy="thankYou" 
                   bg={"secondary.500"}
                   mr={3}
                   onClick={handleFinishProcess}
