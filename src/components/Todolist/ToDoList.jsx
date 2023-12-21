@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from 'react-router-dom';
 
 import '../../App.css';
@@ -11,9 +11,14 @@ import Navbar from '../Navbar';
 import TodoInput from './TodoInput';
 import TodoTask from './TodoTask';
 import { Helmet } from "react-helmet";
+import axios from 'axios';
+import {
+    BASE_URL
+} from "../../constants/constants";
 
 const ToDoList = () => {
     const { token } = useContext(UserContext);
+    const { userId } = useContext(UserContext);
     const [text, setText] = useState('');
     const [arrayTask, setArrayTask] = useState([]);
     const [completedArrayTasks, setCompletedArrayTasks] = useState([]);
@@ -21,80 +26,219 @@ const ToDoList = () => {
     const [showActiveTasks, setShowActiveTasks] = useState(false)
     const [showCompletedTasks, setShowCompletedTasks] = useState(false)
     const [showAllTasks, setShowAllTasks] = useState(true)
+    const [tasks, setTasks] = useState();
+    const [preLoading, setPreLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [showCircularBar, setShowCircularBar] = useState(false);
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
     }
+    const getTasks = () => {
+        setLoading(true);
+
+        fetch(
+            `${BASE_URL}/tasks?userId=${userId}`,
+            {
+                method: "get",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+            .then(async (res) => {
+                try {
+                    const data = (await res.json());
+
+                    setTasks(data["tasks"]);
+                    setLoading(false);
+                    setPreLoading(false);
+                } catch (e) {
+                    console.log(e);
+                }
+            })
+            .catch((res) => {
+                console.log(res);
+            });
+    };
+
+    const getTasksFiltered = (completedStatus) => {
+        setLoading(true);
+
+        fetch(
+            `${BASE_URL}/tasks?userId=${userId}&completed=${completedStatus}`,
+            {
+                method: "get",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+            .then(async (res) => {
+                try {
+                    const data = (await res.json());
+
+                    setTasks(data["tasks"]);
+                    setLoading(false);
+                    setPreLoading(false);
+                } catch (e) {
+                    console.log(e);
+                }
+            })
+            .catch((res) => {
+                console.log(res);
+            });
+    };
+
+    const getTask = async (id) => {
+        setLoading(true);
+        const res = await axios.get(`${BASE_URL}/task/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return res
+
+    };
+
+    const deleteTask = async (taskId) => {
+        try {
+            const res = await fetch(`${BASE_URL}/task/${taskId}`, {
+                method: "delete",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setLoading(true)
+            if (res.status === 202) {
+                getTasks();
+                setLoading(false)
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const deleteTasks = async () => {
+        try {
+            const res = await fetch(`${BASE_URL}/tasks?userId=${userId}`, {
+                method: "delete",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (res.status === 202) {
+                getTasks();
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const sendTask = async () => {
+        setLoading(true);
+        try {
+            const res = await axios.post(`${BASE_URL}/save-task`, {
+                name: text,
+                completed: false,
+                userId: userId
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+            if (res.status === 201) {
+                getTasks()
+                setText('')
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
 
     const handlechange = (e) => {
         setText(e.target.value);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        var id = Math.floor(Math.random() * 10000)
-        setArrayTask([
-            ...arrayTask,
-            {
-                name: text,
-                id: id,
-                completed: false,
-            },
-        ]);
-        setActiveArrayTasks([
-            ...activeArrayTasks,
-            {
-                name: text,
-                id: id,
-                completed: false,
-            },
-        ]);
-        setText("");
+    const handleCompleted = async (id) => {
+        setLoading(true);
+        getTask(id).then(async (res) => {
 
-    };
+            if (res.data.task.completed === true) {
+                try {
+                    const res = await axios.patch(`${BASE_URL}/task/${id}`, {
+                        completed: false,
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
 
-    const handleCompleted = (id) => {
-        const newArray = arrayTask.map((task) =>
-            task.id === id ? { ...task, completed: !task.completed } : task
-        );
-        setArrayTask(newArray);
-        setCompletedArrayTasks(newArray.filter((task) => task.completed === true))
-        setActiveArrayTasks(newArray.filter((task) => task.completed === false))
-    };
+                    if (res.status === 202) {
+                        if (showActiveTasks === true) {
+                            getTasksFiltered(false)
+                        } else if (showCompletedTasks === true) {
+                            getTasksFiltered(true)
+                        } else {
+                            getTasks();
+                        }
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                try {
+                    const res = await axios.patch(`${BASE_URL}/task/${id}`, {
+                        completed: true,
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
 
-    const handleDelete = (id) => {
-        const newArray = arrayTask.filter((task) => task.id !== id)
-        setArrayTask(newArray);
-        setCompletedArrayTasks(newArray.filter((task) => task.completed === true))
-        setActiveArrayTasks(newArray.filter((task) => task.completed === false))
+                    if (res.status === 202) {
+                        getTasks();
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        })
 
     };
 
     const handleShowCompleted = () => {
-        setCompletedArrayTasks(arrayTask.filter((task) => task.completed === true))
+        getTasksFiltered(true)
         setShowActiveTasks(false)
         setShowCompletedTasks(true)
         setShowAllTasks(false)
+
     };
 
     const handleShowActive = () => {
-        setActiveArrayTasks(arrayTask.filter((task) => task.completed === false))
+        getTasksFiltered(false)
         setShowActiveTasks(true)
         setShowCompletedTasks(false)
         setShowAllTasks(false)
     };
 
     const handleShowAll = () => {
+        getTasks()
         setShowActiveTasks(false)
         setShowCompletedTasks(false)
         setShowAllTasks(true)
     };
 
     const handleRemoveAll = () => {
-        setActiveArrayTasks([])
-        setCompletedArrayTasks([])
-        setArrayTask([])
+        deleteTasks()
     }
+
+    useEffect(getTasks, [setTasks, setLoading]);
 
     return (
         <>
@@ -109,14 +253,14 @@ const ToDoList = () => {
                 <TodoInput
                     handlechange={handlechange}
                     text={text}
-                    handleSubmit={handleSubmit}
+                    sendTask={sendTask}
+                    getTasks={getTasks}
                 />
                 <TodoTask
                     arrayTask={arrayTask}
                     completedArrayTasks={completedArrayTasks}
                     activeArrayTasks={activeArrayTasks}
                     handleCompleted={handleCompleted}
-                    handleDelete={handleDelete}
                     handleShowCompleted={handleShowCompleted}
                     handleShowActive={handleShowActive}
                     handleShowAll={handleShowAll}
@@ -124,6 +268,8 @@ const ToDoList = () => {
                     showAllTasks={showAllTasks}
                     showCompletedTasks={showCompletedTasks}
                     handleRemoveAll={handleRemoveAll}
+                    tasks={tasks}
+                    deleteTask={deleteTask}
                 />
             </Flex>
         </>

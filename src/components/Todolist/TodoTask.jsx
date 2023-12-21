@@ -6,10 +6,9 @@ import {
     ListItem,
     Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React from "react";
 
 const TodoTask = ({
-    arrayTask,
     handleCompleted,
     handleDelete,
     handleShowCompleted,
@@ -20,18 +19,22 @@ const TodoTask = ({
     showActiveTasks,
     handleShowAll,
     activeArrayTasks,
-    handleRemoveAll
+    handleRemoveAll,
+    tasks,
+    deleteTask
 }) => {
+
     return (
+        
         <>
             <List marginLeft={"15%"} w='100%'>
                 {showAllTasks ? (
-                    arrayTask?.map((elem) => (
+                    tasks?.map((elem) => (
                         <ListItem key={elem.id} fontSize={'2em'}>
                             <Flex w="70%" p={2} align="center"
                                 bg="secondary.300">
                                 <Text
-                                    onClick={() => handleCompleted(elem.id)}
+                                    onClick={() => handleCompleted(elem._id)}
                                     w="100%"
                                     style={{
                                         textDecoration: elem.completed
@@ -44,7 +47,7 @@ const TodoTask = ({
                                 </Text>
                                 <Button
                                     bg={"white"}
-                                    onClick={() => handleDelete(elem.id)}>
+                                    onClick={() => deleteTask(elem._id)}>
                                     Delete
                                 </Button>
 
@@ -55,12 +58,12 @@ const TodoTask = ({
                 ) : null
                 }
                 {showCompletedTasks ? (
-                    completedArrayTasks?.map((elem) => (
+                    tasks?.map((elem) => (
                         <ListItem key={elem.id} fontSize={'2em'}>
                             <Flex w="70%" p={2} align="center"
                                 bg="secondary.300">
                                 <Text
-                                    onClick={() => handleCompleted(elem.id)}
+                                    onClick={() => handleCompleted(elem._id)}
                                     w="100%"
                                     style={{
                                         textDecoration: elem.completed
@@ -73,7 +76,7 @@ const TodoTask = ({
                                 </Text>
                                 <Button
                                     bg={"white"}
-                                    onClick={() => handleDelete(elem.id)}>
+                                    onClick={() => handleDelete(elem._id)}>
                                     Delete
                                 </Button>
                             </Flex>
@@ -82,12 +85,12 @@ const TodoTask = ({
                 ) : null
                 }
                 {showActiveTasks ? (
-                    activeArrayTasks?.map((elem) => (
+                    tasks?.map((elem) => (
                         <ListItem key={elem.id} fontSize={'2em'}>
                             <Flex w="70%" p={2} align="center"
                                 bg="secondary.300">
                                 <Text
-                                    onClick={() => handleCompleted(elem.id)}
+                                    onClick={() => handleCompleted(elem._id)}
                                     w="100%"
                                     id={elem.id}
                                 >
@@ -95,7 +98,7 @@ const TodoTask = ({
                                 </Text>
                                 <Button
                                     bg={"white"}
-                                    onClick={() => handleDelete(elem.id)}>
+                                    onClick={() => deleteTask(elem._id)}>
                                     Delete
                                 </Button>
                             </Flex>
