@@ -168,9 +168,37 @@ const ToDoList = () => {
         }
     };
 
+    const sendTaskOnInput = async (e) => {
+        if (e.key === 'Enter' && text.length && text.length <= 30) {
+            setLoading(true);
+            try {
+                const res = await axios.post(`${BASE_URL}/save-task`, {
+                    name: text,
+                    completed: false,
+                    userId: userId
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+
+                if (res.status === 201) {
+                    getTasks()
+                    setText('')
+                    setDisabledButton(true)
+                    setErrorMessage('')
+                    setLoading(false)
+                }
+            } catch (e) {
+                setErrorMessage(e.response.data)
+                setLoading(false)
+            }
+        }
+    };
+
 
     const handlechange = (e) => {
-        if (e.target.value.length === 0 ) {
+        if (e.target.value.length === 0) {
             setDisabledButton(true)
         }
         else if (e.target.value.length >= 31) {
@@ -272,6 +300,7 @@ const ToDoList = () => {
                     handlechange={handlechange}
                     text={text}
                     sendTask={sendTask}
+                    sendTaskOnInput={sendTaskOnInput}
                     getTasks={getTasks}
                     isButtonDisabled={isButtonDisabled}
                     errorMessage={errorMessage}
@@ -291,7 +320,7 @@ const ToDoList = () => {
                     tasks={tasks}
                     deleteTask={deleteTask}
                     preLoading={preLoading}
-                    loading= {loading}
+                    loading={loading}
                 />
             </Flex>
         </>

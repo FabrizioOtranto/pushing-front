@@ -2,7 +2,7 @@ import { Button, FormControl, FormLabel, Input, Flex, Text } from '@chakra-ui/re
 import React from "react";
 
 
-const TodoInput = ({ handlechange, text, sendTask, isButtonDisabled, errorMessage }) => {
+const TodoInput = ({ handlechange, text, sendTask, sendTaskOnInput, isButtonDisabled, errorMessage }) => {
     return (
 
         <FormControl isRequired mb={5} marginLeft={"15%"} w='70%'>
@@ -19,6 +19,7 @@ const TodoInput = ({ handlechange, text, sendTask, isButtonDisabled, errorMessag
                     bg="primary.300"
                     focusBorderColor="none"
                     onChange={handlechange}
+                    onKeyDown={() => sendTaskOnInput(event)}
                     value={text}
                 />
                 <Button
@@ -31,10 +32,10 @@ const TodoInput = ({ handlechange, text, sendTask, isButtonDisabled, errorMessag
                 </Button>
             </Flex>
             {errorMessage ? (
-                    <Text id="errorMessage" bg={"black"} fontSize={20} color={'red'} data-cy='errorMessage'>
-                        {errorMessage}
-                    </Text>
-                ) : null}
+                <Text id="errorMessage" bg={"black"} fontSize={20} color={'red'} data-cy='errorMessage'>
+                    {errorMessage}
+                </Text>
+            ) : null}
         </FormControl>
 
 
