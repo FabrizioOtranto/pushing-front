@@ -28,8 +28,8 @@ const TodoTask = ({
     return (
 
         <>
-            <Skeleton isLoaded={!preLoading}>
-                <List marginLeft={"160"} w='70%'>
+            <List marginLeft={"160"} w='70%'>
+                <Skeleton isLoaded={!preLoading}>
                     {showAllTasks ? (
                         tasks?.map((elem) => (
                             <Skeleton isLoaded={!loading}>
@@ -194,8 +194,9 @@ const TodoTask = ({
                             </Button>
                         </Flex>
                     </Box>
-                </List >
-            </Skeleton>
+                </Skeleton>
+
+            </List >
 
         </>
 
