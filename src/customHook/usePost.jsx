@@ -24,8 +24,6 @@ const usePost = () => {
         } catch (error) {
             setError(error.response.data);
             setLoading(false);
-            //console.log('Error: ', error.response.data);
-            //await alert('Error: ', error.response.data);
         }
     };
 

@@ -30,6 +30,9 @@ const ToDoList = () => {
     const [preLoading, setPreLoading] = useState(true);
     const [loading, setLoading] = useState(true);
     const [showCircularBar, setShowCircularBar] = useState(false);
+    const [isButtonDisabled, setDisabledButton] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showTasks, setShowTasks] = useState(true);
 
     if (!token) {
         return <Navigate to="/" replace={true} />;
@@ -132,6 +135,7 @@ const ToDoList = () => {
 
             if (res.status === 202) {
                 getTasks();
+                setErrorMessage('')
             }
         } catch (e) {
             console.log(e);
@@ -154,14 +158,28 @@ const ToDoList = () => {
             if (res.status === 201) {
                 getTasks()
                 setText('')
+                setDisabledButton(true)
+                setErrorMessage('')
+                setLoading(false)
             }
         } catch (e) {
-            console.log(e);
+            setErrorMessage(e.response.data)
+            setLoading(false)
         }
     };
 
 
     const handlechange = (e) => {
+        if (e.target.value.length === 0 ) {
+            setDisabledButton(true)
+        }
+        else if (e.target.value.length >= 31) {
+            setDisabledButton(true)
+            setErrorMessage('Task name cannot have more than 30 characters')
+        } else {
+            setDisabledButton(false)
+            setErrorMessage('')
+        }
         setText(e.target.value);
     };
 
@@ -255,6 +273,8 @@ const ToDoList = () => {
                     text={text}
                     sendTask={sendTask}
                     getTasks={getTasks}
+                    isButtonDisabled={isButtonDisabled}
+                    errorMessage={errorMessage}
                 />
                 <TodoTask
                     arrayTask={arrayTask}
@@ -270,6 +290,8 @@ const ToDoList = () => {
                     handleRemoveAll={handleRemoveAll}
                     tasks={tasks}
                     deleteTask={deleteTask}
+                    preLoading={preLoading}
+                    loading= {loading}
                 />
             </Flex>
         </>
