@@ -82,13 +82,13 @@ const ShoppingCart = ({
                       {shopCartProduct.name}
                     </Text>
                     <Text
-                      id="productPrice"
+                      id="unitPrice"
                       name={shopCartProduct.price * shopCartProduct.amount}
                     >
                       $ {shopCartProduct.price}
                     </Text>
                     <Text
-                      id="productPrice"
+                      id="totalPrice"
                       name={shopCartProduct.price * shopCartProduct.amount}
                     >
                       $ {shopCartProduct.price * shopCartProduct.amount}

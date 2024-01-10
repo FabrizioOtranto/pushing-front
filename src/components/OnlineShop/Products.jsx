@@ -31,6 +31,7 @@ import {
 } from "../../constants/constants";
 import { Helmet } from "react-helmet";
 import { UserContext } from "../../context/userContext";
+import axios from 'axios';
 
 import { IconShoppingCartPlus, IconEdit, IconTrash } from "@tabler/icons-react";
 
@@ -88,6 +89,9 @@ const Products = ({
 
   const [editingProduct, setEditingProduct] = useState(undefined);
   const editingDisclosure = useDisclosure();
+
+  const [addingProduct, setAddingProduct] = useState(undefined);
+  const addinggDisclosure = useDisclosure();
 
   const [deletingProduct, setDeletingProduct] = useState(undefined);
   const deletingDisclosure = useDisclosure();
@@ -149,6 +153,28 @@ const Products = ({
     setDeletingProduct(undefined);
   };
 
+  const handleAddProduct = async (text) => {
+    try {
+      const res = await axios.post(`${BASE_URL}/save-task`, {
+        name: text,
+        completed: false,
+        userId: userId
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (res.status === 201) {
+        
+        setDisabledButton(true)
+        setLoading(false)
+      }
+    } catch (e) {
+      setLoading(false)
+    }
+  }
+
   const searchProducts = async (searchType, searchValue) => {
     if (searchValue.length === 0) return getProducts();
 
@@ -205,7 +231,21 @@ const Products = ({
               data-cy={`search-bar`}
             />
           </HStack>
-
+          <Button
+            bg={"secondary.500"}
+            onClick={() => {
+              setDisabledButton(
+                !product.name.length ||
+                product.price <= 0 ||
+                !product.img.length
+              );
+              setEditingProduct(product);
+              editingDisclosure.onOpen();
+            }}            id="goShoppingCart"
+            data-cy="goShoppingCart"
+          >
+            Add product
+          </Button>
           <Skeleton isLoaded={!preLoading}>
             <HStack spacing="2" mt="4" justify="center">
               {[...Array(maxPages)].map((_, index) => (
