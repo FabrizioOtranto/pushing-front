@@ -166,7 +166,7 @@ const Products = ({
       })
 
       if (res.status === 201) {
-        
+
         setDisabledButton(true)
         setLoading(false)
       }
@@ -241,7 +241,7 @@ const Products = ({
               );
               setEditingProduct(product);
               editingDisclosure.onOpen();
-            }}            id="goShoppingCart"
+            }} id="goShoppingCart"
             data-cy="goShoppingCart"
           >
             Add product
@@ -295,7 +295,6 @@ const Products = ({
                         <Tooltip label="Edit">
                           <IconButton
                             _hover={{ bg: "secondary.500", color: "black.500" }}
-                            name={product.name}
                             onClick={() => {
                               setDisabledButton(
                                 !product.name.length ||
@@ -315,7 +314,6 @@ const Products = ({
                         <Tooltip label="Delete">
                           <IconButton
                             _hover={{ bg: "secondary.500", color: "black.500" }}
-                            name={product.name}
                             onClick={() => {
                               setDeletingProduct(product);
                               deletingDisclosure.onOpen();
@@ -341,6 +339,7 @@ const Products = ({
                             id={`add-to-cart-${product.id}`}
                             data-cy={`add-to-cart-${product.id}`}
                             aria-label="Add to cart"
+                            name={product.name}
                             icon={<IconShoppingCartPlus />}
                           />
                         </Tooltip>
