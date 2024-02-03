@@ -21,6 +21,7 @@ import {
   useDisclosure,
   Input,
   FormLabel,
+  Select,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -31,7 +32,7 @@ import {
 } from "../../constants/constants";
 import { Helmet } from "react-helmet";
 import { UserContext } from "../../context/userContext";
-import axios from 'axios';
+import axios from "axios";
 
 import { IconShoppingCartPlus, IconEdit, IconTrash } from "@tabler/icons-react";
 
@@ -57,6 +58,8 @@ const Products = ({
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
+
+  const [searchType, setSearchType] = useState("name");
 
   const getProducts = () => {
     setLoading(true);
@@ -155,30 +158,33 @@ const Products = ({
 
   const handleAddProduct = async (text) => {
     try {
-      const res = await axios.post(`${BASE_URL}/save-task`, {
-        name: text,
-        completed: false,
-        userId: userId
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.post(
+        `${BASE_URL}/save-task`,
+        {
+          name: text,
+          completed: false,
+          userId: userId,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.status === 201) {
-
-        setDisabledButton(true)
-        setLoading(false)
+        setDisabledButton(true);
+        setLoading(false);
       }
     } catch (e) {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const searchProducts = async (searchType, searchValue) => {
     if (searchValue.length === 0) return getProducts();
 
-    if (searchValue.length <= 2) return;
+    if (searchType === "name" && searchValue.length <= 2) return;
 
     setLoading(true);
 
@@ -188,6 +194,8 @@ const Products = ({
       if (searchType === "name") {
         url += `?name=${searchValue}`;
       } else if (searchType === "id") {
+        const id = Number(searchValue);
+        if (!isNaN(id)) url += `?id=${id}`;
       }
 
       const res = await fetch(url, {
@@ -222,14 +230,30 @@ const Products = ({
             <Heading color="secondary.500" id="title">
               Products
             </Heading>
-            <Input
-              w={"15vw"}
-              bg="white"
-              placeholder="Search products"
-              onChange={(e) => searchProducts("name", e.target.value)}
-              id={`search-bar`}
-              data-cy={`search-bar`}
-            />
+            <HStack spacing="2" mt="4" justify="space-between">
+              <Tooltip label="Select search type" placement="top">
+                <Select
+                  w={"5vw"}
+                  bg="white"
+                  placeholder=""
+                  value={searchType}
+                  onChange={(e) => setSearchType(e.target.value)}
+                  id={`search-type`}
+                  data-cy={`search-type`}
+                >
+                  <option value="name">Name</option>
+                  <option value="id">ID</option>
+                </Select>
+              </Tooltip>
+              <Input
+                w={"15vw"}
+                bg="white"
+                placeholder="Search products"
+                onChange={(e) => searchProducts(searchType, e.target.value)}
+                id={`search-bar`}
+                data-cy={`search-bar`}
+              />
+            </HStack>
           </HStack>
           <Skeleton isLoaded={!preLoading}>
             <HStack spacing="2" mt="4" justify="center">
@@ -283,8 +307,8 @@ const Products = ({
                             onClick={() => {
                               setDisabledButton(
                                 !product.name.length ||
-                                product.price <= 0 ||
-                                !product.img.length
+                                  product.price <= 0 ||
+                                  !product.img.length
                               );
                               setEditingProduct(product);
                               editingDisclosure.onOpen();
