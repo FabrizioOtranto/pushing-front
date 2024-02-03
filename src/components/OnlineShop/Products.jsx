@@ -231,21 +231,6 @@ const Products = ({
               data-cy={`search-bar`}
             />
           </HStack>
-          <Button
-            bg={"secondary.500"}
-            onClick={() => {
-              setDisabledButton(
-                !product.name.length ||
-                product.price <= 0 ||
-                !product.img.length
-              );
-              setEditingProduct(product);
-              editingDisclosure.onOpen();
-            }} id="goShoppingCart"
-            data-cy="goShoppingCart"
-          >
-            Add product
-          </Button>
           <Skeleton isLoaded={!preLoading}>
             <HStack spacing="2" mt="4" justify="center">
               {[...Array(maxPages)].map((_, index) => (
@@ -321,7 +306,7 @@ const Products = ({
                             id={`delete-${product.id}`}
                             data-cy={`delete-${product.id}`}
                             value={product.price}
-                            aria-label="Add to cart"
+                            aria-label="Delete"
                             icon={<IconTrash />}
                           />
                         </Tooltip>
