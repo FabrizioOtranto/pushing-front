@@ -192,9 +192,7 @@ const Products = ({
   };
 
   const searchProducts = async (event, searchType, searchValue) => {
-    if (searchValue.length === 0) return getProducts();
-
-    if (searchType === "name" && searchValue.length <= 2) return;
+    if (event.key === 'Enter' && searchValue.length === 0) return getProducts();
 
     if (event.key === 'Enter' && searchValue.length && searchValue.length <= 30) {
 
@@ -231,7 +229,7 @@ const Products = ({
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
-};
+  };
 
   useEffect(getProducts, [currentPage, setProducts, setMaxPages, setLoading]);
 
