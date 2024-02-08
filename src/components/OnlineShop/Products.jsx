@@ -193,7 +193,7 @@ const Products = ({
 
   const searchProducts = async (event, searchType, searchValue) => {
     if (event.key === 'Enter' && searchValue.length === 0) return getProducts();
-
+d
     if (event.key === 'Enter' && searchValue.length && searchValue.length <= 30) {
 
       setLoading(true);
