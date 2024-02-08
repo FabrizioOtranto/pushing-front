@@ -131,6 +131,39 @@ const Products = ({
     setEditingProduct(undefined);
   };
 
+  const addProduct = async (product) => {
+    setDisabledButton(true);
+    addinggDisclosure.onClose();
+
+    try {
+      const res = await fetch(`${BASE_URL}/create-product`, {
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: product.name,
+          price: Number(product.price),
+          img: product.img,
+          id: Number(product.id),
+        }),
+      });
+
+      if (res.status === 201) {
+        getProducts();
+
+        setProductAddedMessage(`${product.name} has been added`);
+        setShowProductAddedModal(true);
+        onOpen();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    setAddingProduct(undefined);
+  };
+
   const deleteProd = async (product) => {
     editingDisclosure.onClose();
 
@@ -154,31 +187,6 @@ const Products = ({
     }
 
     setDeletingProduct(undefined);
-  };
-
-  const handleAddProduct = async (text) => {
-    try {
-      const res = await axios.post(
-        `${BASE_URL}/save-task`,
-        {
-          name: text,
-          completed: false,
-          userId: userId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.status === 201) {
-        setDisabledButton(true);
-        setLoading(false);
-      }
-    } catch (e) {
-      setLoading(false);
-    }
   };
 
   const searchProducts = async (searchType, searchValue) => {
@@ -230,6 +238,19 @@ const Products = ({
             <Heading color="secondary.500" id="title">
               Products
             </Heading>
+
+            <Button
+              type="submit"
+              id="add-product"
+              data-cy="add-product"
+              margin={"15vw"}
+              onClick={() => {
+                setAddingProduct(true);
+                addinggDisclosure.onOpen();
+              }}            >
+              Add Product
+            </Button>
+
             <HStack spacing="2" mt="4" justify="space-between">
               <Tooltip label="Select search type" placement="top">
                 <Select
@@ -307,8 +328,8 @@ const Products = ({
                             onClick={() => {
                               setDisabledButton(
                                 !product.name.length ||
-                                  product.price <= 0 ||
-                                  !product.img.length
+                                product.price <= 0 ||
+                                !product.img.length
                               );
                               setEditingProduct(product);
                               editingDisclosure.onOpen();
@@ -370,169 +391,296 @@ const Products = ({
             </Flex>
           </FormControl>
         </>
-      ) : null}
-      {showProductAddedModal ? (
-        <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader m={"1"}>Message alert</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text>{productAddedMessage}</Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                bg={"secondary.500"}
-                mr={3}
-                onClick={onClose}
-                id="closeModal"
-              >
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      ) : null}
-      {editingProduct && (
-        <Modal
-          isOpen={editingDisclosure.isOpen}
-          onClose={editingDisclosure.onClose}
-          closeOnOverlayClick={false}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader m={"1"}>Editing Product</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl isRequired>
-                <FormLabel>Product name</FormLabel>
-                <Input
-                  id="productName"
-                  data-cy="productName"
-                  value={editingProduct.name}
-                  onChange={(e) => {
-                    setDisabledButton(!e.target.value.length);
-                    setEditingProduct({
-                      ...editingProduct,
-                      name: e.target.value,
-                    });
-                  }}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Product price</FormLabel>
+      ) : null
+      }
+      {
+        showProductAddedModal ? (
+          <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader m={"1"}>Message alert</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Text>{productAddedMessage}</Text>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  bg={"secondary.500"}
+                  mr={3}
+                  onClick={onClose}
+                  id="closeModal"
+                >
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        ) : null
+      }
+      {
+        addingProduct && (
+          <Modal
+            isOpen={addinggDisclosure.isOpen}
+            onClose={addinggDisclosure.onClose}
+            closeOnOverlayClick={false}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader m={"1"}>Create Product</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <FormControl isRequired>
+                  <FormLabel>Product name</FormLabel>
+                  <Input
+                    id="productName"
+                    data-cy="productName"
+                    value={addingProduct.name}
+                    onChange={(e) => {
+                      setDisabledButton(!e.target.value.length);
+                      setAddingProduct({
+                        ...addingProduct,
+                        name: e.target.value,
+                      });
+                    }}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Product price</FormLabel>
 
-                <Input
-                  id="productPrice"
-                  data-cy="productPrice"
-                  onChange={(e) => {
-                    let amount = e.target.value;
+                  <Input
+                    id="productPrice"
+                    data-cy="productPrice"
+                    onChange={(e) => {
+                      let amount = e.target.value;
 
-                    if (amount.length === 0) {
-                      setDisabledButton(true);
+                      if (amount.length === 0) {
+                        setDisabledButton(true);
+                        setAddingProduct({
+                          ...addingProduct,
+                          price: null,
+                        });
+                        return;
+                      }
+
+                      if (!amount.match(/^[+]?\d+(\.\d*0?)?$/)) {
+                        return;
+                      }
+
+                      const index = amount.indexOf(".");
+
+                      if (index > 0 && amount.length > index + 3) {
+                        amount = amount.substring(0, index + 3);
+                      }
+
+                      if (isButtonDisabled) setDisabledButton(false);
+
+                      setAddingProduct({
+                        ...addingProduct,
+                        price: amount,
+                      });
+                    }}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Product image url</FormLabel>
+                  <Input
+                    id="productCard"
+                    data-cy="productCard"
+                    value={addingProduct.img}
+                    onChange={(e) => {
+                      setDisabledButton(!e.target.value.length);
+                      setAddingProduct({
+                        ...addingProduct,
+                        img: e.target.value,
+                      });
+                    }}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>ID</FormLabel>
+                  <Input
+                    id="productID"
+                    data-cy="productID"
+                    value={addingProduct.id}
+                    onChange={(e) => {
+                      setDisabledButton(!e.target.value.length);
+                      setAddingProduct({
+                        ...addingProduct,
+                        id: e.target.value,
+                      });
+                    }}
+                  />
+                </FormControl>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  bg={"secondary.500"}
+                  mr={3}
+                  onClick={() => addProduct(addingProduct)}
+                  id="createProduct"
+                  data-cy="createProduct"
+                  disabled={isButtonDisabled}
+                >
+                  Create product
+                </Button>
+                <Button
+                  bg={"secondary.500"}
+                  mr={3}
+                  onClick={addinggDisclosure.onClose}
+                  id="cancelAddProduct"
+                  data-cy="cancelAddProduct"
+                >
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )
+      }
+      {
+        editingProduct && (
+          <Modal
+            isOpen={editingDisclosure.isOpen}
+            onClose={editingDisclosure.onClose}
+            closeOnOverlayClick={false}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader m={"1"}>Editing Product</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <FormControl isRequired>
+                  <FormLabel>Product name</FormLabel>
+                  <Input
+                    id="productName"
+                    data-cy="productName"
+                    value={editingProduct.name}
+                    onChange={(e) => {
+                      setDisabledButton(!e.target.value.length);
                       setEditingProduct({
                         ...editingProduct,
-                        price: "",
+                        name: e.target.value,
                       });
-                      return;
-                    }
+                    }}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Product price</FormLabel>
 
-                    if (!amount.match(/^[+]?\d+(\.\d*0?)?$/)) {
-                      return;
-                    }
+                  <Input
+                    id="productPrice"
+                    data-cy="productPrice"
+                    onChange={(e) => {
+                      let amount = e.target.value;
 
-                    const index = amount.indexOf(".");
+                      if (amount.length === 0) {
+                        setDisabledButton(true);
+                        setEditingProduct({
+                          ...editingProduct,
+                          price: "",
+                        });
+                        return;
+                      }
 
-                    if (index > 0 && amount.length > index + 3) {
-                      amount = amount.substring(0, index + 3);
-                    }
+                      if (!amount.match(/^[+]?\d+(\.\d*0?)?$/)) {
+                        return;
+                      }
 
-                    if (isButtonDisabled) setDisabledButton(false);
+                      const index = amount.indexOf(".");
 
-                    setEditingProduct({
-                      ...editingProduct,
-                      price: amount,
-                    });
-                  }}
-                  value={editingProduct.price}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Product image url</FormLabel>
-                <Input
-                  id="productCard"
-                  data-cy="productCard"
-                  value={editingProduct.img}
-                  onChange={(e) => {
-                    setDisabledButton(!e.target.value.length);
-                    setEditingProduct({
-                      ...editingProduct,
-                      img: e.target.value,
-                    });
-                  }}
-                />
-              </FormControl>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                bg={"secondary.500"}
-                mr={3}
-                onClick={() => saveEdit(editingProduct)}
-                id="saveEdit"
-                data-cy="saveEdit"
-                disabled={isButtonDisabled}
-              >
-                Save
-              </Button>
-              <Button
-                bg={"secondary.500"}
-                mr={3}
-                onClick={editingDisclosure.onClose}
-                id="cancelEdit"
-                data-cy="cancelEdit"
-              >
-                Cancel
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-      {deletingProduct && (
-        <Modal
-          isOpen={deletingDisclosure.isOpen}
-          onClose={deletingDisclosure.onClose}
-          closeOnOverlayClick={false}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader m={"1"}>Deleting Product</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text fontWeight="bold" mb="1rem">
-                Are you sure you want to delete {deletingProduct.name}?
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                bg={"red.500"}
-                mr={3}
-                onClick={() => deleteProd(deletingProduct)}
-                id="saveEdit"
-              >
-                Delete
-              </Button>
-              <Button
-                bg={"secondary.500"}
-                mr={3}
-                onClick={deletingDisclosure.onClose}
-                id="cancelEdit"
-              >
-                Cancel
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
+                      if (index > 0 && amount.length > index + 3) {
+                        amount = amount.substring(0, index + 3);
+                      }
+
+                      if (isButtonDisabled) setDisabledButton(false);
+
+                      setEditingProduct({
+                        ...editingProduct,
+                        price: amount,
+                      });
+                    }}
+                    value={editingProduct.price}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Product image url</FormLabel>
+                  <Input
+                    id="productCard"
+                    data-cy="productCard"
+                    value={editingProduct.img}
+                    onChange={(e) => {
+                      setDisabledButton(!e.target.value.length);
+                      setEditingProduct({
+                        ...editingProduct,
+                        img: e.target.value,
+                      });
+                    }}
+                  />
+                </FormControl>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  bg={"secondary.500"}
+                  mr={3}
+                  onClick={() => saveEdit(editingProduct)}
+                  id="saveEdit"
+                  data-cy="saveEdit"
+                  disabled={isButtonDisabled}
+                >
+                  Save
+                </Button>
+                <Button
+                  bg={"secondary.500"}
+                  mr={3}
+                  onClick={editingDisclosure.onClose}
+                  id="cancelEdit"
+                  data-cy="cancelEdit"
+                >
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )
+      }
+      {
+        deletingProduct && (
+          <Modal
+            isOpen={deletingDisclosure.isOpen}
+            onClose={deletingDisclosure.onClose}
+            closeOnOverlayClick={false}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader m={"1"}>Deleting Product</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Text fontWeight="bold" mb="1rem">
+                  Are you sure you want to delete {deletingProduct.name}?
+                </Text>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  bg={"red.500"}
+                  mr={3}
+                  onClick={() => deleteProd(deletingProduct)}
+                  id="saveEdit"
+                >
+                  Delete
+                </Button>
+                <Button
+                  bg={"secondary.500"}
+                  mr={3}
+                  onClick={deletingDisclosure.onClose}
+                  id="cancelEdit"
+                >
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )
+      }
     </>
   );
 };
