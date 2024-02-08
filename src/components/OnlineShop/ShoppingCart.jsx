@@ -75,21 +75,21 @@ const ShoppingCart = ({
                     direction="column"
                     key={shopCartProduct.id}
                   >
-                    <Text id="productAmount" name={shopCartProduct.amount}>
+                    <Text id="productAmount" name={shopCartProduct.amount} data-cy="productAmount">
                       {shopCartProduct.amount}
                     </Text>
-                    <Text id="productName" name={shopCartProduct.name}>
+                    <Text id="productName" name={shopCartProduct.name}data-cy="productName">
                       {shopCartProduct.name}
                     </Text>
                     <Text
                       id="unitPrice"
-                      name={shopCartProduct.price * shopCartProduct.amount}
+                      name={shopCartProduct.price * shopCartProduct.amount} data-cy="unitPrice"
                     >
                       $ {shopCartProduct.price}
                     </Text>
                     <Text
                       id="totalPrice"
-                      name={shopCartProduct.price * shopCartProduct.amount}
+                      name={shopCartProduct.price * shopCartProduct.amount} data-cy="totalPrice"
                     >
                       $ {shopCartProduct.price * shopCartProduct.amount}
                     </Text>

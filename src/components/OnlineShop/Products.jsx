@@ -251,7 +251,6 @@ const Products = ({
               type="submit"
               id="add-product"
               data-cy="add-product"
-              margin={"15vw"}
               onClick={() => {
                 setAddingProduct(true);
                 addinggDisclosure.onOpen();

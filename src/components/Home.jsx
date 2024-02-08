@@ -29,7 +29,7 @@ const Home = () => {
                             m={6}
                             color={'secondary.500'}
                         >
-                            <Link to={link.path} id={link.id}>
+                            <Link to={link.path} id={link.id} data-cy={link.id}>
                                 {link.title}
                             </Link>
                         </Text>
