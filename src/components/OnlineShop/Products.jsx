@@ -192,39 +192,42 @@ const Products = ({
   };
 
   const searchProducts = async (event, searchType, searchValue) => {
-    if (event.key === 'Enter' && searchValue.length === 0) return getProducts();
-d
-    if (event.key === 'Enter' && searchValue.length && searchValue.length <= 30) {
+    if (event.key === 'Enter' && searchValue.length === 0) {
+      return getProducts()
+    } else {
 
-      setLoading(true);
+      if (event.key === 'Enter' && searchValue.length && searchValue.length <= 30) {
 
-      let url = BASE_URL + "/products";
+        setLoading(true);
 
-      try {
-        if (searchType === "name") {
-          url += `?name=${searchValue}`;
-        } else if (searchType === "id") {
-          const id = Number(searchValue);
-          if (!isNaN(id)) url += `?id=${id}`;
+        let url = BASE_URL + "/products";
+
+        try {
+          if (searchType === "name") {
+            url += `?name=${searchValue}`;
+          } else if (searchType === "id") {
+            const id = Number(searchValue);
+            if (!isNaN(id)) url += `?id=${id}`;
+          }
+
+          const res = await fetch(url, {
+            method: "get",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = (await res.json())["products"];
+
+          if (res.status === 200) {
+            setProducts(data["docs"]);
+          }
+        } catch (e) {
+          console.log(searchType, e);
         }
-
-        const res = await fetch(url, {
-          method: "get",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = (await res.json())["products"];
-
-        if (res.status === 200) {
-          setProducts(data["docs"]);
-        }
-      } catch (e) {
-        console.log(searchType, e);
       }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleSearchChange = (e) => {
