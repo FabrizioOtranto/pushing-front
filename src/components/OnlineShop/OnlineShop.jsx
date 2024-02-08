@@ -90,7 +90,7 @@ const OnlineShop = () => {
     setShowCheckout(true);
     var fullPrice = 0;
     shopingCartProduct.map((shopCartProduct) => {
-      fullPrice = fullPrice + shopCartProduct.price;
+      fullPrice = fullPrice + shopCartProduct.price * shopCartProduct.amount;
     });
     setTotalPrice(fullPrice);
   };
