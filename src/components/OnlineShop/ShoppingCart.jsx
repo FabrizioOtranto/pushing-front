@@ -85,13 +85,13 @@ const ShoppingCart = ({
                       id="unitPrice"
                       name={shopCartProduct.price * shopCartProduct.amount} data-cy="unitPrice"
                     >
-                      $ {shopCartProduct.price}
+                      ${shopCartProduct.price}
                     </Text>
                     <Text
                       id="totalPrice"
                       name={shopCartProduct.price * shopCartProduct.amount} data-cy="totalPrice"
                     >
-                      $ {shopCartProduct.price * shopCartProduct.amount}
+                      ${shopCartProduct.price * shopCartProduct.amount}
                     </Text>
 
                     <Button
