@@ -318,11 +318,12 @@ const Products = ({
                         m={1}
                         color={"Black.500"}
                         id="name"
+                        data-cy="name"
                       >
                         {product.name}
                       </Text>
-                      <Text fontSize={"1.5em"} m={1} id="price">
-                        Price: {product.price}
+                      <Text fontSize={"1.5em"} m={1} id="price" data-cy="price">
+                        ${product.price}
                       </Text>
                       <Box
                         __css={{
