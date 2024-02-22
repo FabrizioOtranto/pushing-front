@@ -323,7 +323,7 @@ const Products = ({
                         {product.name}
                       </Text>
                       <Text fontSize={"1.5em"} m={1} id="price" data-cy="price">
-                        ${product.price}
+                        {product.price}
                       </Text>
                       <Box
                         __css={{
@@ -419,6 +419,7 @@ const Products = ({
                   mr={3}
                   onClick={onClose}
                   id="closeModal"
+                  data-cy="closeModal"
                 >
                   Close
                 </Button>
