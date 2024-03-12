@@ -186,7 +186,7 @@ const OnlineShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const sellid = Math.floor(Math.random() * 100000)
     if (
       handleFirstNameValidation() &&
       handleLastNameValidation() &&
@@ -194,6 +194,7 @@ const OnlineShop = () => {
     ) {
       setformInfo([
         {
+          sellid: sellid,
           firstName: firstName,
           lastName: lastName,
           cardNumber: cardNumber,
@@ -211,6 +212,7 @@ const OnlineShop = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            sellid: sellid,
             firstName: firstName,
             lastName: lastName,
             cardNumber: cardNumber,
