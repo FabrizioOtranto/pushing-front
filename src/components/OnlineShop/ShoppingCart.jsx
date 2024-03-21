@@ -15,7 +15,7 @@ const ShoppingCart = ({
   shopingCartProduct,
   handleDelete,
   showShoppingcart,
-  handleShowCheckout,
+  handleShowBillingSummary,
   handleGoToProducts,
   totalPrice,
   showTotalPrice,
@@ -131,12 +131,12 @@ const ShoppingCart = ({
               <Flex justifyContent={"center"} align={"center"}>
                 <Box spacing="40px" m={15} justifyContent={"center"}>
                   <Button
-                    onClick={handleShowCheckout}
+                    onClick={handleShowBillingSummary}
                     bg={"secondary.500"}
-                    data-cy="goCheckout"
-                    id="goCheckout"
+                    data-cy="goBillingSummary"
+                    id="goBillingSummary"
                   >
-                    Go to Checkout
+                    Go to Billing Summary
                   </Button>
                 </Box>
               </Flex>
