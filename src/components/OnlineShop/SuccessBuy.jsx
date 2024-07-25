@@ -51,8 +51,8 @@ const SuccessBuy = ({
                     {formInfo[0].firstName} {formInfo[0].lastName} has
                     succesfully purchased the following items:
                   </Text>
-                  {shopingCartProduct.map((shopCartProduct) => (
-                    <Text key={shopCartProduct.id} id={shopCartProduct.name}>
+                  {shopingCartProduct.map((shopCartProduct, index) => (
+                    <Text key={shopCartProduct.id} id={`product-${index+1}`}>
                       {shopCartProduct.amount} x {shopCartProduct.name}
                     </Text>
                   ))}
@@ -72,7 +72,7 @@ const SuccessBuy = ({
             <ModalFooter>
               {showSuccessBuyInformation ? (
                 <Button
-                  data-cy="thankYou" 
+                  data-cy="thankYou"
                   bg={"secondary.500"}
                   mr={3}
                   onClick={handleFinishProcess}
