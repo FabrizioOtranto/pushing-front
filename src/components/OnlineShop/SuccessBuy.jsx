@@ -30,6 +30,9 @@ const SuccessBuy = ({
         <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
           <ModalOverlay />
           <ModalContent>
+            <ModalHeader m={"1"} id="sellId" data-cy="sellId" >
+              {formInfo[0].sellid}
+            </ModalHeader>
             <ModalHeader m={"1"}>
               Purchase has been completed successfully
             </ModalHeader>

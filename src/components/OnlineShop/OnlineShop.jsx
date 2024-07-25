@@ -6,6 +6,7 @@ import { UserContext } from "../../context/userContext";
 import Navbar from "../Navbar";
 import ShoppingCart from "./ShoppingCart";
 import Products from "./Products";
+import BillingSummary from "./BillingSummary";
 import Checkout from "./Checkout";
 import SuccessBuy from "./SuccessBuy";
 
@@ -27,6 +28,7 @@ const OnlineShop = () => {
   const [showShoppingcart, setShowShoppingCart] = useState(false);
   const [showProductsList, setShwoProductsList] = useState(true);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showBillingSummary, setShowBillingSummary] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
   const [showTotalPrice, setShowTotalPrice] = useState(false);
@@ -36,6 +38,7 @@ const OnlineShop = () => {
     useState(false);
   const [showCircularBar, setShowCircularBar] = useState(false);
   const [showSuccessBuyModal, setShowSuccessBuyModal] = useState(false);
+  const [subTotal, setSubtotal] = useState(0);
 
   const [loadingTotalPrice, setLoadingTotalPrice] = useState(false);
 
@@ -81,22 +84,33 @@ const OnlineShop = () => {
   const handleGoToProducts = () => {
     setShowShoppingCart(false);
     setShwoProductsList(true);
+    setShowBillingSummary(false);
     setShowCheckout(false);
     setShowTotalPrice(false);
     onClose();
   };
   const handleShowCheckout = () => {
     setShowShoppingCart(false);
+    setShowBillingSummary(false);
     setShowCheckout(true);
+  };
+
+  const handleShowBillingSummary = () => {
+    setShowShoppingCart(false);
+    setShowBillingSummary(false);
+    setShowCheckout(false);
+    setShowBillingSummary(true);
     var fullPrice = 0;
     shopingCartProduct.map((shopCartProduct) => {
       fullPrice = fullPrice + shopCartProduct.price * shopCartProduct.amount;
     });
     setTotalPrice(fullPrice);
+
   };
   const handleCancelPurchase = () => {
     setShowShoppingCart(true);
     setShowCheckout(false);
+    setShowBillingSummary(false);
   };
 
   const handleShowTotalPrice = async () => {
@@ -186,7 +200,7 @@ const OnlineShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const sellid = Math.floor(Math.random() * 100000)
     if (
       handleFirstNameValidation() &&
       handleLastNameValidation() &&
@@ -194,6 +208,7 @@ const OnlineShop = () => {
     ) {
       setformInfo([
         {
+          sellid: sellid,
           firstName: firstName,
           lastName: lastName,
           cardNumber: cardNumber,
@@ -211,6 +226,7 @@ const OnlineShop = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            sellid: sellid,
             firstName: firstName,
             lastName: lastName,
             cardNumber: cardNumber,
@@ -234,6 +250,7 @@ const OnlineShop = () => {
     setShowShoppingCart(false);
     setShwoProductsList(true);
     setShowCheckout(false);
+    setShowBillingSummary(false);
     onClose();
     setShopingCartProduct([]);
     setShowCircularBar(false);
@@ -265,13 +282,22 @@ const OnlineShop = () => {
           shopingCartProduct={shopingCartProduct}
           handleDelete={handleDelete}
           showShoppingcart={showShoppingcart}
-          handleShowCheckout={handleShowCheckout}
+          handleShowBillingSummary={handleShowBillingSummary}
           handleGoToProducts={handleGoToProducts}
           totalPrice={totalPrice}
           showTotalPrice={showTotalPrice}
           handleShowTotalPrice={handleShowTotalPrice}
           loadingTotalPrice={loadingTotalPrice}
         ></ShoppingCart>
+        <BillingSummary
+          isOpen={isOpen}
+          onClose={onClose}
+          showBillingSummary={showBillingSummary}
+          handleGoToProducts={handleGoToProducts}
+          totalPrice={totalPrice}
+          shopingCartProduct={shopingCartProduct}
+          handleShowCheckout={handleShowCheckout}
+        ></BillingSummary>
         <Checkout
           isOpen={isOpen}
           onClose={onClose}
