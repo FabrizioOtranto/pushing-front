@@ -1,4 +1,4 @@
-export const BASE_URL = "https://pushing-it.onrender.com/api";
+export const BASE_URL = "https://pushing-it-3.onrender.com/api";
 export const PRODUCTS_PER_PAGE = 8;
 
 //
